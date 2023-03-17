@@ -52,7 +52,7 @@ canvas {
   margin: 0 auto;
 }
 
-#graph,
+.graph,
 #game {
   margin: 0 auto;
   padding: 0 auto;
@@ -60,10 +60,10 @@ canvas {
   height: 100%;
 }
 
-#graph {
+.graph {
   width: 25%;
 }
 
 #game {
-  width: 75%;
+  width: 100%;
 }

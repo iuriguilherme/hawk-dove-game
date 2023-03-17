@@ -1,6 +1,6 @@
 {
   "name": "fxhash4",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Generative Token for fxhash.xyz",
   "main": "index.js",
   "author": "iuriguilherme",
