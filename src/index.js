@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.1.0  
+ * @version 0.1.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -21,6 +21,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.  
  * 
  */
+
+const name = "hawk-dove-game";
+const version = "0.1.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {})
@@ -67,6 +70,7 @@ for (let i = 0; i < graphs; i++) {
 wrapperDiv.appendChild(gameDiv);
 gameDiv.appendChild(gameCanvas);
 
+let iteration = 0;
 let charts = {};
 let subjects;
 let foods;
@@ -198,7 +202,7 @@ class HawkDoveScene extends Phaser.Scene {
       "data": {
         "labels": data[0],
         "datasets": [{
-          "label": "Population",
+          "label": "Genectic Population",
           "data": data[1],
           "borderWidth": 1
         }]
@@ -217,7 +221,7 @@ class HawkDoveScene extends Phaser.Scene {
       "data": {
         "labels": hawkAndDove.concat(["total"]),
         "datasets": [{
-          "label": "Population",
+          "label": "Hawk and Dove Population",
           "data": getHawkAndDoveData(),
           "borderWidth": 1
         }]
@@ -238,7 +242,12 @@ class HawkDoveScene extends Phaser.Scene {
         "label": hawkAndDove[i],
         "data": [data[i]],
         "fill": false,
-        "borderColor": "rgb(75, 192, 192)",
+        "pointStyle": false,
+        "borderColor": `rgb(
+          ${math.randomInt(0, 255)},
+          ${math.randomInt(0, 255)},
+          ${math.randomInt(0, 255)}
+        )`,
         "tension": 0.1
       });
     }
@@ -246,13 +255,14 @@ class HawkDoveScene extends Phaser.Scene {
       "label": "total",
       "data": [data[data.length - 1]],
       "fill": false,
+      "pointStyle": false,
       "borderColor": "rgb(75, 192, 192)",
       "tension": 0.1
     });
     charts["populationLine"] = new Chart(graphsCanvas[2], {
       "type": "line",
       "data": {
-        "labels": hawkAndDove.concat(["total"]),
+        "labels": [iteration],
         "datasets": datasets
       }
     });
@@ -278,6 +288,7 @@ class HawkDoveScene extends Phaser.Scene {
     });
   }
   update () {
+    iteration++;
     let s = subjects.getChildren();
     let f = foods.getChildren();
     
@@ -287,12 +298,12 @@ class HawkDoveScene extends Phaser.Scene {
     charts["population"].update();
     
     data = getHawkAndDoveData();
-    //~ console.log(data);
     charts["hawkAndDove"].data.datasets[0].data = data;
     charts["hawkAndDove"].update();
     for (let i = 0; i < charts["populationLine"].data.datasets.length; i++) {
       charts["populationLine"].data.datasets[i].data.push(data[i]);
     }
+    charts["populationLine"].data.labels.push(iteration);
     charts["populationLine"].update();
     
     data = getAgeData();
@@ -305,11 +316,7 @@ class HawkDoveScene extends Phaser.Scene {
       distances[i] = [];
       for (let j = 0; j < f.length; j++) {
         distances[i][j] = Phaser.Math.Distance.Between(
-          s[i].x,
-          s[i].y,
-          f[j].x,
-          f[j].y
-        );
+          s[i].x, s[i].y, f[j].x, f[j].y);
       }
       while (s[i].getData("waiting")) {
         try {
@@ -393,6 +400,7 @@ class HawkDoveScene extends Phaser.Scene {
  *  If one Hawk and one Dove met, the Hawk eats all the food alone and 
  *    reproduce, while the Dove flees, surviving but not reproducing;
  *  If only one Bird finds a food, then it eats all of it and reproduce;
+ *  Food suply is constant and fixed.
  */
 function ruleset1() {
   let s = subjects.getChildren();
@@ -571,7 +579,8 @@ function fxHashToVariant(decimalHash, maxVariants = 0, inverse = false) {
 const rulesetMap = {
   "1": ruleset1,
 };
-const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal, 1))
+const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
+  rulesetMap.length));
 const ruleset = rulesetMap[rulesetNumber];
 
 console.log("Ruleset: " + rulesetNumber);
