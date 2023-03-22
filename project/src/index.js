@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.3.0  
+ * @version 0.3.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.3.0";
+const version = "0.3.1";
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
@@ -368,10 +368,10 @@ class HawkDoveScene extends Phaser.Scene {
     //~ });
   }
   update () {
-    let s = subjects.getChildren();
-    let f = foods.getChildren();
-    
     if (!gameOver) {
+      let s = subjects.getChildren();
+      let f = foods.getChildren();
+      
       data = getPopulationData();
       charts["population"].data.labels = data[0];
       charts["population"].data.datasets[0].data = data[1];
@@ -443,13 +443,7 @@ class HawkDoveScene extends Phaser.Scene {
               "align": "center"
             }
           );
-          //~ let geneMax = 0;
           let populationData = getPopulationData();
-          //~ for (let j = 0; j < populationData[1].length; j++) {
-            //~ console.log(j, geneMax, populationData[1][j]);
-            //~ geneMax = math.max(geneMax, populationData[1][j]);
-          //~ }
-          //~ console.log(populationData[0], populationData[1], math.max(populationData[1]), populationData[1].indexOf(math.max(populationData[1])));
           let geneWinner = populationData[0][populationData[1].indexOf(
             math.max(populationData[1]))];
           this.add.text(
@@ -463,24 +457,16 @@ class HawkDoveScene extends Phaser.Scene {
               "align": "center"
             }
           );
-          //~ for (let j = 0; j < s.length; j++) {
-            //~ s[j].destroy();
-          //~ }
           subjects.clear(true);
-          //~ for (let j = 0; j < f.length; j++) {
-            //~ f[j].destroy();
-          //~ }
           foods.clear(true);
-          //~ Phaser.Actions.PlaceOnCircle(s, circle);
-          //~ Phaser.Actions.RandomCircle(f, circle);
           gameOver = true;
           return;
         } else if (data[i] < 2) {
-          console.log("Creating a new " + s[0].getData("r"));
-          let ns = subjects.create(0, 0, s[0].getData("r"));
+          console.log("Creating a new " + hawkAndDove[i]);
+          let ns = subjects.create(0, 0, hawkAndDove[i]);
           ns.setData({
-            "p": s[0].getData("p"),
-            "r": s[0].getData("r"),
+            "p": math.pickRandom(fxArray),
+            "r": hawkAndDove[i],
             "waiting": true,
             "eating": false,
             "fleeing": false,
@@ -491,7 +477,6 @@ class HawkDoveScene extends Phaser.Scene {
           ns.setTexture(ns.getData("r"));
         }
       }
-      
       iteration++;
       let distances = [];
       for (let i = 0; i < s.length; i++) {
