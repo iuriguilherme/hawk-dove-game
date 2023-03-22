@@ -1,6 +1,6 @@
 {
   "name": "hawk-dove-game",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Generative Token for fxhash.xyz",
   "main": "index.js",
   "author": "iuriguilherme",
@@ -10,6 +10,7 @@
     "start": "webpack serve --config ./config/webpack.config.dev.js"
   },
   "dependencies": {
+    "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
     "css.gg": "^2.0.0",
     "mathjs": "^11.5.1",

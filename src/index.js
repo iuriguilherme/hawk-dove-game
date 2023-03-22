@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.1.1  
+ * @version 0.2.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.1.1";
+const version = "0.2.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {})
@@ -46,31 +46,94 @@ const minDistance = 20;
 const growthRate = 2;
 const hawkAndDove = ["hawk", "dove"];
 const graphs = 4;
+const graphsRows = 3;
+const graphsBig = 2;
+const graphsSmall = 2;
 
-const wrapperDiv = document.createElement("div");
+const containerDiv = document.createElement("div");
+const containerRow = document.createElement("div");
+const graphsCol = document.createElement("div");
+const gamesCol = document.createElement("div");
+const gameRow = document.createElement("div");
+const gameCol = document.createElement("div");
 const gameDiv = document.createElement("div");
 const gameCanvas = document.createElement("canvas");
-wrapperDiv.id = "wrapper";
+containerDiv.className = "container";
+//~ containerRow.className = "row containerRow";
+//~ containerRow.className = "grid containerRow";
+containerRow.className = "containerRow";
+//~ graphsCol.className = "col graphsCol";
+//~ graphsCol.className = "g-col graphsCol";
+graphsCol.className = "graphsCol";
+//~ gamesCol.className = "col gamesCol";
+//~ gamesCol.className = "g-col gamesCol";
+gamesCol.className = "gamesCol";
+//~ gameRow.className = "row gameRow";
+//~ gameRow.className = "grid gameRow";
+gameRow.className = "gameRow";
+//~ gameCol.className = "col gameCol";
+//~ gameCol.className = "g-col gameCol";
+gameCol.className = "gameCol";
 gameDiv.id = "game";
+gameDiv.className = "gameDiv";
 gameCanvas.id = "gameCanvas";
-document.body.appendChild(wrapperDiv);
+gameCanvas.className = "gameCanvas";
+document.body.appendChild(containerDiv);
+containerDiv.appendChild(containerRow);
+containerRow.appendChild(graphsCol);
 let graphsCanvas = [];
 let graphsDivs = [];
-for (let i = 0; i < graphs; i++) {
-  let graphCanvas = document.createElement("canvas");
+for (let i = 0; i < graphsBig; i++) {
+  let graphRow = document.createElement("div");
+  let graphCol = document.createElement("div");
   let graphDiv = document.createElement("div");
+  let graphCanvas = document.createElement("canvas");
+  //~ graphRow.className = "row graphRow";
+  //~ graphRow.className = "grid graphRow";
+  graphRow.className = "graphRow";
+  //~ graphCol.className = "col graphCol";
+  //~ graphCol.className = "g-col graphCol";
+  graphCol.className = "graphCol";
   graphDiv.id = "graph" + i;
-  graphDiv.className = "graph";
+  graphDiv.className = "graphDiv";
   graphCanvas.id = "graphCanvas" + i;
+  graphCanvas.className = "graphCanvas";
+  graphsCol.appendChild(graphRow);
+  graphRow.appendChild(graphCol);
+  graphCol.appendChild(graphDiv);
   graphDiv.appendChild(graphCanvas);
-  wrapperDiv.appendChild(graphDiv);
   graphsCanvas.push(graphCanvas);
   graphsDivs.push(graphDiv);
 }
-wrapperDiv.appendChild(gameDiv);
+//~ for (let i = graphsBig; i < graphsRows; i++) {
+  //~ let graphRow = document.createElement("div");
+  //~ graphRow.className = "row graphSmallRow";
+  //~ graphsCol.appendChild(graphRow);
+  //~ for (let j = graphsBig; j < graphsBig + graphsSmall; j++) {
+    //~ let graphCol = document.createElement("div");
+    //~ let graphDiv = document.createElement("div");
+    //~ let graphCanvas = document.createElement("canvas");
+    //~ graphCol.className = "col graphSmallCol";
+    //~ graphDiv.id = "graph" + j;
+    //~ graphDiv.className = "graphSmallDiv";
+    //~ graphCanvas.id = "graphCanvas" + j;
+    //~ graphCanvas.className = "graphSmallCanvas";
+    //~ graphRow.appendChild(graphCol);
+    //~ graphCol.appendChild(graphDiv);
+    //~ graphDiv.appendChild(graphCanvas);
+    //~ graphsCanvas.push(graphCanvas);
+    //~ graphsDivs.push(graphDiv);
+  //~ }
+//~ }
+
+containerRow.appendChild(gamesCol);
+gamesCol.appendChild(gameRow);
+gameRow.appendChild(gameCol);
+gameCol.appendChild(gameDiv);
 gameDiv.appendChild(gameCanvas);
 
 let iteration = 0;
+let gameOver = false;
 let charts = {};
 let subjects;
 let foods;
@@ -125,12 +188,15 @@ class HawkDoveScene extends Phaser.Scene {
     super();
   }
   preload () {
-    this.load.svg("hawk", "boy.svg");
-    this.load.svg("dove", "girl.svg");
+    //~ this.load.svg("hawk", "boy.svg");
+    this.load.svg("hawk", "face-devilish-2.svg");
+    //~ this.load.svg("dove", "girl.svg");
+    this.load.svg("dove", "face-angel-2.svg");
     this.load.svg("strong", "yinyang.svg");
     this.load.svg("dead", "block.svg");
     this.load.svg("fleeing", "swiss.svg");
-    this.load.svg("food", "heart.svg");
+    //~ this.load.svg("food", "heart.svg");
+    this.load.image("food", "food-strawberry_with_light_shadow.png");
     //~ const blob = new Blob([svgString], { type: 'image/svg+xml' });
     //~ const url = URL.createObjectURL(blob);
     //~ this.load.spritesheet(
@@ -149,7 +215,7 @@ class HawkDoveScene extends Phaser.Scene {
     });
     foods = this.add.group({
       "key": "food",
-      "repeat": math.floor(startingSubjects / initialFoodRate)
+      "repeat": math.floor(startingSubjects / initialFoodRate) + 1
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let r = math.pickRandom(hawkAndDove);
@@ -179,7 +245,7 @@ class HawkDoveScene extends Phaser.Scene {
     circle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
-      (this.cameras.main.width / 3)
+      (this.cameras.main.height / 3)
     );
     Phaser.Actions.PlaceOnCircle(subjects.getChildren(), circle);
     Phaser.Actions.RandomCircle(foods.getChildren(), circle);
@@ -202,12 +268,14 @@ class HawkDoveScene extends Phaser.Scene {
       "data": {
         "labels": data[0],
         "datasets": [{
-          "label": "Genectic Population",
+          "label": "Genetic Population",
           "data": data[1],
           "borderWidth": 1
         }]
       },
       "options": {
+        "responsive": true,
+        "maintainAspectRatio": false,
         "scales": {
           "y": {
             "beginAtZero": true
@@ -216,38 +284,41 @@ class HawkDoveScene extends Phaser.Scene {
       }
     });
     
-    charts["hawkAndDove"] = new Chart(graphsCanvas[1], {
-      "type": "bar",
-      "data": {
-        "labels": hawkAndDove.concat(["total"]),
-        "datasets": [{
-          "label": "Hawk and Dove Population",
-          "data": getHawkAndDoveData(),
-          "borderWidth": 1
-        }]
-      },
-      "options": {
-        "scales": {
-          "y": {
-            "beginAtZero": true
-          }
-        }
-      }
-    });
+    //~ charts["hawkAndDove"] = new Chart(graphsCanvas[2], {
+      //~ "type": "bar",
+      //~ "data": {
+        //~ "labels": hawkAndDove.concat(["total"]),
+        //~ "datasets": [{
+          //~ "label": "Hawk and Dove Population",
+          //~ "data": getHawkAndDoveData(),
+          //~ "borderWidth": 1
+        //~ }]
+      //~ },
+      //~ "options": {
+        //~ "responsive": true,
+        //~ "maintainAspectRatio": false,
+        //~ "scales": {
+          //~ "y": {
+            //~ "beginAtZero": true
+          //~ }
+        //~ }
+      //~ }
+    //~ });
     
     data = getHawkAndDoveData();
     datasets = [];
     for (let i = 0; i < hawkAndDove.length; i++) {
+      let r = math.randomInt(60, 210);
+      let g = math.randomInt(60, 210);
+      let b = math.randomInt(60, 210);
       datasets.push({
         "label": hawkAndDove[i],
         "data": [data[i]],
         "fill": false,
         "pointStyle": false,
-        "borderColor": `rgb(
-          ${math.randomInt(0, 255)},
-          ${math.randomInt(0, 255)},
-          ${math.randomInt(0, 255)}
-        )`,
+        "borderWidth": 0.5,
+        "backgroundColor": `rgb(${r}, ${g}, ${b})`,
+        "borderColor": `rgb(${r}, ${g}, ${b})`,
         "tension": 0.1
       });
     }
@@ -256,141 +327,274 @@ class HawkDoveScene extends Phaser.Scene {
       "data": [data[data.length - 1]],
       "fill": false,
       "pointStyle": false,
-      "borderColor": "rgb(75, 192, 192)",
+      "borderWidth": 0.5,
+      "backgroundColor": "rgb(30, 30, 30)",
+      //~ "borderColor": "rgb(75, 192, 192)",
+      "borderColor": "rgb(30, 30, 30)",
       "tension": 0.1
     });
-    charts["populationLine"] = new Chart(graphsCanvas[2], {
+    charts["populationLine"] = new Chart(graphsCanvas[1], {
       "type": "line",
       "data": {
         "labels": [iteration],
         "datasets": datasets
+      },
+      "options": {
+        "responsive": true,
+        "maintainAspectRatio": false
       }
     });
     
-    data = getAgeData();
-    charts["age"] = new Chart(graphsCanvas[3], {
-      "type": "bar",
-      "data": {
-        "labels": data[0],
-        "datasets": [{
-          "label": "Age",
-          "data": data[1],
-          "borderWidth": 1
-        }]
-      },
-      "options": {
-        "scales": {
-          "y": {
-            "beginAtZero": true
-          }
-        }
-      }
-    });
+    //~ data = getAgeData();
+    //~ charts["age"] = new Chart(graphsCanvas[3], {
+      //~ "type": "bar",
+      //~ "data": {
+        //~ "labels": data[0],
+        //~ "datasets": [{
+          //~ "label": "Age",
+          //~ "data": data[1],
+          //~ "borderWidth": 1
+        //~ }]
+      //~ },
+      //~ "options": {
+        //~ "responsive": true,
+        //~ "maintainAspectRatio": false,
+        //~ "scales": {
+          //~ "y": {
+            //~ "beginAtZero": true
+          //~ }
+        //~ }
+      //~ }
+    //~ });
   }
   update () {
-    iteration++;
     let s = subjects.getChildren();
     let f = foods.getChildren();
     
-    data = getPopulationData();
-    charts["population"].data.labels = data[0];
-    charts["population"].data.datasets[0].data = data[1];
-    charts["population"].update();
-    
-    data = getHawkAndDoveData();
-    charts["hawkAndDove"].data.datasets[0].data = data;
-    charts["hawkAndDove"].update();
-    for (let i = 0; i < charts["populationLine"].data.datasets.length; i++) {
-      charts["populationLine"].data.datasets[i].data.push(data[i]);
-    }
-    charts["populationLine"].data.labels.push(iteration);
-    charts["populationLine"].update();
-    
-    data = getAgeData();
-    charts["age"].data.labels = data[0];
-    charts["age"].data.datasets[0].data = data[1];
-    charts["age"].update();
-    
-    let distances = [];
-    for (let i = 0; i < s.length; i++) {
-      distances[i] = [];
-      for (let j = 0; j < f.length; j++) {
-        distances[i][j] = Phaser.Math.Distance.Between(
-          s[i].x, s[i].y, f[j].x, f[j].y);
+    if (!gameOver) {
+      data = getPopulationData();
+      charts["population"].data.labels = data[0];
+      charts["population"].data.datasets[0].data = data[1];
+      charts["population"].update();
+      
+      //~ data = getAgeData();
+      //~ charts["age"].data.labels = data[0];
+      //~ charts["age"].data.datasets[0].data = data[1];
+      //~ charts["age"].update();
+      
+      data = getHawkAndDoveData();
+      //~ charts["hawkAndDove"].data.datasets[0].data = data;
+      //~ charts["hawkAndDove"].update();
+      for (let i = 0; i < charts["populationLine"].data.datasets.length; i++) {
+        charts["populationLine"].data.datasets[i].data.push(data[i]);
       }
-      while (s[i].getData("waiting")) {
-        try {
-          let closer = distances[i].indexOf(math.min(distances[i]));
-          let closerFood = f[closer];
-          if (closerFood.getData("leftBusy")) {
-            if (closerFood.getData("rightBusy")) {
-              distances[i].splice(closer, 1);
-            } else {
-              s[i].x = closerFood.x + minDistance;
-              s[i].y = closerFood.y - minDistance;
-              closerFood.setData({"rightBusy": i});
-              s[i].setData({"waiting": false, "eating": true});
+      charts["populationLine"].data.labels.push(iteration);
+      charts["populationLine"].update();
+      
+      //~ if (iteration == 10) {
+        //~ data[1] = 0;
+      //~ }
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] < 1) {
+          this.add.text(
+            15,
+            30 * (i + 1),
+            hawkAndDove[i] + " population reached zero at iteration " + 
+              iteration,
+            {
+              "fontSize": "24px",
+              "fill": "#00000",
+              "align": "center"
             }
-          } else {
-            s[i].x = closerFood.x - minDistance;
-            s[i].y = closerFood.y - minDistance;
-            closerFood.setData({"leftBusy": i});
-            s[i].setData({"waiting": false, "eating": true});
+          );
+          for (let j = 0; j < data.length - 1; j++) {
+            this.add.text(
+              15,
+              30 * (j + hawkAndDove.length + 1),
+              hawkAndDove[j] + " population: " + data[j],
+              {
+                "fontSize": "24px",
+                "fill": "#00000",
+                "align": "center"
+              }
+            );
           }
-        } catch {
-          s[i].setData({
-            "dead": true,
-            "waiting": false
-          });
-        }
-      }
-    }
-    ruleset();
-    let again = true;
-    while (again) {
-      for (let l = 0; l < s.length; l++) {
-        if (s[l].getData("dead")) {
-          s[l].destroy();
-          again = true;
-          break;
-        }
-        again = false;
-      }
-    }
-    let currentLength = s.length
-    for (let m = 0; m < currentLength; m++) {
-      if (s[m].getData("strong")) {
-        for (let n = 0; n < growthRate; n++) {
-          let ns = subjects.create(0, 0, s[m].getData("r"));
+          this.add.text(
+            15,
+            30 * (data.length + hawkAndDove.length),
+            "total population: " + data[data.length - 1],
+            {
+              "fontSize": "24px",
+              "fill": "#00000",
+              "align": "center"
+            }
+          );
+          this.add.text(
+            15,
+            30 * (data.length + hawkAndDove.length + 1),
+            "remaining food: " + f.length,
+            {
+              "fontSize": "24px",
+              "fill": "#00000",
+              "align": "center"
+            }
+          );
+          //~ let geneMax = 0;
+          let populationData = getPopulationData();
+          //~ for (let j = 0; j < populationData[1].length; j++) {
+            //~ console.log(j, geneMax, populationData[1][j]);
+            //~ geneMax = math.max(geneMax, populationData[1][j]);
+          //~ }
+          //~ console.log(populationData[0], populationData[1], math.max(populationData[1]), populationData[1].indexOf(math.max(populationData[1])));
+          let geneWinner = populationData[0][populationData[1].indexOf(
+            math.max(populationData[1]))];
+          this.add.text(
+            15,
+            30 * (data.length + hawkAndDove.length + 2),
+            "highest genetic pool: " + geneWinner,
+            {
+              "fontSize": "24px",
+              "fill": "#00000",
+              "align": "center"
+            }
+          );
+          //~ for (let j = 0; j < s.length; j++) {
+            //~ s[j].destroy();
+          //~ }
+          subjects.clear(true);
+          //~ for (let j = 0; j < f.length; j++) {
+            //~ f[j].destroy();
+          //~ }
+          foods.clear(true);
+          //~ Phaser.Actions.PlaceOnCircle(s, circle);
+          //~ Phaser.Actions.RandomCircle(f, circle);
+          gameOver = true;
+          return;
+        } else if (data[i] < 2) {
+          console.log("Creating a new " + s[0].getData("r"));
+          let ns = subjects.create(0, 0, s[0].getData("r"));
           ns.setData({
-            "p": s[m].getData("p"),
-            "r": s[m].getData("r"),
+            "p": s[0].getData("p"),
+            "r": s[0].getData("r"),
+            "waiting": true,
+            "eating": false,
+            "fleeing": false,
+            "dead": false,
+            "strong": false,
             "age": 0
           });
+          ns.setTexture(ns.getData("r"));
         }
       }
+      
+      iteration++;
+      let distances = [];
+      for (let i = 0; i < s.length; i++) {
+        distances[i] = [];
+        for (let j = 0; j < f.length; j++) {
+          distances[i][j] = Phaser.Math.Distance.Between(
+            s[i].x, s[i].y, f[j].x, f[j].y);
+        }
+        while (s[i].getData("waiting")) {
+          try {
+            let closer = distances[i].indexOf(math.min(distances[i]));
+            let closerFood = f[closer];
+            if (closerFood.getData("leftBusy")) {
+              if (closerFood.getData("rightBusy")) {
+                distances[i].splice(closer, 1);
+              } else {
+                s[i].x = closerFood.x + minDistance;
+                s[i].y = closerFood.y - minDistance;
+                closerFood.setData({"rightBusy": i});
+                s[i].setData({"waiting": false, "eating": true});
+              }
+            } else {
+              s[i].x = closerFood.x - minDistance;
+              s[i].y = closerFood.y - minDistance;
+              closerFood.setData({"leftBusy": i});
+              s[i].setData({"waiting": false, "eating": true});
+            }
+          } catch {
+            s[i].setData({
+              "dead": true,
+              "waiting": false
+            });
+          }
+        }
+      }
+      ruleset();
+      let again = true;
+      while (again) {
+        for (let l = 0; l < s.length; l++) {
+          if (s[l].getData("dead")) {
+            s[l].destroy();
+            again = true;
+            break;
+          }
+          again = false;
+        }
+      }
+      let currentLength = s.length
+      for (let m = 0; m < currentLength; m++) {
+        if (s[m].getData("strong")) {
+          for (let n = 0; n < growthRate; n++) {
+            let ns = subjects.create(0, 0, s[m].getData("r"));
+            ns.setData({
+              "p": s[m].getData("p"),
+              "r": s[m].getData("r"),
+              "age": 0
+            });
+          }
+        }
+      }
+      for (let o = 0; o < s.length; o++) {
+        s[o].setData({
+          "waiting": true,
+          "eating": false,
+          "fleeing": false,
+          "dead": false,
+          "strong": false,
+          "age": s[o].getData("age") + 1
+        });
+        s[o].setTexture(s[o].getData("r"));
+      }
+      for (let p = 0; p < f.length; p++) {
+        f[p].setData({
+          "leftBusy": false,
+          "rightBusy": false
+        });
+      }
+      Phaser.Actions.PlaceOnCircle(s, circle);
+      Phaser.Actions.RandomCircle(f, circle);
+    } else {
+      return;
     }
-    for (let o = 0; o < s.length; o++) {
-      s[o].setData({
-        "waiting": true,
-        "eating": false,
-        "fleeing": false,
-        "dead": false,
-        "strong": false,
-        "age": s[o].getData("age") + 1
-      });
-      s[o].setTexture(s[o].getData("r"));
-    }
-    for (let p = 0; p < f.length; p++) {
-      f[p].setData({
-        "leftBusy": false,
-        "rightBusy": false
-      });
-    }
-    Phaser.Actions.PlaceOnCircle(s, circle);
-    Phaser.Actions.RandomCircle(f, circle);
   }
 }
+
+let graphsMaxWidth = 0;
+let graphsMaxHeight = 0;
+for (let i = 0; i < graphsCanvas.length; i++) {
+  graphsMaxWidth = math.max(graphsMaxWidth, graphsCanvas[i].offsetWidth);
+  graphsMaxHeight = math.max(graphsMaxHeight, graphsCanvas[i].offsetHeight);
+}
+
+const config = {
+  "type": Phaser.CANVAS,
+  //~ "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
+  "width": window.innerWidth - (window.innerHeight / 60),
+  "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
+  "backgroundColor": "#ffffff",
+  "canvas": gameCanvas,
+  "parent": "game",
+  "scale": {
+    "mode": Phaser.Scale.NONE,
+    "zoom": Phaser.Scale.MAX_ZOOM
+  },
+  "scene": HawkDoveScene,
+};
+
+const game = new Phaser.Game(config);
 
 /*
  * @description Ruleset 1:
@@ -520,30 +724,6 @@ function ruleset1() {
     }
   }
 }
-
-let graphsMaxWidth = 0;
-let graphsMaxHeight = 0;
-for (let i = 0; i < graphsCanvas.length; i++) {
-  graphsMaxWidth = math.max(graphsMaxWidth, graphsDivs[i].offsetWidth);
-  graphsMaxHeight = math.max(graphsMaxHeight, graphsDivs[i].offsetHeight);
-  //~ graphsHeight += graphsDivs[i].offsetHeight;
-}
-
-const config = {
-  "type": Phaser.CANVAS,
-  "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
-  "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
-  "backgroundColor": "#e8e8e8",
-  "canvas": gameCanvas,
-  "parent": "game",
-  "scale": {
-    "mode": Phaser.Scale.NONE,
-    "zoom": Phaser.Scale.MAX_ZOOM
-  },
-  "scene": HawkDoveScene,
-};
-
-const game = new Phaser.Game(config);
 
 /**
  * @param {String} hash: unique fxhash string (or xtz transaction hash)
