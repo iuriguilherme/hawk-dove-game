@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.2.0  
+ * @version 0.3.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.2.0";
+const version = "0.3.0";
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
