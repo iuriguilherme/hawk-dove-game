@@ -4,8 +4,8 @@
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
- * 
- * Source code available at https://github.com/iuriguilherme/fxhash4
+ * @description Source code available at 
+ *    https://github.com/iuriguilherme/fxhash4  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -25,12 +25,12 @@
 const name = "hawk-dove-game";
 const version = "0.2.0";
 
+import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {})
 import Phaser from "phaser";
-//~ import Plotly from "plotly.js-dist-min";
-import Chart from "chart.js/auto";
 //~ import p5 from 'p5';
+//~ import Plotly from "plotly.js-dist-min";
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 // https://github.com/fxhash/fxhash-webpack-boilerplate/issues/20
@@ -403,7 +403,8 @@ class HawkDoveScene extends Phaser.Scene {
               iteration,
             {
               "fontSize": "24px",
-              "fill": "#00000",
+              //~ "fill": "#00000",
+              "fill": "#e8e8e8",
               "align": "center"
             }
           );
@@ -414,7 +415,8 @@ class HawkDoveScene extends Phaser.Scene {
               hawkAndDove[j] + " population: " + data[j],
               {
                 "fontSize": "24px",
-                "fill": "#00000",
+                //~ "fill": "#00000",
+                "fill": "#e8e8e8",
                 "align": "center"
               }
             );
@@ -425,7 +427,8 @@ class HawkDoveScene extends Phaser.Scene {
             "total population: " + data[data.length - 1],
             {
               "fontSize": "24px",
-              "fill": "#00000",
+              //~ "fill": "#00000",
+              "fill": "#e8e8e8",
               "align": "center"
             }
           );
@@ -435,7 +438,8 @@ class HawkDoveScene extends Phaser.Scene {
             "remaining food: " + f.length,
             {
               "fontSize": "24px",
-              "fill": "#00000",
+              //~ "fill": "#00000",
+              "fill": "#e8e8e8",
               "align": "center"
             }
           );
@@ -454,7 +458,8 @@ class HawkDoveScene extends Phaser.Scene {
             "highest genetic pool: " + geneWinner,
             {
               "fontSize": "24px",
-              "fill": "#00000",
+              //~ "fill": "#00000",
+              "fill": "#e8e8e8",
               "align": "center"
             }
           );
@@ -584,7 +589,7 @@ const config = {
   //~ "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
   "width": window.innerWidth - (window.innerHeight / 60),
   "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
-  "backgroundColor": "#ffffff",
+  //~ "backgroundColor": "#ffffff",
   "canvas": gameCanvas,
   "parent": "game",
   "scale": {
@@ -756,20 +761,136 @@ function fxHashToVariant(decimalHash, maxVariants = 0, inverse = false) {
   return variant;
 }
 
+console.log(fxhash)
+console.log(fxrand())
+
+const sp = new URLSearchParams(window.location.search);
+console.log(sp);
+
+// this is how to define parameters
+$fx.params([
+  {
+    id: "number_id",
+    name: "A number/float64",
+    type: "number",
+    //default: Math.PI,
+    options: {
+      min: 1,
+      max: 10,
+      step: 0.00000000000001,
+    },
+  },
+  {
+    id: "bigint_id",
+    name: "A bigint",
+    type: "bigint",
+    //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
+    options: {
+      min: Number.MIN_SAFE_INTEGER * 4,
+      max: Number.MAX_SAFE_INTEGER * 4,
+      step: 1,
+    },
+  },
+  {
+    id: "select_id",
+    name: "A selection",
+    type: "select",
+    //default: "pear",
+    options: {
+      options: ["apple", "orange", "pear"],
+    }
+  },
+  {
+    id: "color_id",
+    name: "A color",
+    type: "color",
+    //default: "ff0000",
+  },
+  {
+    id: "boolean_id",
+    name: "A boolean",
+    type: "boolean",
+    //default: true,
+  },
+  {
+    id: "string_id",
+    name: "A string",
+    type: "string",
+    //default: "hello",
+    options: {
+      minLength: 1,
+      maxLength: 64
+    }
+  },
+  {
+    id: "had_ruleset",
+    name: "had(ruleset)",
+    type: "select",
+    options: {
+      options: ["1"],
+    }
+  },
+]);
+
+// this is how features can be defined
+$fx.features({
+  "A random feature": Math.floor($fx.rand() * 10),
+  "A random boolean": $fx.rand() > 0.5,
+  "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
+  "Feature from params, its a number": $fx.getParam("number_id"),
+  "had(ruleset)": $fx.getRawParam("had_ruleset"),
+})
+
 const rulesetMap = {
   "1": ruleset1,
 };
-const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
-  rulesetMap.length));
-const ruleset = rulesetMap[rulesetNumber];
+//~ const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
+  //~ rulesetMap.length));
+//~ const ruleset = rulesetMap[rulesetNumber];
+const ruleset = rulesetMap[$fx.getRawParam("had_ruleset")];
 
-console.log("Ruleset: " + rulesetNumber);
+console.log("[had] Current ruleset: " + $fx.getRawParam("had_ruleset"));
 
 window.addEventListener(
   "resize",
   game.scale.setMaxZoom()
 );
 
-window.$fxhashFeatures = {
-  "fx(ruleset)": rulesetNumber
-}
+//~ window.$fxhashFeatures = {
+  //~ "fx(ruleset)": rulesetNumber
+//~ }
+
+// log the parameters, for debugging purposes, artists won't have to do that
+console.log("Current param values:")
+// Raw deserialize param values 
+console.log($fx.getRawParams())
+// Added addtional transformation to the parameter for easier usage
+// e.g. color.hex.rgba, color.obj.rgba.r, color.arr.rgb[0] 
+console.log($fx.getParams())
+
+// how to read a single raw parameter
+console.log("Single raw value:")
+console.log($fx.getRawParam("color_id"));
+// how to read a single transformed parameter
+console.log("Single transformed value:")
+console.log($fx.getParam("color_id"));
+
+// update the document based on the parameters
+//~ document.body.style.background = $fx.getParam("color_id").hex.rgba
+//~ document.body.innerHTML = `
+//~ <p>
+//~ url: ${window.location.href}
+//~ </p>
+//~ <p>
+//~ hash: ${$fx.hash}
+//~ </p>
+//~ <p>
+//~ params:
+//~ </p>
+//~ <pre>
+//~ ${$fx.stringifyParams($fx.getRawParams())}
+//~ </pre>
+//~ <pre style="color: white;">
+//~ ${$fx.stringifyParams($fx.getRawParams())}
+//~ </pre>
+//~ `
