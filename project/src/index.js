@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.4.1  
+ * @version 0.4.2  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,21 +23,30 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.4.1";
+const version = "0.4.2";
 
 // this is how to define parameters
 $fx.params([
-  //~ {
-    //~ id: "number_id",
-    //~ name: "A number/float64",
-    //~ type: "number",
-    //~ //default: Math.PI,
-    //~ options: {
-      //~ min: 1,
-      //~ max: 10,
-      //~ step: 0.00000000000001,
-    //~ },
-  //~ },
+  {
+    id: "growth_rate",
+    name: "Reproduction multiplier",
+    type: "number",
+    options: {
+      min: 0,
+      max: 10,
+      step: 1,
+    },
+  },
+  {
+    id: "starting_food",
+    name: "Starting Food Rate",
+    type: "number",
+    options: {
+      min: 0,
+      max: 100,
+      step: 1,
+    },
+  },
   //~ {
     //~ id: "bigint_id",
     //~ name: "A bigint",
@@ -72,7 +81,7 @@ $fx.params([
     //~ }
   //~ },
   {
-    id: "had_ruleset",
+    id: "ruleset",
     name: "Ruleset",
     type: "select",
     options: {
@@ -80,7 +89,7 @@ $fx.params([
     }
   },
   {
-    id: "had_food_find",
+    id: "food_find",
     name: "Food finding",
     type: "select",
     options: {
@@ -92,7 +101,7 @@ $fx.params([
     }
   },
   {
-    id: "had_subjects_placement",
+    id: "subjects_placement",
     name: "Subject placement",
     type: "select",
     options: {
@@ -103,7 +112,7 @@ $fx.params([
     }
   },
   {
-    id: "had_foods_placement",
+    id: "foods_placement",
     name: "Food placement",
     type: "select",
     options: {
@@ -121,10 +130,12 @@ $fx.features({
   //~ "A random boolean": $fx.rand() > 0.5,
   //~ "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
   //~ "Feature from params, its a number": $fx.getParam("number_id"),
-  "Ruleset": $fx.getRawParam("had_ruleset"),
-  "Food finding algorithm": $fx.getRawParam("had_food_find"),
-  "Subject placement algorithm": $fx.getRawParam("had_subjects_placement"),
-  "Food placement algorithm": $fx.getRawParam("had_foods_placement"),
+  "Ruleset": $fx.getRawParam("ruleset"),
+  "Starting Food Rate": $fx.getRawParam("starting_food") + "%",
+  "Reproduction Multiplier": $fx.getRawParam("growth_rate"),
+  "Food finding algorithm": $fx.getRawParam("food_find"),
+  "Subject placement algorithm": $fx.getRawParam("subjects_placement"),
+  "Food placement algorithm": $fx.getRawParam("foods_placement"),
 })
 
 import Chart from "chart.js/auto";
@@ -143,15 +154,41 @@ const fxArray = Array.from(fxhashTrunc);
 const alphabetArray = Array.from(properAlphabet);
 const fxhashDecimal = base58toDecimal(fxhashTrunc);
 const startingSubjects = fxArray.length;
-const initialFoodRate = 2;
-const minDistance = 20;
-const growthRate = 2;
 const hawkAndDove = ["hawk", "dove"];
+const minDistance = 20;
+const initialFoodRate = $fx.getRawParam("starting_food");
+const growthRate = $fx.getRawParam("growth_rate");
+const rulesetAlgorithmMap = {
+  "1": rulesetAlgorithm1,
+};
+const findFoodAlgorithmMap = {
+  "random": findFoodAlgorithm1,
+  "closest": findFoodAlgorithm2,
+  "farthest": findFoodAlgorithm3,
+};
+const subjectsPlacementAlgorithmMap = {
+  "circle": subjectsPlacementAlgorithm1,
+  "random": subjectsPlacementAlgorithm2,
+};
+const foodsPlacementAlgorithmMap = {
+  "circle": foodsPlacementAlgorithm1,
+  "random": foodsPlacementAlgorithm2,
+};
+//~ const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
+  //~ rulesetMap.length));
+//~ const ruleset = rulesetMap[rulesetNumber];
+const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getRawParam("ruleset")];
+const findFoodAlgorithm = 
+  findFoodAlgorithmMap[$fx.getRawParam("food_find")];
+const subjectsPlacementAlgorithm = 
+  subjectsPlacementAlgorithmMap[$fx.getRawParam("subjects_placement")];
+const foodsPlacementAlgorithm = 
+  foodsPlacementAlgorithmMap[$fx.getRawParam("foods_placement")];
+
 const graphs = 4;
 const graphsRows = 3;
 const graphsBig = 2;
 const graphsSmall = 2;
-
 const containerDiv = document.createElement("div");
 const containerRow = document.createElement("div");
 const graphsCol = document.createElement("div");
@@ -318,7 +355,7 @@ class HawkDoveScene extends Phaser.Scene {
     });
     foods = this.add.group({
       "key": "food",
-      "repeat": math.floor(startingSubjects / initialFoodRate) + 1
+      "repeat": (startingSubjects * initialFoodRate) / 1e2
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let r = math.pickRandom(hawkAndDove);
@@ -596,7 +633,7 @@ class HawkDoveScene extends Phaser.Scene {
             "strong": false,
             "age": 0
           });
-          ns.setTexture(ns.getData("r"));
+          ns.setTexture(hawkAndDove[i]);
         }
       }
       
@@ -935,33 +972,6 @@ function rulesetAlgorithm1() {
 }
 
 const sp = new URLSearchParams(window.location.search);
-
-const rulesetAlgorithmMap = {
-  "1": rulesetAlgorithm1,
-};
-const findFoodAlgorithmMap = {
-  "random": findFoodAlgorithm1,
-  "closest": findFoodAlgorithm2,
-  "farthest": findFoodAlgorithm3,
-};
-const subjectsPlacementAlgorithmMap = {
-  "circle": subjectsPlacementAlgorithm1,
-  "random": subjectsPlacementAlgorithm2,
-};
-const foodsPlacementAlgorithmMap = {
-  "circle": foodsPlacementAlgorithm1,
-  "random": foodsPlacementAlgorithm2,
-};
-//~ const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
-  //~ rulesetMap.length));
-//~ const ruleset = rulesetMap[rulesetNumber];
-const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getRawParam("had_ruleset")];
-const findFoodAlgorithm = 
-  findFoodAlgorithmMap[$fx.getRawParam("had_food_find")];
-const subjectsPlacementAlgorithm = 
-  subjectsPlacementAlgorithmMap[$fx.getRawParam("had_subjects_placement")];
-const foodsPlacementAlgorithm = 
-  foodsPlacementAlgorithmMap[$fx.getRawParam("had_foods_placement")];
 
 /**
  * @param {String} hash: unique fxhash string (or xtz transaction hash)
