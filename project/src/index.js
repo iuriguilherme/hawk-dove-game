@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.3.1  
+ * @version 0.4.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,109 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.3.1";
+const version = "0.4.0";
+
+// this is how to define parameters
+$fx.params([
+  {
+    id: "number_id",
+    name: "A number/float64",
+    type: "number",
+    //default: Math.PI,
+    options: {
+      min: 1,
+      max: 10,
+      step: 0.00000000000001,
+    },
+  },
+  {
+    id: "bigint_id",
+    name: "A bigint",
+    type: "bigint",
+    //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
+    options: {
+      min: Number.MIN_SAFE_INTEGER * 4,
+      max: Number.MAX_SAFE_INTEGER * 4,
+      step: 1,
+    },
+  },
+  {
+    id: "color_id",
+    name: "A color",
+    type: "color",
+    //default: "ff0000",
+  },
+  {
+    id: "boolean_id",
+    name: "A boolean",
+    type: "boolean",
+    //default: true,
+  },
+  {
+    id: "string_id",
+    name: "A string",
+    type: "string",
+    //default: "hello",
+    options: {
+      minLength: 1,
+      maxLength: 64
+    }
+  },
+  {
+    id: "had_ruleset",
+    name: "Ruleset",
+    type: "select",
+    options: {
+      options: ["1"],
+    }
+  },
+  {
+    id: "had_food_find",
+    name: "Food finding",
+    type: "select",
+    options: {
+      options: [
+        "random",
+        "closest",
+        "farthest",
+      ],
+    }
+  },
+  {
+    id: "had_subjects_placement",
+    name: "Subject placement",
+    type: "select",
+    options: {
+      options: [
+        "circle",
+        "random",
+      ],
+    }
+  },
+  {
+    id: "had_foods_placement",
+    name: "Food placement",
+    type: "select",
+    options: {
+      options: [
+        "circle",
+        "random",
+      ],
+    }
+  },
+]);
+
+// this is how features can be defined
+$fx.features({
+  "A random feature": Math.floor($fx.rand() * 10),
+  "A random boolean": $fx.rand() > 0.5,
+  "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
+  "Feature from params, its a number": $fx.getParam("number_id"),
+  "Ruleset": $fx.getRawParam("had_ruleset"),
+  "Food finding algorithm": $fx.getRawParam("had_food_find"),
+  "Subject placement algorithm": $fx.getRawParam("had_subjects_placement"),
+  "Food placement algorithm": $fx.getRawParam("had_foods_placement"),
+})
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
@@ -137,7 +239,8 @@ let gameOver = false;
 let charts = {};
 let subjects;
 let foods;
-let circle;
+let subjectsCircle;
+let foodsCircle;
 let data;
 let datasets;
 
@@ -242,13 +345,18 @@ class HawkDoveScene extends Phaser.Scene {
       //~ foods[i].setCollideWorldBounds(true);
     //~ }
     //~ this.add.collider(subjects, foods);
-    circle = new Phaser.Geom.Circle(
+    subjectsCircle = new Phaser.Geom.Circle(
+      this.cameras.main.centerX,
+      this.cameras.main.centerY,
+      (this.cameras.main.height / 2)
+    );
+    foodsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
       (this.cameras.main.height / 3)
     );
-    Phaser.Actions.PlaceOnCircle(subjects.getChildren(), circle);
-    Phaser.Actions.RandomCircle(foods.getChildren(), circle);
+    Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
+    Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
     //~ var trace1 = {
       //~ x: [1, 2, 3, 4],
       //~ y: [10, 15, 13, 17],
@@ -328,9 +436,11 @@ class HawkDoveScene extends Phaser.Scene {
       "fill": false,
       "pointStyle": false,
       "borderWidth": 0.5,
-      "backgroundColor": "rgb(30, 30, 30)",
+      //~ "backgroundColor": "rgb(30, 30, 30)",
+      "backgroundColor": "rgb(180, 180, 180)",
       //~ "borderColor": "rgb(75, 192, 192)",
-      "borderColor": "rgb(30, 30, 30)",
+      //~ "borderColor": "rgb(30, 30, 30)",
+      "borderColor": "rgb(180, 180, 180)",
       "tension": 0.1
     });
     charts["populationLine"] = new Chart(graphsCanvas[1], {
@@ -368,6 +478,77 @@ class HawkDoveScene extends Phaser.Scene {
     //~ });
   }
   update () {
+    function endGame(scene, i, data, s, f, cause) {
+      scene.add.text(
+        15,
+        30 * (i + 1),
+        cause,
+        {
+          "fontSize": "24px",
+          //~ "fill": "#00000",
+          "fill": "#e8e8e8",
+          "align": "center"
+        }
+      );
+      for (let j = 0; j < data.length - 1; j++) {
+        scene.add.text(
+          15,
+          30 * (j + hawkAndDove.length + 1),
+          hawkAndDove[j] + " population: " + data[j],
+          {
+            "fontSize": "24px",
+            //~ "fill": "#00000",
+            "fill": "#e8e8e8",
+            "align": "center"
+          }
+        );
+      }
+      scene.add.text(
+        15,
+        30 * (data.length + hawkAndDove.length),
+        "total population: " + data[data.length - 1],
+        {
+          "fontSize": "24px",
+          //~ "fill": "#00000",
+          "fill": "#e8e8e8",
+          "align": "center"
+        }
+      );
+      scene.add.text(
+        15,
+        30 * (data.length + hawkAndDove.length + 1),
+        "remaining food: " + f.length,
+        {
+          "fontSize": "24px",
+          //~ "fill": "#00000",
+          "fill": "#e8e8e8",
+          "align": "center"
+        }
+      );
+      let geneWinner;
+      let populationData = getPopulationData();
+      if (populationData[1].length > 0) {
+        geneWinner = populationData[0][populationData[1].indexOf(
+          math.max(populationData[1]))];
+      } else {
+        geneWinner = "None";
+      }
+      scene.add.text(
+        15,
+        30 * (data.length + hawkAndDove.length + 2),
+        "highest genetic pool: " + geneWinner,
+        {
+          "fontSize": "24px",
+          //~ "fill": "#00000",
+          "fill": "#e8e8e8",
+          "align": "center"
+        }
+      );
+      subjects.clear(true);
+      foods.clear(true);
+      gameOver = true;
+      return;
+    }
     if (!gameOver) {
       let s = subjects.getChildren();
       let f = foods.getChildren();
@@ -396,70 +577,8 @@ class HawkDoveScene extends Phaser.Scene {
       //~ }
       for (let i = 0; i < data.length; i++) {
         if (data[i] < 1) {
-          this.add.text(
-            15,
-            30 * (i + 1),
-            hawkAndDove[i] + " population reached zero at iteration " + 
-              iteration,
-            {
-              "fontSize": "24px",
-              //~ "fill": "#00000",
-              "fill": "#e8e8e8",
-              "align": "center"
-            }
-          );
-          for (let j = 0; j < data.length - 1; j++) {
-            this.add.text(
-              15,
-              30 * (j + hawkAndDove.length + 1),
-              hawkAndDove[j] + " population: " + data[j],
-              {
-                "fontSize": "24px",
-                //~ "fill": "#00000",
-                "fill": "#e8e8e8",
-                "align": "center"
-              }
-            );
-          }
-          this.add.text(
-            15,
-            30 * (data.length + hawkAndDove.length),
-            "total population: " + data[data.length - 1],
-            {
-              "fontSize": "24px",
-              //~ "fill": "#00000",
-              "fill": "#e8e8e8",
-              "align": "center"
-            }
-          );
-          this.add.text(
-            15,
-            30 * (data.length + hawkAndDove.length + 1),
-            "remaining food: " + f.length,
-            {
-              "fontSize": "24px",
-              //~ "fill": "#00000",
-              "fill": "#e8e8e8",
-              "align": "center"
-            }
-          );
-          let populationData = getPopulationData();
-          let geneWinner = populationData[0][populationData[1].indexOf(
-            math.max(populationData[1]))];
-          this.add.text(
-            15,
-            30 * (data.length + hawkAndDove.length + 2),
-            "highest genetic pool: " + geneWinner,
-            {
-              "fontSize": "24px",
-              //~ "fill": "#00000",
-              "fill": "#e8e8e8",
-              "align": "center"
-            }
-          );
-          subjects.clear(true);
-          foods.clear(true);
-          gameOver = true;
+          endGame(this, i, data, s, f, hawkAndDove[i] +
+            " population reached zero at iteration " + iteration);
           return;
         } else if (data[i] < 2) {
           console.log("Creating a new " + hawkAndDove[i]);
@@ -477,44 +596,20 @@ class HawkDoveScene extends Phaser.Scene {
           ns.setTexture(ns.getData("r"));
         }
       }
+      
       iteration++;
-      let distances = [];
-      for (let i = 0; i < s.length; i++) {
-        distances[i] = [];
-        for (let j = 0; j < f.length; j++) {
-          distances[i][j] = Phaser.Math.Distance.Between(
-            s[i].x, s[i].y, f[j].x, f[j].y);
-        }
-        while (s[i].getData("waiting")) {
-          try {
-            let closer = distances[i].indexOf(math.min(distances[i]));
-            let closerFood = f[closer];
-            if (closerFood.getData("leftBusy")) {
-              if (closerFood.getData("rightBusy")) {
-                distances[i].splice(closer, 1);
-              } else {
-                s[i].x = closerFood.x + minDistance;
-                s[i].y = closerFood.y - minDistance;
-                closerFood.setData({"rightBusy": i});
-                s[i].setData({"waiting": false, "eating": true});
-              }
-            } else {
-              s[i].x = closerFood.x - minDistance;
-              s[i].y = closerFood.y - minDistance;
-              closerFood.setData({"leftBusy": i});
-              s[i].setData({"waiting": false, "eating": true});
-            }
-          } catch {
-            s[i].setData({
-              "dead": true,
-              "waiting": false
-            });
-          }
-        }
-      }
-      ruleset();
+      
+      findFoodAlgorithm();
+      rulesetAlgorithm();
+      
       let again = true;
       while (again) {
+        if (s.length  == 0) {
+          endGame(this, 0, getHawkAndDoveData(), s, f,
+            "all population reached zero at iteration " + iteration);
+          again = false;
+          return;
+        }
         for (let l = 0; l < s.length; l++) {
           if (s[l].getData("dead")) {
             s[l].destroy();
@@ -554,8 +649,10 @@ class HawkDoveScene extends Phaser.Scene {
           "rightBusy": false
         });
       }
-      Phaser.Actions.PlaceOnCircle(s, circle);
-      Phaser.Actions.RandomCircle(f, circle);
+      
+      subjectsPlacementAlgorithm();
+      foodsPlacementAlgorithm();
+      
     } else {
       return;
     }
@@ -587,6 +684,113 @@ const config = {
 const game = new Phaser.Game(config);
 
 /*
+ * @description Subject placement method 1:
+ *    Subjects are placed distributed in a circle.  
+ */
+function subjectsPlacementAlgorithm1() {
+  Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
+}
+
+/*
+ * @description Subjects placement method 2:
+ *    Subjects are placed randomly inside the subject circle.  
+ */
+function subjectsPlacementAlgorithm2() {
+  Phaser.Actions.RandomCircle(subjects.getChildren(), subjectsCircle);
+}
+
+/*
+ * @description Food placement method 1:
+ *    Foods are placed distributed in a inner circle, smaller than the 
+ *    subjects circle.  
+ */
+function foodsPlacementAlgorithm1() {
+  Phaser.Actions.PlaceOnCircle(foods.getChildren(), foodsCircle);
+}
+
+/*
+ * @description Food placement method 2:
+ *    Foods are placed randomly inside the subject circle.  
+ */
+function foodsPlacementAlgorithm2() {
+  Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
+}
+
+function findFoodAlgorithmMain(selection) {
+  let s = subjects.getChildren();
+  let f = foods.getChildren();
+  let distances = [];
+  for (let i = 0; i < s.length; i++) {
+    distances[i] = [];
+    for (let j = 0; j < f.length; j++) {
+      distances[i][j] = Phaser.Math.Distance.Between(
+        s[i].x, s[i].y, f[j].x, f[j].y);
+    }
+    while (s[i].getData("waiting")) {
+      try {
+        let metrics = {
+          "random": distances[i].indexOf(math.pickRandom(distances[i])),
+          "closest": distances[i].indexOf(math.min(distances[i])),
+          "farthest": distances[i].indexOf(math.max(distances[i])),
+        };
+        let foodMap = {
+          "random": f[metrics["random"]],
+          "closest": f[metrics["closest"]],
+          "farthest": f[metrics["farthest"]],
+        };
+        let currentFood = foodMap[selection];
+        let currentMetric = metrics[selection];
+        if (currentFood.getData("leftBusy")) {
+          if (currentFood.getData("rightBusy")) {
+            distances[i].splice(currentMetric, 1);
+          } else {
+            s[i].x = currentFood.x + minDistance;
+            s[i].y = currentFood.y - minDistance;
+            currentFood.setData({"rightBusy": i});
+            s[i].setData({"waiting": false, "eating": true});
+          }
+        } else {
+          s[i].x = currentFood.x - minDistance;
+          s[i].y = currentFood.y - minDistance;
+          currentFood.setData({"leftBusy": i});
+          s[i].setData({"waiting": false, "eating": true});
+        }
+      } catch {
+        s[i].setData({
+          "dead": true,
+          "waiting": false
+        });
+      }
+    }
+  }
+}
+
+/*
+ * @description Food finding method 1:
+ *    Subject looks for a random free food until they find it, or an infinte 
+ *    loop is reached.  
+ */
+function findFoodAlgorithm1() {
+  findFoodAlgorithmMain("random");
+}
+
+/*
+ * @description Food finding method 2:
+ *    Subject looks for the closest free food.  
+ */
+function findFoodAlgorithm2() {
+  findFoodAlgorithmMain("closest");
+}
+
+/*
+ * @description Food finding method 3:
+ *    Subject looks for the farthest free food.  
+ */
+function findFoodAlgorithm3() {
+  findFoodAlgorithmMain("farthest");
+}
+
+/*
  * @description Ruleset 1:
  *  If two Hawks met, one of them eats all the food and reproduce, while the 
  *    other one dies;
@@ -596,7 +800,7 @@ const game = new Phaser.Game(config);
  *  If only one Bird finds a food, then it eats all of it and reproduce;
  *  Food suply is constant and fixed.
  */
-function ruleset1() {
+function rulesetAlgorithm1() {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let k = 0; k < f.length; k++) {
@@ -715,6 +919,35 @@ function ruleset1() {
   }
 }
 
+const sp = new URLSearchParams(window.location.search);
+
+const rulesetAlgorithmMap = {
+  "1": rulesetAlgorithm1,
+};
+const findFoodAlgorithmMap = {
+  "random": findFoodAlgorithm1,
+  "closest": findFoodAlgorithm2,
+  "farthest": findFoodAlgorithm3,
+};
+const subjectsPlacementAlgorithmMap = {
+  "circle": subjectsPlacementAlgorithm1,
+  "random": subjectsPlacementAlgorithm2,
+};
+const foodsPlacementAlgorithmMap = {
+  "circle": foodsPlacementAlgorithm1,
+  "random": foodsPlacementAlgorithm2,
+};
+//~ const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
+  //~ rulesetMap.length));
+//~ const ruleset = rulesetMap[rulesetNumber];
+const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getRawParam("had_ruleset")];
+const findFoodAlgorithm = 
+  findFoodAlgorithmMap[$fx.getRawParam("had_food_find")];
+const subjectsPlacementAlgorithm = 
+  subjectsPlacementAlgorithmMap[$fx.getRawParam("had_subjects_placement")];
+const foodsPlacementAlgorithm = 
+  foodsPlacementAlgorithmMap[$fx.getRawParam("had_foods_placement")];
+
 /**
  * @param {String} hash: unique fxhash string (or xtz transaction hash)
  * @returns {float} decimal representation of the number in base58 
@@ -746,119 +979,40 @@ function fxHashToVariant(decimalHash, maxVariants = 0, inverse = false) {
   return variant;
 }
 
-console.log(fxhash)
-console.log(fxrand())
-
-const sp = new URLSearchParams(window.location.search);
-console.log(sp);
-
-// this is how to define parameters
-$fx.params([
-  {
-    id: "number_id",
-    name: "A number/float64",
-    type: "number",
-    //default: Math.PI,
-    options: {
-      min: 1,
-      max: 10,
-      step: 0.00000000000001,
-    },
-  },
-  {
-    id: "bigint_id",
-    name: "A bigint",
-    type: "bigint",
-    //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
-    options: {
-      min: Number.MIN_SAFE_INTEGER * 4,
-      max: Number.MAX_SAFE_INTEGER * 4,
-      step: 1,
-    },
-  },
-  {
-    id: "select_id",
-    name: "A selection",
-    type: "select",
-    //default: "pear",
-    options: {
-      options: ["apple", "orange", "pear"],
-    }
-  },
-  {
-    id: "color_id",
-    name: "A color",
-    type: "color",
-    //default: "ff0000",
-  },
-  {
-    id: "boolean_id",
-    name: "A boolean",
-    type: "boolean",
-    //default: true,
-  },
-  {
-    id: "string_id",
-    name: "A string",
-    type: "string",
-    //default: "hello",
-    options: {
-      minLength: 1,
-      maxLength: 64
-    }
-  },
-  {
-    id: "had_ruleset",
-    name: "had(ruleset)",
-    type: "select",
-    options: {
-      options: ["1"],
-    }
-  },
-]);
-
-// this is how features can be defined
-$fx.features({
-  "A random feature": Math.floor($fx.rand() * 10),
-  "A random boolean": $fx.rand() > 0.5,
-  "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
-  "Feature from params, its a number": $fx.getParam("number_id"),
-  "had(ruleset)": $fx.getRawParam("had_ruleset"),
-})
-
-const rulesetMap = {
-  "1": ruleset1,
-};
-//~ const rulesetNumber = math.max(1, fxHashToVariant(fxhashDecimal,
-  //~ rulesetMap.length));
-//~ const ruleset = rulesetMap[rulesetNumber];
-const ruleset = rulesetMap[$fx.getRawParam("had_ruleset")];
-
-console.log("[had] Current ruleset: " + $fx.getRawParam("had_ruleset"));
-
 window.addEventListener(
   "resize",
   game.scale.setMaxZoom()
 );
+
+//~ console.log(fxhash)
+//~ console.log(fxrand())
+//~ console.log(sp);
+
+console.log("[had]", {
+  "Current ruleset": rulesetAlgorithm.name,
+  "Food finding algorithm": findFoodAlgorithm.name,
+  "Subject placing algorithm": subjectsPlacementAlgorithm.name,
+  "Food placing algorithm": foodsPlacementAlgorithm.name,
+});
 
 //~ window.$fxhashFeatures = {
   //~ "fx(ruleset)": rulesetNumber
 //~ }
 
 // log the parameters, for debugging purposes, artists won't have to do that
-console.log("Current param values:")
+//~ console.log("Current param values:")
 // Raw deserialize param values 
-console.log($fx.getRawParams())
+//~ console.log($fx.getRawParams())
 // Added addtional transformation to the parameter for easier usage
 // e.g. color.hex.rgba, color.obj.rgba.r, color.arr.rgb[0] 
-console.log($fx.getParams())
+//~ console.log($fx.getParams())
 
 // how to read a single raw parameter
-console.log("Single raw value:")
-console.log($fx.getRawParam("color_id"));
+//~ console.log("Single raw value:")
+//~ console.log($fx.getRawParam("color_id"));
 // how to read a single transformed parameter
-console.log("Single transformed value:")
-console.log($fx.getParam("color_id"));
+//~ console.log("Single transformed value:")
+//~ console.log($fx.getParam("color_id"));
 
 // update the document based on the parameters
 //~ document.body.style.background = $fx.getParam("color_id").hex.rgba
