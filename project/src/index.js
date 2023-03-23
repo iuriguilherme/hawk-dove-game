@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.4.0  
+ * @version 0.4.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,54 +23,54 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.4.0";
+const version = "0.4.1";
 
 // this is how to define parameters
 $fx.params([
-  {
-    id: "number_id",
-    name: "A number/float64",
-    type: "number",
-    //default: Math.PI,
-    options: {
-      min: 1,
-      max: 10,
-      step: 0.00000000000001,
-    },
-  },
-  {
-    id: "bigint_id",
-    name: "A bigint",
-    type: "bigint",
-    //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
-    options: {
-      min: Number.MIN_SAFE_INTEGER * 4,
-      max: Number.MAX_SAFE_INTEGER * 4,
-      step: 1,
-    },
-  },
-  {
-    id: "color_id",
-    name: "A color",
-    type: "color",
-    //default: "ff0000",
-  },
-  {
-    id: "boolean_id",
-    name: "A boolean",
-    type: "boolean",
-    //default: true,
-  },
-  {
-    id: "string_id",
-    name: "A string",
-    type: "string",
-    //default: "hello",
-    options: {
-      minLength: 1,
-      maxLength: 64
-    }
-  },
+  //~ {
+    //~ id: "number_id",
+    //~ name: "A number/float64",
+    //~ type: "number",
+    //~ //default: Math.PI,
+    //~ options: {
+      //~ min: 1,
+      //~ max: 10,
+      //~ step: 0.00000000000001,
+    //~ },
+  //~ },
+  //~ {
+    //~ id: "bigint_id",
+    //~ name: "A bigint",
+    //~ type: "bigint",
+    //~ //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
+    //~ options: {
+      //~ min: Number.MIN_SAFE_INTEGER * 4,
+      //~ max: Number.MAX_SAFE_INTEGER * 4,
+      //~ step: 1,
+    //~ },
+  //~ },
+  //~ {
+    //~ id: "color_id",
+    //~ name: "A color",
+    //~ type: "color",
+    //~ //default: "ff0000",
+  //~ },
+  //~ {
+    //~ id: "boolean_id",
+    //~ name: "A boolean",
+    //~ type: "boolean",
+    //~ //default: true,
+  //~ },
+  //~ {
+    //~ id: "string_id",
+    //~ name: "A string",
+    //~ type: "string",
+    //~ //default: "hello",
+    //~ options: {
+      //~ minLength: 1,
+      //~ maxLength: 64
+    //~ }
+  //~ },
   {
     id: "had_ruleset",
     name: "Ruleset",
@@ -117,10 +117,10 @@ $fx.params([
 
 // this is how features can be defined
 $fx.features({
-  "A random feature": Math.floor($fx.rand() * 10),
-  "A random boolean": $fx.rand() > 0.5,
-  "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
-  "Feature from params, its a number": $fx.getParam("number_id"),
+  //~ "A random feature": Math.floor($fx.rand() * 10),
+  //~ "A random boolean": $fx.rand() > 0.5,
+  //~ "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
+  //~ "Feature from params, its a number": $fx.getParam("number_id"),
   "Ruleset": $fx.getRawParam("had_ruleset"),
   "Food finding algorithm": $fx.getRawParam("had_food_find"),
   "Subject placement algorithm": $fx.getRawParam("had_subjects_placement"),
@@ -416,9 +416,9 @@ class HawkDoveScene extends Phaser.Scene {
     data = getHawkAndDoveData();
     datasets = [];
     for (let i = 0; i < hawkAndDove.length; i++) {
-      let r = math.randomInt(60, 210);
-      let g = math.randomInt(60, 210);
-      let b = math.randomInt(60, 210);
+      let r = math.randomInt(30, 150);
+      let g = math.randomInt(30, 150);
+      let b = math.randomInt(30, 150);
       datasets.push({
         "label": hawkAndDove[i],
         "data": [data[i]],
@@ -436,11 +436,11 @@ class HawkDoveScene extends Phaser.Scene {
       "fill": false,
       "pointStyle": false,
       "borderWidth": 0.5,
-      //~ "backgroundColor": "rgb(30, 30, 30)",
-      "backgroundColor": "rgb(180, 180, 180)",
+      "backgroundColor": "rgb(30, 30, 30)",
+      //~ "backgroundColor": "rgb(180, 180, 180)",
       //~ "borderColor": "rgb(75, 192, 192)",
-      //~ "borderColor": "rgb(30, 30, 30)",
-      "borderColor": "rgb(180, 180, 180)",
+      "borderColor": "rgb(30, 30, 30)",
+      //~ "borderColor": "rgb(180, 180, 180)",
       "tension": 0.1
     });
     charts["populationLine"] = new Chart(graphsCanvas[1], {
@@ -485,8 +485,8 @@ class HawkDoveScene extends Phaser.Scene {
         cause,
         {
           "fontSize": "24px",
-          //~ "fill": "#00000",
-          "fill": "#e8e8e8",
+          "fill": "#121212",
+          //~ "fill": "#e8e8e8",
           "align": "center"
         }
       );
@@ -497,8 +497,8 @@ class HawkDoveScene extends Phaser.Scene {
           hawkAndDove[j] + " population: " + data[j],
           {
             "fontSize": "24px",
-            //~ "fill": "#00000",
-            "fill": "#e8e8e8",
+            "fill": "#121212",
+            //~ "fill": "#e8e8e8",
             "align": "center"
           }
         );
@@ -509,8 +509,8 @@ class HawkDoveScene extends Phaser.Scene {
         "total population: " + data[data.length - 1],
         {
           "fontSize": "24px",
-          //~ "fill": "#00000",
-          "fill": "#e8e8e8",
+          "fill": "#121212",
+          //~ "fill": "#e8e8e8",
           "align": "center"
         }
       );
@@ -520,8 +520,8 @@ class HawkDoveScene extends Phaser.Scene {
         "remaining food: " + f.length,
         {
           "fontSize": "24px",
-          //~ "fill": "#00000",
-          "fill": "#e8e8e8",
+          "fill": "#121212",
+          //~ "fill": "#e8e8e8",
           "align": "center"
         }
       );
@@ -539,8 +539,8 @@ class HawkDoveScene extends Phaser.Scene {
         "highest genetic pool: " + geneWinner,
         {
           "fontSize": "24px",
-          //~ "fill": "#00000",
-          "fill": "#e8e8e8",
+          "fill": "#121212",
+          //~ "fill": "#e8e8e8",
           "align": "center"
         }
       );
@@ -577,10 +577,13 @@ class HawkDoveScene extends Phaser.Scene {
       //~ }
       for (let i = 0; i < data.length; i++) {
         if (data[i] < 1) {
+          console.log(hawkAndDove[i] +
+            " population reached zero at iteration " + iteration);
           endGame(this, i, data, s, f, hawkAndDove[i] +
             " population reached zero at iteration " + iteration);
           return;
         } else if (data[i] < 2) {
+          // TODO: Find out why hawk get stuck with one subject
           console.log("Creating a new " + hawkAndDove[i]);
           let ns = subjects.create(0, 0, hawkAndDove[i]);
           ns.setData({
@@ -602,49 +605,53 @@ class HawkDoveScene extends Phaser.Scene {
       findFoodAlgorithm();
       rulesetAlgorithm();
       
-      let again = true;
-      while (again) {
-        if (s.length  == 0) {
-          endGame(this, 0, getHawkAndDoveData(), s, f,
-            "all population reached zero at iteration " + iteration);
-          again = false;
-          return;
-        }
-        for (let l = 0; l < s.length; l++) {
-          if (s[l].getData("dead")) {
-            s[l].destroy();
-            again = true;
-            break;
-          }
-          again = false;
+      let toDestroy = [];
+      let toReproduce = [];
+      for (let i = 0; i < s.length; i++) {
+        if (s[i].getData("dead")) {
+          toDestroy.push(s[i]);
+        } else if (s[i].getData("strong")) {
+          toReproduce.push({"r": s[i].getData("r"), "p": s[i].getData("p")});
         }
       }
-      let currentLength = s.length
-      for (let m = 0; m < currentLength; m++) {
-        if (s[m].getData("strong")) {
-          for (let n = 0; n < growthRate; n++) {
-            let ns = subjects.create(0, 0, s[m].getData("r"));
-            ns.setData({
-              "p": s[m].getData("p"),
-              "r": s[m].getData("r"),
-              "age": 0
-            });
-          }
+      for (let i = 0; i < toDestroy.length; i++) {
+        toDestroy[i].destroy();
+      }
+      for (let i = 0; i < toReproduce.length; i++) {
+        for (let j = 0; j < growthRate; j++) {
+          let ns = subjects.create(0, 0, toReproduce[i]["r"]);
+          ns.setData({
+            "waiting": true,
+            "eating": false,
+            "fleeing": false,
+            "dead": false,
+            "strong": false,
+            "p": toReproduce[i]["p"],
+            "r": toReproduce[i]["r"],
+            "age": 0
+          });
+          ns.setTexture(toReproduce[i]["r"]);
         }
       }
-      for (let o = 0; o < s.length; o++) {
-        s[o].setData({
+      if (s.length  == 0) {
+        endGame(this, 0, getHawkAndDoveData(), s, f,
+          "all population reached zero at iteration " + iteration);
+        again = false;
+        return;
+      }      
+      for (let i = 0; i < s.length; i++) {
+        s[i].setData({
           "waiting": true,
           "eating": false,
           "fleeing": false,
           "dead": false,
           "strong": false,
-          "age": s[o].getData("age") + 1
+          "age": s[i].getData("age") + 1,
         });
-        s[o].setTexture(s[o].getData("r"));
+        s[i].setTexture(s[i].getData("r"));
       }
-      for (let p = 0; p < f.length; p++) {
-        f[p].setData({
+      for (let i = 0; i < f.length; i++) {
+        f[i].setData({
           "leftBusy": false,
           "rightBusy": false
         });
@@ -671,7 +678,7 @@ const config = {
   //~ "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
   "width": window.innerWidth - (window.innerHeight / 60),
   "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
-  //~ "backgroundColor": "#ffffff",
+  "backgroundColor": "#e8e8e8",
   "canvas": gameCanvas,
   "parent": "game",
   "scale": {
@@ -727,39 +734,39 @@ function findFoodAlgorithmMain(selection) {
         s[i].x, s[i].y, f[j].x, f[j].y);
     }
     while (s[i].getData("waiting")) {
-      try {
-        let metrics = {
-          "random": distances[i].indexOf(math.pickRandom(distances[i])),
-          "closest": distances[i].indexOf(math.min(distances[i])),
-          "farthest": distances[i].indexOf(math.max(distances[i])),
-        };
-        let foodMap = {
-          "random": f[metrics["random"]],
-          "closest": f[metrics["closest"]],
-          "farthest": f[metrics["farthest"]],
-        };
-        let currentFood = foodMap[selection];
-        let currentMetric = metrics[selection];
-        if (currentFood.getData("leftBusy")) {
-          if (currentFood.getData("rightBusy")) {
-            distances[i].splice(currentMetric, 1);
-          } else {
-            s[i].x = currentFood.x + minDistance;
-            s[i].y = currentFood.y - minDistance;
-            currentFood.setData({"rightBusy": i});
-            s[i].setData({"waiting": false, "eating": true});
-          }
-        } else {
-          s[i].x = currentFood.x - minDistance;
-          s[i].y = currentFood.y - minDistance;
-          currentFood.setData({"leftBusy": i});
-          s[i].setData({"waiting": false, "eating": true});
-        }
-      } catch {
+      if (distances[i].length == 0) {
         s[i].setData({
           "dead": true,
           "waiting": false
         });
+        break;
+      }
+      let metrics = {
+        "random": distances[i].indexOf(math.pickRandom(distances[i])),
+        "closest": distances[i].indexOf(math.min(distances[i])),
+        "farthest": distances[i].indexOf(math.max(distances[i])),
+      };
+      let foodMap = {
+        "random": f[metrics["random"]],
+        "closest": f[metrics["closest"]],
+        "farthest": f[metrics["farthest"]],
+      };
+      let currentFood = foodMap[selection];
+      let currentMetric = metrics[selection];
+      if (currentFood.getData("leftBusy")) {
+        if (currentFood.getData("rightBusy")) {
+          distances[i].splice(currentMetric, 1);
+        } else {
+          s[i].x = currentFood.x + minDistance;
+          s[i].y = currentFood.y - minDistance;
+          currentFood.setData({"rightBusy": i});
+          s[i].setData({"waiting": false, "eating": true});
+        }
+      } else {
+        s[i].x = currentFood.x - minDistance;
+        s[i].y = currentFood.y - minDistance;
+        currentFood.setData({"leftBusy": i});
+        s[i].setData({"waiting": false, "eating": true});
       }
     }
   }
@@ -803,119 +810,127 @@ function findFoodAlgorithm3() {
 function rulesetAlgorithm1() {
   let s = subjects.getChildren();
   let f = foods.getChildren();
-  for (let k = 0; k < f.length; k++) {
-    //~ console.log(k);
-    if (f[k].getData("leftBusy")) {
+  for (let i = 0; i < f.length; i++) {
+    //~ console.log(i);
+    if (f[i].getData("leftBusy")) {
       //~ console.log("left populated");
-      if (f[k].getData("rightBusy")) {
+      if (f[i].getData("rightBusy")) {
         //~ console.log("right populated");
-        if (s[f[k].getData("leftBusy")].getData("r") == "hawk") {
+        if (s[f[i].getData("leftBusy")].getData("r") == "hawk") {
           //~ console.log("left is hawk");
-          if (s[f[k].getData("rightBusy")].getData("r") == "hawk") {
+          if (s[f[i].getData("rightBusy")].getData("r") == "hawk") {
             //~ console.log("left and right two hawks. will fight...");
             if (math.randomInt(1)) {
               //~ console.log("left hawk wins");
-              s[f[k].getData("rightBusy")].setData({
+              s[f[i].getData("rightBusy")].setData({
                 "dead": true,
                 "eating": false
               });
-              s[f[k].getData("rightBusy")].setTexture("dead");
-              s[f[k].getData("leftBusy")].setData({
+              s[f[i].getData("rightBusy")].setTexture("dead");
+              s[f[i].getData("leftBusy")].setData({
                 "strong": true,
                 "eating": false
               });
-              s[f[k].getData("leftBusy")].setTexture("strong");
+              s[f[i].getData("leftBusy")].setTexture("strong");
             } else {
               //~ console.log("right hawk wins");
-              s[f[k].getData("leftBusy")].setData({
+              s[f[i].getData("leftBusy")].setData({
                 "dead": true,
                 "eating": false
               });
-              s[f[k].getData("leftBusy")].setTexture("dead");
-              s[f[k].getData("rightBusy")].setData({
+              s[f[i].getData("leftBusy")].setTexture("dead");
+              s[f[i].getData("rightBusy")].setData({
                 "strong": true,
                 "eating": false
               });
-              s[f[k].getData("rightBusy")].setTexture("strong");
+              s[f[i].getData("rightBusy")].setTexture("strong");
             }
           } else {
             //~ console.log("right is dove, hawk and dove");
-            s[f[k].getData("leftBusy")].setData({
+            s[f[i].getData("leftBusy")].setData({
               "strong": true,
               "eating": false
             });
-            s[f[k].getData("leftBusy")].setTexture("strong");
-            s[f[k].getData("rightBusy")].setData({
+            s[f[i].getData("leftBusy")].setTexture("strong");
+            s[f[i].getData("rightBusy")].setData({
               "fleeing": true,
               "eating": false
             });
-            s[f[k].getData("rightBusy")].setTexture("fleeing");
+            s[f[i].getData("rightBusy")].setTexture("fleeing");
           }
         } else {
           //~ console.log("left is dove");
-          if (s[f[k].getData("rightBusy")].getData("r") == "hawk") {
+          if (s[f[i].getData("rightBusy")].getData("r") == "hawk") {
             //~ console.log("right is hawk, dove and hawk");
-            s[f[k].getData("leftBusy")].setData({
+            s[f[i].getData("leftBusy")].setData({
               "fleeing": true,
               "eating": false
             });
-            s[f[k].getData("leftBusy")].setTexture("fleeing");
-            s[f[k].getData("rightBusy")].setData({
+            s[f[i].getData("leftBusy")].setTexture("fleeing");
+            s[f[i].getData("rightBusy")].setData({
               "strong": true,
               "eating": false
             });
-            s[f[k].getData("rightBusy")].setTexture("strong");
+            s[f[i].getData("rightBusy")].setTexture("strong");
           } else {
             //~ console.log("right is dove, dove and dove");
-            s[f[k].getData("leftBusy")].setData({
+            s[f[i].getData("leftBusy")].setData({
               "eating": false
             });
-            s[f[k].getData("rightBusy")].setData({
+            s[f[i].getData("rightBusy")].setData({
               "eating": false
             });
           }
         }
       } else {
         //~ console.log("no one on right");
-        if (s[f[k].getData("leftBusy")].getData("r") == "hawk") {
+        if (s[f[i].getData("leftBusy")].getData("r") == "hawk") {
           //~ console.log("left is hawk, hawk alone");
-          s[f[k].getData("leftBusy")].setData({
+          s[f[i].getData("leftBusy")].setData({
             "strong": true,
             "eating": false
           });
-          s[f[k].getData("leftBusy")].setTexture("strong");
+          s[f[i].getData("leftBusy")].setTexture("strong");
         } else {
           //~ console.log("left is dove, dove alone");
-          s[f[k].getData("leftBusy")].setData({
+          s[f[i].getData("leftBusy")].setData({
             "strong": true,
             "eating": false
           });
-          s[f[k].getData("leftBusy")].setTexture("strong");
+          s[f[i].getData("leftBusy")].setTexture("strong");
         }
       }
     } else {
       //~ console.log("no one on left");
-      if (f[k].getData("rightBusy")) {
-        if (s[f[k].getData("rightBusy")].getData("r")) {
+      if (f[i].getData("rightBusy")) {
+        if (s[f[i].getData("rightBusy")].getData("r")) {
           console.log("right is hawk, hawk alone");
-          s[f[k].getData("rightBusy")].setData({
+          s[f[i].getData("rightBusy")].setData({
             "strong": true,
             "eating": false
           });
-          s[f[k].getData("rightBusy")].setTexture("strong");
+          s[f[i].getData("rightBusy")].setTexture("strong");
         } else {
           //~ console.log("right is dove, dove alone");
-          s[f[k].getData("rightBusy")].setData({
+          s[f[i].getData("rightBusy")].setData({
             "strong": true,
             "eating": false
           });
-          s[f[k].getData("rightBusy")].setTexture("strong");
+          s[f[i].getData("rightBusy")].setTexture("strong");
         }
       } else {
         //~ console.log("Food is alone");
-        f[k].setTint(0xff0000);
+        f[i].setTint(0xff0000);
       }
     }
+    //~ for (let j = 0; j < s.length; j++) {
+      //~ if (s[j].getData("eating")) {
+        //~ s[i].setData({
+          //~ "dead": true,
+          //~ "eating": false
+        //~ });
+      //~ }
+    //~ }
   }
 }
 
@@ -983,6 +998,8 @@ window.addEventListener(
   "resize",
   game.scale.setMaxZoom()
 );
+
+document.body.style.background = "#e8e8e8";
 
 //~ console.log(fxhash)
 //~ console.log(fxrand())
