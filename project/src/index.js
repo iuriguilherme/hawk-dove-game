@@ -84,7 +84,7 @@ $fx.params([
   },
   {
     "id": "ruleset",
-    "name": "Ruleset",
+    "name": "Ruleset (see token description)",
     "type": "select",
     "options": {
       "options": ["1"],
@@ -92,7 +92,7 @@ $fx.params([
   },
   {
     "id": "food_find",
-    "name": "Food finding",
+    "name": "Food finding algorithm",
     "type": "select",
     "options": {
       "options": [
@@ -104,7 +104,7 @@ $fx.params([
   },
   {
     "id": "subjects_placement",
-    "name": "Subject placement",
+    "name": "Subject placement algorithm",
     "type": "select",
     "options": {
       "options": [
@@ -115,7 +115,7 @@ $fx.params([
   },
   {
     "id": "foods_placement",
-    "name": "Food placement",
+    "name": "Food placement algorithm",
     "type": "select",
     "options": {
       "options": [
