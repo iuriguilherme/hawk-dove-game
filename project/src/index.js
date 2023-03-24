@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.6.1  
+ * @version 0.6.2  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.6.1";
+export const version = "0.6.2";
 
 $fx.params([
   {
@@ -172,6 +172,7 @@ import {
   foodsPlacementAlgorithmMap,
   rulesetAlgorithmMap,
   subjectsPlacementAlgorithmMap,
+  getSpritesThemeMap,
 } from "./params.js";
 
 import {
@@ -191,6 +192,8 @@ export const hawkAndDove = [
   $fx.getRawParam("hawk_string"),
   $fx.getRawParam("dove_string"),
 ];
+const spritesThemeMap = getSpritesThemeMap(hawkAndDove);
+export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
 export const minDistance = 20;
 export const startingSubjects = fxArray.length;
 
@@ -202,82 +205,7 @@ export function getFxParam(param) {
   return $fx.getRawParam(param);
 };
 
-const spritesThemeMap = {
-  "Boy and Girl": [
-    {
-      "key": hawkAndDove[0],
-      "type": "svg",
-      "file": "boy.svg",
-      "scale": "1",
-    },
-    {
-      "key": hawkAndDove[1],
-      "type": "svg",
-      "file": "girl.svg",
-      "scale": "1",
-    },
-    {
-      "key": "food",
-      "type": "svg",
-      "file": "heart.svg",
-      "scale": "1",
-    },
-  ],
-  "Devil and Angel": [
-    {
-      "key": hawkAndDove[0],
-      "type": "svg",
-      "file": "face-devilish-2.svg",
-      "scale": "0.5",
-    },
-    {
-      "key": hawkAndDove[1],
-      "type": "svg",
-      "file": "face-angel-2.svg",
-      "scale": "0.5",
-    },
-    {
-      "key": "food",
-      "type": "svg",
-      "file": "emblem-favorite-2.svg",
-      "scale": "0.5",
-    },
-    //~ {
-      //~ "key": "food",
-      //~ "type": "image",
-      //~ "file": "food-strawberry_with_light_shadow.png",
-    //~ },
-  ],
-  "Gimp and Lyx": [
-    {
-      "key": hawkAndDove[0],
-      "type": "svg",
-      "file": "gimp-3.svg",
-      "scale": "0.08",
-    },
-    {
-      "key": hawkAndDove[1],
-      "type": "svg",
-      "file": "lyx.svg",
-      "scale": "0.25",
-    },
-    {
-      "key": "food",
-      "type": "svg",
-      "file": "applications-other-3.svg",
-      "scale": "0.6",
-    },
-  ],
-};
-
-export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
-
-phaserGame.scale.setMaxZoom();
-
-window.addEventListener(
-  "resize",
-  phaserGame.scale.setMaxZoom()
-);
+window.addEventListener("resize", phaserGame.scale.setMaxZoom());
 
 document.body.style.background = "#e8e8e8";
 

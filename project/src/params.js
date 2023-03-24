@@ -299,3 +299,73 @@ function rulesetAlgorithm1() {
     //~ }
   }
 }
+
+export function getSpritesThemeMap(hawkAndDove) {
+  return {
+    "Boy and Girl": [
+      {
+        "key": hawkAndDove[0],
+        "type": "svg",
+        "file": "boy.svg",
+        "scale": "1",
+      },
+      {
+        "key": hawkAndDove[1],
+        "type": "svg",
+        "file": "girl.svg",
+        "scale": "1",
+      },
+      {
+        "key": "food",
+        "type": "svg",
+        "file": "heart.svg",
+        "scale": "1",
+      },
+    ],
+    "Devil and Angel": [
+      {
+        "key": hawkAndDove[0],
+        "type": "svg",
+        "file": "face-devilish-2.svg",
+        "scale": "0.5",
+      },
+      {
+        "key": hawkAndDove[1],
+        "type": "svg",
+        "file": "face-angel-2.svg",
+        "scale": "0.5",
+      },
+      {
+        "key": "food",
+        "type": "svg",
+        "file": "emblem-favorite-2.svg",
+        "scale": "0.5",
+      },
+      //~ {
+        //~ "key": "food",
+        //~ "type": "image",
+        //~ "file": "food-strawberry_with_light_shadow.png",
+      //~ },
+    ],
+    "Gimp and Lyx": [
+      {
+        "key": hawkAndDove[0],
+        "type": "svg",
+        "file": "gimp-3.svg",
+        "scale": "0.08",
+      },
+      {
+        "key": hawkAndDove[1],
+        "type": "svg",
+        "file": "lyx.svg",
+        "scale": "0.25",
+      },
+      {
+        "key": "food",
+        "type": "svg",
+        "file": "applications-other-3.svg",
+        "scale": "0.6",
+      },
+    ],
+  };
+}
