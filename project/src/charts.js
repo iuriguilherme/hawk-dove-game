@@ -95,9 +95,9 @@ export function createCharts() {
   data = getHawkAndDoveData();
   datasets = [];
   for (let i = 0; i < hawkAndDove.length; i++) {
-    let r = math.randomInt(30, 150);
-    let g = math.randomInt(30, 150);
-    let b = math.randomInt(30, 150);
+    let r = math.randomInt(60, 210);
+    let g = math.randomInt(60, 210);
+    let b = math.randomInt(60, 210);
     datasets.push({
       "label": hawkAndDove[i],
       "data": [data[i]],
@@ -106,6 +106,8 @@ export function createCharts() {
       "borderWidth": 0.5,
       "backgroundColor": `rgb(${r}, ${g}, ${b})`,
       "borderColor": `rgb(${r}, ${g}, ${b})`,
+      //~ "backgroundColor": colors[i],
+      //~ "borderColor": colors[i],
       "tension": 0.1
     });
   }
@@ -155,4 +157,17 @@ export function createCharts() {
       //~ }
     //~ }
   //~ });
+  
+  //~ var trace1 = {
+      //~ x: [1, 2, 3, 4],
+      //~ y: [10, 15, 13, 17],
+      //~ type: 'scatter'
+    //~ };
+    //~ var trace2 = {
+      //~ x: [1, 2, 3, 4],
+      //~ y: [16, 5, 11, 9],
+      //~ type: 'scatter'
+    //~ };
+    //~ var data = [trace1, trace2];
+    //~ let plot = Plotly.newPlot("graph", data);
 }

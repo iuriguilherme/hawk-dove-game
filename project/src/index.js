@@ -47,21 +47,14 @@ $fx.params([
     },
   },
   //~ {
-    //~ id: "bigint_id",
-    //~ name: "A bigint",
-    //~ type: "bigint",
-    //~ //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
-    //~ options: {
-      //~ min: Number.MIN_SAFE_INTEGER * 4,
-      //~ max: Number.MAX_SAFE_INTEGER * 4,
-      //~ step: 1,
-    //~ },
+    //~ id: "hawk_color",
+    //~ name: "Hawk graph color",
+    //~ type: "color",
   //~ },
   //~ {
-    //~ id: "color_id",
-    //~ name: "A color",
+    //~ id: "dove_color",
+    //~ name: "Dove graph color",
     //~ type: "color",
-    //~ //default: "ff0000",
   //~ },
   {
     "id": "hawk_string",
@@ -85,7 +78,7 @@ $fx.params([
   },
   {
     "id": "infinite",
-    "name": "Keep simulating",
+    "name": "Keep simulating (no game over)",
     "type": "boolean",
     "default": false,
   },
