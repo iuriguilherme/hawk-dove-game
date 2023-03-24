@@ -29,7 +29,9 @@ export const sleep = ms => new Promise(r => setTimeout(r, ms));
 export const properAlphabet = 
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 export const alphabetArray = Array.from(properAlphabet);
+//~ export const alphabetArray = properAlphabet;
 export const fxArray = Array.from(fxhashTrunc);
+//~ export const fxArray = fxhashTrunc;
 //~ export const fxhashDecimal = base58toDecimal(fxhashTrunc);
 
 /**

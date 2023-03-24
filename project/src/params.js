@@ -27,7 +27,7 @@ import Phaser from "phaser";
 
 import {
   minDistance,
-} from "./config.js";
+} from "./index.js";
 
 import {
   subjects,
@@ -55,7 +55,6 @@ export const foodsPlacementAlgorithmMap = {
   "circle": foodsPlacementAlgorithm1,
   "random": foodsPlacementAlgorithm2,
 };
-
 
 /*
  * @description Subject placement method 1:

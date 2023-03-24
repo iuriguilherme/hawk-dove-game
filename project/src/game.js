@@ -21,49 +21,45 @@
  * 
  */
 
-import Chart from "chart.js/auto";
 import { create, all } from "mathjs";
 const math = create(all, {});
 import Phaser from "phaser";
 
 import {
-  alphabetArray,
-  fxArray,
-  //~ properAlphabet,
-  //~ sleep,
-} from "./util.js";
-
-import {
-  hawkAndDove,
-  //~ minDistance,
-  startingSubjects,
-} from "./config.js";
-
-import {
-  graphsCanvas,
+  createCharts,
 } from "./charts.js";
 
 import {
-  findFoodAlgorithm,
-  foodsPlacementAlgorithm,
-  growthRate,
+  graphsCanvas,
+} from "./html.js";
+
+import {
+  hawkAndDove,
   initialFoodRate,
-  rulesetAlgorithm,
-  subjectsPlacementAlgorithm,
+  name,
+  spritesTheme,
+  startingSubjects,
+  version,
 } from "./index.js";
+
+import {
+  loop as updateWrapper,
+} from "./loop.js";
+
+import {
+  alphabetArray,
+  fxArray,
+} from "./util.js";
 
 export var foods;
 export var foodsCircle;
 export var subjects;
 export var subjectsCircle;
 
-let charts = {};
 let data;
 let datasets;
-let gameOver = false;
-let iteration = 0;
 
-function getAgeData() {
+export function getAgeData() {
   let labels = [];
   let data = [];
   let maxAge = 0;
@@ -81,7 +77,7 @@ function getAgeData() {
   return [labels, data];
 }
 
-function getHawkAndDoveData() {
+export function getHawkAndDoveData() {
   let data = [];
   for (let i = 0; i < hawkAndDove.length; i++) {
     data[i] = subjects.getChildren().filter(
@@ -91,7 +87,7 @@ function getHawkAndDoveData() {
   return data;
 }
 
-function getPopulationData() {
+export function getPopulationData() {
   let labels = [];
   let data = [];
   for (let i = 0; i < alphabetArray.length; i++) {
@@ -110,34 +106,26 @@ class HawkDoveScene extends Phaser.Scene {
     super();
   }
   preload () {
-    //~ this.load.svg("hawk", "boy.svg");
-    this.load.svg("hawk", "face-devilish-2.svg");
-    //~ this.load.svg("dove", "girl.svg");
-    this.load.svg("dove", "face-angel-2.svg");
+    for (let i = 0; i < spritesTheme.length; i++) {
+      if (spritesTheme[i]["type"] == "svg") {
+        this.load.svg(spritesTheme[i]["key"], spritesTheme[i]["file"],
+          {"scale": spritesTheme[i]["scale"]});
+      } else if (spritesTheme[i]["type"] == "image") {
+        this.load.image(spritesTheme[i]["key"], spritesTheme[i]["file"]);
+      }
+    }
     this.load.svg("strong", "yinyang.svg");
     this.load.svg("dead", "block.svg");
     this.load.svg("fleeing", "swiss.svg");
-    //~ this.load.svg("food", "heart.svg");
-    this.load.image("food", "food-strawberry_with_light_shadow.png");
-    //~ const blob = new Blob([svgString], { type: 'image/svg+xml' });
-    //~ const url = URL.createObjectURL(blob);
-    //~ this.load.spritesheet(
-      //~ "dude",
-      //~ "dude.png",
-      //~ {
-        //~ "frameWidth": 178,
-        //~ "frameHeight": 198
-      //~ }
-    //~ );
   }
   create () {
     subjects = this.add.group({
       "key": "hawk",
-      "repeat": startingSubjects
+      "repeat": startingSubjects,
     });
     foods = this.add.group({
       "key": "food",
-      "repeat": (startingSubjects * initialFoodRate) / 1e2
+      "repeat": (startingSubjects * initialFoodRate) / 1e2,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let r = math.pickRandom(hawkAndDove);
@@ -149,33 +137,32 @@ class HawkDoveScene extends Phaser.Scene {
         "fleeing": false,
         "dead": false,
         "strong": false,
-        "age": 0
+        "age": 0,
       });
       subjects.getChildren()[i].setTexture(r);
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({
         "leftBusy": false,
-        "rightBusy": false
+        "rightBusy": false,
       });
     }
-    //~ for (let i = 0; i < startingSubjects; i++) {
-      //~ foods.push(this.add.image(0, 0, "food"));
-      //~ foods[i].setCollideWorldBounds(true);
-    //~ }
-    //~ this.add.collider(subjects, foods);
+    console.log(`[${name} v${version}] created ` +
+`${subjects.getChildren().length} subjects and ${foods.getChildren().length} ` +
+`foods.`);
     subjectsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
-      (this.cameras.main.height / 2)
+      (this.cameras.main.height / 2.5),
     );
     foodsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
-      (this.cameras.main.height / 3)
+      (this.cameras.main.height / 4),
     );
     Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
     Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
+    
     //~ var trace1 = {
       //~ x: [1, 2, 3, 4],
       //~ y: [10, 15, 13, 17],
@@ -189,299 +176,10 @@ class HawkDoveScene extends Phaser.Scene {
     //~ var data = [trace1, trace2];
     //~ let plot = Plotly.newPlot("graph", data);
     
-    data = getPopulationData();
-    charts["population"] = new Chart(graphsCanvas[0], {
-      "type": "bar",
-      "data": {
-        "labels": data[0],
-        "datasets": [{
-          "label": "Genetic Population",
-          "data": data[1],
-          "borderWidth": 1
-        }]
-      },
-      "options": {
-        "responsive": true,
-        "maintainAspectRatio": false,
-        "scales": {
-          "y": {
-            "beginAtZero": true
-          }
-        }
-      }
-    });
-    
-    //~ charts["hawkAndDove"] = new Chart(graphsCanvas[2], {
-      //~ "type": "bar",
-      //~ "data": {
-        //~ "labels": hawkAndDove.concat(["total"]),
-        //~ "datasets": [{
-          //~ "label": "Hawk and Dove Population",
-          //~ "data": getHawkAndDoveData(),
-          //~ "borderWidth": 1
-        //~ }]
-      //~ },
-      //~ "options": {
-        //~ "responsive": true,
-        //~ "maintainAspectRatio": false,
-        //~ "scales": {
-          //~ "y": {
-            //~ "beginAtZero": true
-          //~ }
-        //~ }
-      //~ }
-    //~ });
-    
-    data = getHawkAndDoveData();
-    datasets = [];
-    for (let i = 0; i < hawkAndDove.length; i++) {
-      let r = math.randomInt(30, 150);
-      let g = math.randomInt(30, 150);
-      let b = math.randomInt(30, 150);
-      datasets.push({
-        "label": hawkAndDove[i],
-        "data": [data[i]],
-        "fill": false,
-        "pointStyle": false,
-        "borderWidth": 0.5,
-        "backgroundColor": `rgb(${r}, ${g}, ${b})`,
-        "borderColor": `rgb(${r}, ${g}, ${b})`,
-        "tension": 0.1
-      });
-    }
-    datasets.push({
-      "label": "total",
-      "data": [data[data.length - 1]],
-      "fill": false,
-      "pointStyle": false,
-      "borderWidth": 0.5,
-      "backgroundColor": "rgb(30, 30, 30)",
-      //~ "backgroundColor": "rgb(180, 180, 180)",
-      //~ "borderColor": "rgb(75, 192, 192)",
-      "borderColor": "rgb(30, 30, 30)",
-      //~ "borderColor": "rgb(180, 180, 180)",
-      "tension": 0.1
-    });
-    charts["populationLine"] = new Chart(graphsCanvas[1], {
-      "type": "line",
-      "data": {
-        "labels": [iteration],
-        "datasets": datasets
-      },
-      "options": {
-        "responsive": true,
-        "maintainAspectRatio": false
-      }
-    });
-    
-    //~ data = getAgeData();
-    //~ charts["age"] = new Chart(graphsCanvas[3], {
-      //~ "type": "bar",
-      //~ "data": {
-        //~ "labels": data[0],
-        //~ "datasets": [{
-          //~ "label": "Age",
-          //~ "data": data[1],
-          //~ "borderWidth": 1
-        //~ }]
-      //~ },
-      //~ "options": {
-        //~ "responsive": true,
-        //~ "maintainAspectRatio": false,
-        //~ "scales": {
-          //~ "y": {
-            //~ "beginAtZero": true
-          //~ }
-        //~ }
-      //~ }
-    //~ });
+    createCharts();
   }
   update () {
-    function endGame(scene, i, data, s, f, cause) {
-      scene.add.text(
-        15,
-        30 * (i + 1),
-        cause,
-        {
-          "fontSize": "24px",
-          "fill": "#121212",
-          //~ "fill": "#e8e8e8",
-          "align": "center"
-        }
-      );
-      for (let j = 0; j < data.length - 1; j++) {
-        scene.add.text(
-          15,
-          30 * (j + hawkAndDove.length + 1),
-          hawkAndDove[j] + " population: " + data[j],
-          {
-            "fontSize": "24px",
-            "fill": "#121212",
-            //~ "fill": "#e8e8e8",
-            "align": "center"
-          }
-        );
-      }
-      scene.add.text(
-        15,
-        30 * (data.length + hawkAndDove.length),
-        "total population: " + data[data.length - 1],
-        {
-          "fontSize": "24px",
-          "fill": "#121212",
-          //~ "fill": "#e8e8e8",
-          "align": "center"
-        }
-      );
-      scene.add.text(
-        15,
-        30 * (data.length + hawkAndDove.length + 1),
-        "remaining food: " + f.length,
-        {
-          "fontSize": "24px",
-          "fill": "#121212",
-          //~ "fill": "#e8e8e8",
-          "align": "center"
-        }
-      );
-      let geneWinner;
-      let populationData = getPopulationData();
-      if (populationData[1].length > 0) {
-        geneWinner = populationData[0][populationData[1].indexOf(
-          math.max(populationData[1]))];
-      } else {
-        geneWinner = "None";
-      }
-      scene.add.text(
-        15,
-        30 * (data.length + hawkAndDove.length + 2),
-        "highest genetic pool: " + geneWinner,
-        {
-          "fontSize": "24px",
-          "fill": "#121212",
-          //~ "fill": "#e8e8e8",
-          "align": "center"
-        }
-      );
-      subjects.clear(true);
-      foods.clear(true);
-      gameOver = true;
-      return;
-    }
-    if (!gameOver) {
-      let s = subjects.getChildren();
-      let f = foods.getChildren();
-      
-      data = getPopulationData();
-      charts["population"].data.labels = data[0];
-      charts["population"].data.datasets[0].data = data[1];
-      charts["population"].update();
-      
-      //~ data = getAgeData();
-      //~ charts["age"].data.labels = data[0];
-      //~ charts["age"].data.datasets[0].data = data[1];
-      //~ charts["age"].update();
-      
-      data = getHawkAndDoveData();
-      //~ charts["hawkAndDove"].data.datasets[0].data = data;
-      //~ charts["hawkAndDove"].update();
-      for (let i = 0; i < charts["populationLine"].data.datasets.length; i++) {
-        charts["populationLine"].data.datasets[i].data.push(data[i]);
-      }
-      charts["populationLine"].data.labels.push(iteration);
-      charts["populationLine"].update();
-      
-      //~ if (iteration == 10) {
-        //~ data[1] = 0;
-      //~ }
-      for (let i = 0; i < data.length; i++) {
-        if (data[i] < 1) {
-          console.log(hawkAndDove[i] +
-            " population reached zero at iteration " + iteration);
-          endGame(this, i, data, s, f, hawkAndDove[i] +
-            " population reached zero at iteration " + iteration);
-          return;
-        } else if (data[i] < 2) {
-          // TODO: Find out why hawk get stuck with one subject
-          console.log("Creating a new " + hawkAndDove[i]);
-          let ns = subjects.create(0, 0, hawkAndDove[i]);
-          ns.setData({
-            "p": math.pickRandom(fxArray),
-            "r": hawkAndDove[i],
-            "waiting": true,
-            "eating": false,
-            "fleeing": false,
-            "dead": false,
-            "strong": false,
-            "age": 0
-          });
-          ns.setTexture(hawkAndDove[i]);
-        }
-      }
-      
-      iteration++;
-      
-      findFoodAlgorithm();
-      rulesetAlgorithm();
-      
-      let toDestroy = [];
-      let toReproduce = [];
-      for (let i = 0; i < s.length; i++) {
-        if (s[i].getData("dead")) {
-          toDestroy.push(s[i]);
-        } else if (s[i].getData("strong")) {
-          toReproduce.push({"r": s[i].getData("r"), "p": s[i].getData("p")});
-        }
-      }
-      for (let i = 0; i < toDestroy.length; i++) {
-        toDestroy[i].destroy();
-      }
-      for (let i = 0; i < toReproduce.length; i++) {
-        for (let j = 0; j < growthRate; j++) {
-          let ns = subjects.create(0, 0, toReproduce[i]["r"]);
-          ns.setData({
-            "waiting": true,
-            "eating": false,
-            "fleeing": false,
-            "dead": false,
-            "strong": false,
-            "p": toReproduce[i]["p"],
-            "r": toReproduce[i]["r"],
-            "age": 0
-          });
-          ns.setTexture(toReproduce[i]["r"]);
-        }
-      }
-      if (s.length  == 0) {
-        endGame(this, 0, getHawkAndDoveData(), s, f,
-          "all population reached zero at iteration " + iteration);
-        again = false;
-        return;
-      }      
-      for (let i = 0; i < s.length; i++) {
-        s[i].setData({
-          "waiting": true,
-          "eating": false,
-          "fleeing": false,
-          "dead": false,
-          "strong": false,
-          "age": s[i].getData("age") + 1,
-        });
-        s[i].setTexture(s[i].getData("r"));
-      }
-      for (let i = 0; i < f.length; i++) {
-        f[i].setData({
-          "leftBusy": false,
-          "rightBusy": false
-        });
-      }
-      
-      subjectsPlacementAlgorithm();
-      foodsPlacementAlgorithm();
-      
-    } else {
-      return;
-    }
+    updateWrapper(this);
   }
 }
 

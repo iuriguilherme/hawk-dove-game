@@ -21,88 +21,138 @@
  * 
  */
 
-const graphs = 4;
-const graphsRows = 3;
-const graphsBig = 2;
-const graphsSmall = 2;
-const containerDiv = document.createElement("div");
-const containerRow = document.createElement("div");
-const graphsCol = document.createElement("div");
-const gamesCol = document.createElement("div");
-const gameRow = document.createElement("div");
-const gameCol = document.createElement("div");
-const gameDiv = document.createElement("div");
-const gameCanvas = document.createElement("canvas");
-containerDiv.className = "container";
-//~ containerRow.className = "row containerRow";
-//~ containerRow.className = "grid containerRow";
-containerRow.className = "containerRow";
-//~ graphsCol.className = "col graphsCol";
-//~ graphsCol.className = "g-col graphsCol";
-graphsCol.className = "graphsCol";
-//~ gamesCol.className = "col gamesCol";
-//~ gamesCol.className = "g-col gamesCol";
-gamesCol.className = "gamesCol";
-//~ gameRow.className = "row gameRow";
-//~ gameRow.className = "grid gameRow";
-gameRow.className = "gameRow";
-//~ gameCol.className = "col gameCol";
-//~ gameCol.className = "g-col gameCol";
-gameCol.className = "gameCol";
-gameDiv.id = "game";
-gameDiv.className = "gameDiv";
-gameCanvas.id = "gameCanvas";
-gameCanvas.className = "gameCanvas";
-document.body.appendChild(containerDiv);
-containerDiv.appendChild(containerRow);
-containerRow.appendChild(graphsCol);
-export var graphsCanvas = [];
-let graphsDivs = [];
-for (let i = 0; i < graphsBig; i++) {
-  let graphRow = document.createElement("div");
-  let graphCol = document.createElement("div");
-  let graphDiv = document.createElement("div");
-  let graphCanvas = document.createElement("canvas");
-  //~ graphRow.className = "row graphRow";
-  //~ graphRow.className = "grid graphRow";
-  graphRow.className = "graphRow";
-  //~ graphCol.className = "col graphCol";
-  //~ graphCol.className = "g-col graphCol";
-  graphCol.className = "graphCol";
-  graphDiv.id = "graph" + i;
-  graphDiv.className = "graphDiv";
-  graphCanvas.id = "graphCanvas" + i;
-  graphCanvas.className = "graphCanvas";
-  graphsCol.appendChild(graphRow);
-  graphRow.appendChild(graphCol);
-  graphCol.appendChild(graphDiv);
-  graphDiv.appendChild(graphCanvas);
-  graphsCanvas.push(graphCanvas);
-  graphsDivs.push(graphDiv);
-}
-//~ for (let i = graphsBig; i < graphsRows; i++) {
-  //~ let graphRow = document.createElement("div");
-  //~ graphRow.className = "row graphSmallRow";
-  //~ graphsCol.appendChild(graphRow);
-  //~ for (let j = graphsBig; j < graphsBig + graphsSmall; j++) {
-    //~ let graphCol = document.createElement("div");
-    //~ let graphDiv = document.createElement("div");
-    //~ let graphCanvas = document.createElement("canvas");
-    //~ graphCol.className = "col graphSmallCol";
-    //~ graphDiv.id = "graph" + j;
-    //~ graphDiv.className = "graphSmallDiv";
-    //~ graphCanvas.id = "graphCanvas" + j;
-    //~ graphCanvas.className = "graphSmallCanvas";
-    //~ graphRow.appendChild(graphCol);
-    //~ graphCol.appendChild(graphDiv);
-    //~ graphDiv.appendChild(graphCanvas);
-    //~ graphsCanvas.push(graphCanvas);
-    //~ graphsDivs.push(graphDiv);
-  //~ }
-//~ }
+import Chart from "chart.js/auto";
+import { create, all } from "mathjs";
+const math = create(all, {});
+//~ import Plotly from "plotly.js-dist-min";
 
-containerRow.appendChild(gamesCol);
-gamesCol.appendChild(gameRow);
-gameRow.appendChild(gameCol);
-gameCol.appendChild(gameDiv);
-gameDiv.appendChild(gameCanvas);
+import {
+  getAgeData,
+  getHawkAndDoveData,
+  getPopulationData,
+} from "./game.js";
+
+import {
+  graphsCanvas,
+} from "./html.js";
+
+import {
+  hawkAndDove,
+} from "./index.js";
+
+import {
+  iteration,
+} from "./loop.js";
+
+let data;
+let datasets;
+export var charts = {};
+
+export function createCharts() {
+  data = getPopulationData();
+  charts["population"] = new Chart(graphsCanvas[0], {
+    "type": "bar",
+    "data": {
+      "labels": data[0],
+      "datasets": [{
+        "label": "Genetic Population",
+        "data": data[1],
+        "borderWidth": 1
+      }]
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": false,
+      "scales": {
+        "y": {
+          "beginAtZero": true
+        }
+      }
+    }
+  });
+  
+  //~ charts["hawkAndDove"] = new Chart(graphsCanvas[2], {
+    //~ "type": "bar",
+    //~ "data": {
+      //~ "labels": hawkAndDove.concat(["total"]),
+      //~ "datasets": [{
+        //~ "label": "Hawk and Dove Population",
+        //~ "data": getHawkAndDoveData(),
+        //~ "borderWidth": 1
+      //~ }]
+    //~ },
+    //~ "options": {
+      //~ "responsive": true,
+      //~ "maintainAspectRatio": false,
+      //~ "scales": {
+        //~ "y": {
+          //~ "beginAtZero": true
+        //~ }
+      //~ }
+    //~ }
+  //~ });
+  
+  data = getHawkAndDoveData();
+  datasets = [];
+  for (let i = 0; i < hawkAndDove.length; i++) {
+    let r = math.randomInt(30, 150);
+    let g = math.randomInt(30, 150);
+    let b = math.randomInt(30, 150);
+    datasets.push({
+      "label": hawkAndDove[i],
+      "data": [data[i]],
+      "fill": false,
+      "pointStyle": false,
+      "borderWidth": 0.5,
+      "backgroundColor": `rgb(${r}, ${g}, ${b})`,
+      "borderColor": `rgb(${r}, ${g}, ${b})`,
+      "tension": 0.1
+    });
+  }
+  datasets.push({
+    "label": "total",
+    "data": [data[data.length - 1]],
+    "fill": false,
+    "pointStyle": false,
+    "borderWidth": 0.5,
+    "backgroundColor": "rgb(30, 30, 30)",
+    //~ "backgroundColor": "rgb(180, 180, 180)",
+    //~ "borderColor": "rgb(75, 192, 192)",
+    "borderColor": "rgb(30, 30, 30)",
+    //~ "borderColor": "rgb(180, 180, 180)",
+    "tension": 0.1
+  });
+  charts["populationLine"] = new Chart(graphsCanvas[1], {
+    "type": "line",
+    "data": {
+      "labels": [iteration],
+      "datasets": datasets
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": false
+    }
+  });
+  
+  //~ data = getAgeData();
+  //~ charts["age"] = new Chart(graphsCanvas[3], {
+    //~ "type": "bar",
+    //~ "data": {
+      //~ "labels": data[0],
+      //~ "datasets": [{
+        //~ "label": "Age",
+        //~ "data": data[1],
+        //~ "borderWidth": 1
+      //~ }]
+    //~ },
+    //~ "options": {
+      //~ "responsive": true,
+      //~ "maintainAspectRatio": false,
+      //~ "scales": {
+        //~ "y": {
+          //~ "beginAtZero": true
+        //~ }
+      //~ }
+    //~ }
+  //~ });
+}
