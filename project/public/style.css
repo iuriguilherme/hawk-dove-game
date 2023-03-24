@@ -31,26 +31,15 @@ body {
 }
 */
 
-/*
 body {
   overflow: hidden;
-*/
-/*
-}
-*/
-/*
   margin: 0 auto;
   padding: 0 auto;
-*/
-/*
   display: grid;
-*/
 /*
   place-items: center;
 */
-/*
 }
-*/
 
 /*
 canvas {
@@ -106,15 +95,22 @@ canvas {
 .gameDiv
 {
   margin: 0 auto;
+/*
   padding: 0 auto;
+*/
   display: grid;
   float: left;
 }
 
-.gameCol
+.gameCol,
 {
   max-width: 100%;
 }
+
+/*
+.graphDiv,
+.graphCanvas,
+*/
 .graphCol
 {
   max-width: 50%;
@@ -134,7 +130,12 @@ canvas {
 .graphCanvas,
 .gameCanvas
 {
+/*
   width: 100%;
+*/
+/*
+  width: auto;
+*/
   height: auto;
 }
 

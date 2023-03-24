@@ -21,6 +21,9 @@
  * 
  */
 
+import { create, all } from "mathjs";
+const math = create(all, {});
+
 import {
   charts,
 } from "./charts.js";
@@ -45,6 +48,10 @@ import {
   getPopulationData,
 } from "./game.js";
 
+import {
+  fxArray,
+} from "./util.js";
+
 export var iteration = 0;
 
 let gameOver = false;
@@ -58,7 +65,7 @@ export function loop(scene) {
       30 * (i + 1),
       cause,
       {
-        "fontSize": "24px",
+        "fontSize": "2em",
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
@@ -70,7 +77,7 @@ export function loop(scene) {
         30 * (j + hawkAndDove.length + 1),
         hawkAndDove[j] + " population: " + data[j],
         {
-          "fontSize": "24px",
+          "fontSize": "2em",
           "fill": "#121212",
           //~ "fill": "#e8e8e8",
           "align": "center"
@@ -82,7 +89,7 @@ export function loop(scene) {
       30 * (data.length + hawkAndDove.length),
       "total population: " + data[data.length - 1],
       {
-        "fontSize": "24px",
+        "fontSize": "2em",
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
@@ -93,7 +100,7 @@ export function loop(scene) {
       30 * (data.length + hawkAndDove.length + 1),
       "remaining food: " + f.length,
       {
-        "fontSize": "24px",
+        "fontSize": "2em",
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
@@ -112,7 +119,7 @@ export function loop(scene) {
       30 * (data.length + hawkAndDove.length + 2),
       "highest genetic pool: " + geneWinner,
       {
-        "fontSize": "24px",
+        "fontSize": "2em",
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
