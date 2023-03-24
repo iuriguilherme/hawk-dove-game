@@ -58,7 +58,8 @@ let gameOver = false;
 let data;
 
 export function loop(scene) {
-  updateInjection();
+  $fx.preview();
+  //~ updateInjection();
   function endGame(scene, i, data, s, f, cause) {
     scene.add.text(
       15,
@@ -168,7 +169,7 @@ export function loop(scene) {
         console.log("Creating a new " + hawkAndDove[i]);
         let ns = subjects.create(0, 0, hawkAndDove[i]);
         ns.setData({
-          "p": math.pickRandom(fxArray),
+          "p": fxArray[math.round($fx.rand() * fxArray.length)],
           "r": hawkAndDove[i],
           "waiting": true,
           "eating": false,

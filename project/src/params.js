@@ -186,7 +186,7 @@ function rulesetAlgorithm1() {
           //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("r") == "hawk") {
             //~ console.log("left and right two hawks. will fight...");
-            if (math.randomInt(1)) {
+            if ($fx.rand() > 0.5) {
               //~ console.log("left hawk wins");
               s[f[i].getData("rightBusy")].setData({
                 "dead": true,

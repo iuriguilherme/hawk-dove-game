@@ -95,9 +95,12 @@ export function createCharts() {
   data = getHawkAndDoveData();
   datasets = [];
   for (let i = 0; i < hawkAndDove.length; i++) {
-    let r = math.randomInt(60, 210);
-    let g = math.randomInt(60, 210);
-    let b = math.randomInt(60, 210);
+    //~ let r = math.randomInt(60, 210);
+    //~ let g = math.randomInt(60, 210);
+    //~ let b = math.randomInt(60, 210);
+    let r = math.round($fx.rand() * 255);
+    let g = math.round($fx.rand() * 255);
+    let b = math.round($fx.rand() * 255);
     datasets.push({
       "label": hawkAndDove[i],
       "data": [data[i]],
