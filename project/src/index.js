@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.6.3  
+ * @version 0.6.4  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.6.3";
+export const version = "0.6.4";
 
 $fx.params([
   {
@@ -46,16 +46,16 @@ $fx.params([
       "step": 1,
     },
   },
-  //~ {
-    //~ id: "hawk_color",
-    //~ name: "Hawk graph color",
-    //~ type: "color",
-  //~ },
-  //~ {
-    //~ id: "dove_color",
-    //~ name: "Dove graph color",
-    //~ type: "color",
-  //~ },
+  {
+    id: "hawk_color",
+    name: "Hawk graph color",
+    type: "color",
+  },
+  {
+    id: "dove_color",
+    name: "Dove graph color",
+    type: "color",
+  },
   {
     "id": "hawk_string",
     "name": "Hawk label",
@@ -184,6 +184,10 @@ export const foodsPlacementAlgorithm =
 export const hawkAndDove = [
   $fx.getRawParam("hawk_string"),
   $fx.getRawParam("dove_string"),
+];
+export const hawkAndDoveColors = [
+  $fx.getParam("hawk_color").hex.rgb,
+  $fx.getParam("dove_color").hex.rgb,
 ];
 const spritesThemeMap = getSpritesThemeMap(hawkAndDove);
 export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];

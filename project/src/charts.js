@@ -38,6 +38,7 @@ import {
 
 import {
   hawkAndDove,
+  hawkAndDoveColors,
 } from "./index.js";
 
 import {
@@ -98,19 +99,19 @@ export function createCharts() {
     //~ let r = math.randomInt(60, 210);
     //~ let g = math.randomInt(60, 210);
     //~ let b = math.randomInt(60, 210);
-    let r = math.round($fx.rand() * 255);
-    let g = math.round($fx.rand() * 255);
-    let b = math.round($fx.rand() * 255);
+    //~ let r = math.round($fx.rand() * 255);
+    //~ let g = math.round($fx.rand() * 255);
+    //~ let b = math.round($fx.rand() * 255);
     datasets.push({
       "label": hawkAndDove[i],
       "data": [data[i]],
       "fill": false,
       "pointStyle": false,
       "borderWidth": 0.5,
-      "backgroundColor": `rgb(${r}, ${g}, ${b})`,
-      "borderColor": `rgb(${r}, ${g}, ${b})`,
-      //~ "backgroundColor": colors[i],
-      //~ "borderColor": colors[i],
+      //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
+      //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
+      "backgroundColor": hawkAndDoveColors[i],
+      "borderColor": hawkAndDoveColors[i],
       "tension": 0.1
     });
   }
