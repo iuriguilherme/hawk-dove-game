@@ -29,6 +29,10 @@ import {
 } from "./charts.js";
 
 import {
+  gData,
+} from "./genes.js";
+
+import {
   findFoodAlgorithm,
   foodsPlacementAlgorithm,
   growthRate,
@@ -126,6 +130,25 @@ export function loop(scene) {
         "align": "center"
       }
     );
+    scene.add.text(
+      15,
+      30 * (data.length + hawkAndDove.length + 3),
+      `${geneWinner} genes attributes:
+s: ${gData[geneWinner]["s"]}
+p: ${gData[geneWinner]["p"]}
+e: ${gData[geneWinner]["e"]}
+c: ${gData[geneWinner]["c"]}
+i: ${gData[geneWinner]["i"]}
+a: ${gData[geneWinner]["a"]}
+l: ${gData[geneWinner]["l"]}
+`,
+      {
+        "fontSize": "2em",
+        "fill": "#121212",
+        //~ "fill": "#e8e8e8",
+        "align": "left"
+      }
+    );
     subjects.clear(true);
     foods.clear(true);
     gameOver = true;
@@ -154,9 +177,8 @@ export function loop(scene) {
     charts["populationLine"].data.labels.push(iteration);
     charts["populationLine"].update();
     
-    //~ if (iteration == 10) {
-      //~ data[1] = 0;
-    //~ }
+    // Tests game over at iteration 10
+    //~ if (iteration == 10) {data[1] = 0;}
     for (let i = 0; i < data.length; i++) {
       if (data[i] < 1) {
         console.log(hawkAndDove[i] +
