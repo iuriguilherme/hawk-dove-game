@@ -268,7 +268,7 @@ function rulesetAlgorithm1() {
       //~ console.log("no one on left");
       if (f[i].getData("rightBusy")) {
         if (s[f[i].getData("rightBusy")].getData("r")) {
-          console.log("right is hawk, hawk alone");
+          //~ console.log("right is hawk, hawk alone");
           s[f[i].getData("rightBusy")].setData({
             "strong": true,
             "eating": false
@@ -364,6 +364,26 @@ export function getSpritesThemeMap(hawkAndDove) {
         "file": "applications-other-3.svg",
         "scale": "0.6",
       },
+    ],
+    "Eagle and Doves": [
+      {
+        "key": hawkAndDove[0],
+        "type": "image",
+        "file": "animals-eagle.png",
+        "scale": "0.1",
+      },
+      {
+        "key": hawkAndDove[1],
+        "type": "image",
+        "file": "animals-doves_of_peace.png",
+        "scale": "0.1",
+      },
+      {
+        "key": "food",
+        "type": "image",
+        "file": "food-worm_in_apple.png",
+        "scale": "0.1",
+      },      
     ],
   };
 }

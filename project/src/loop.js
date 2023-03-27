@@ -191,7 +191,7 @@ l: ${gData[geneWinner]["l"]}
         console.log("Creating a new " + hawkAndDove[i]);
         let ns = subjects.create(0, 0, hawkAndDove[i]);
         ns.setData({
-          "p": fxArray[math.round($fx.rand() * fxArray.length)],
+          "p": fxArray[math.floor($fx.rand() * fxArray.length)],
           "r": hawkAndDove[i],
           "waiting": true,
           "eating": false,

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.7.1  
+ * @version 0.7.2  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,19 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.7.1";
+export const version = "0.7.2";
+
+export var hawkAndDove = ["hawk", "dove"];
+
+import {
+  findFoodAlgorithmMap,
+  foodsPlacementAlgorithmMap,
+  rulesetAlgorithmMap,
+  subjectsPlacementAlgorithmMap,
+  getSpritesThemeMap,
+} from "./params.js";
+
+let spritesThemeMap = getSpritesThemeMap(hawkAndDove);
 
 $fx.params([
   {
@@ -129,11 +141,7 @@ $fx.params([
     "name": "Sprites theme",
     "type": "select",
     "options": {
-      "options": [
-        "Boy and Girl",
-        "Devil and Angel",
-        "Gimp and Lyx",
-      ],
+      "options": Object.keys(spritesThemeMap),
     }
   },
 ]);
@@ -161,14 +169,6 @@ import {
 } from "./game.js";
 
 import {
-  findFoodAlgorithmMap,
-  foodsPlacementAlgorithmMap,
-  rulesetAlgorithmMap,
-  subjectsPlacementAlgorithmMap,
-  getSpritesThemeMap,
-} from "./params.js";
-
-import {
   fxArray,
 } from "./util.js";
 
@@ -181,15 +181,26 @@ export const subjectsPlacementAlgorithm =
   subjectsPlacementAlgorithmMap[$fx.getRawParam("subjects_placement")];
 export const foodsPlacementAlgorithm = 
   foodsPlacementAlgorithmMap[$fx.getRawParam("foods_placement")];
-export const hawkAndDove = [
+hawkAndDove = [
   $fx.getRawParam("hawk_string"),
   $fx.getRawParam("dove_string"),
 ];
+spritesThemeMap = getSpritesThemeMap(hawkAndDove);
+$fx.params($fx.getDefinitions().slice(0, -1).concat([
+  {
+    "id": "sprites_theme",
+    "name": "Sprites theme",
+    "type": "select",
+    "options": {
+      "options": Object.keys(spritesThemeMap),
+    }
+  },
+]));
+
 export const hawkAndDoveColors = [
   $fx.getParam("hawk_color").hex.rgb,
   $fx.getParam("dove_color").hex.rgb,
 ];
-const spritesThemeMap = getSpritesThemeMap(hawkAndDove);
 export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
 export const startingSubjects = fxArray.length;
 

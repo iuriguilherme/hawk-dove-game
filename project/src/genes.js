@@ -38,5 +38,3 @@ for (let i = 0; i < properAlphabet.length; i++) {
     "l": $fx.rand(),
   };
 }
-
-console.log(gData);

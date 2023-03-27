@@ -106,6 +106,7 @@ class HawkDoveScene extends Phaser.Scene {
     super();
   }
   preload () {
+    this.load.path = "./assets/";
     for (let i = 0; i < spritesTheme.length; i++) {
       if (spritesTheme[i]["type"] == "svg") {
         this.load.svg(spritesTheme[i]["key"], spritesTheme[i]["file"],
@@ -128,7 +129,7 @@ class HawkDoveScene extends Phaser.Scene {
       "repeat": (startingSubjects * initialFoodRate) / 1e2,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
-      let r = math.pickRandom(hawkAndDove);
+      let r = hawkAndDove[math.floor($fx.rand() * hawkAndDove.length)];
       subjects.getChildren()[i].setData({
         "p": fxArray[i],
         "r": r,
