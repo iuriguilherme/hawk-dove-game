@@ -191,7 +191,6 @@ export const hawkAndDoveColors = [
 ];
 const spritesThemeMap = getSpritesThemeMap(hawkAndDove);
 export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
-export const minDistance = 20;
 export const startingSubjects = fxArray.length;
 
 export function updateInjection() {

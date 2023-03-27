@@ -26,15 +26,13 @@ const math = create(all, {});
 import Phaser from "phaser";
 
 import {
-  minDistance,
-} from "./index.js";
-
-import {
   subjects,
   foods,
   subjectsCircle,
   foodsCircle,
 } from "./game.js";
+
+const minDistance = 20;
 
 export const rulesetAlgorithmMap = {
   "1": rulesetAlgorithm1,
