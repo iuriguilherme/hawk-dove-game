@@ -106,7 +106,9 @@ function findFoodAlgorithmMain(selection) {
         break;
       }
       let metrics = {
-        "random": distances[i].indexOf(math.pickRandom(distances[i])),
+        //~ "random_old": distances[i].indexOf(math.pickRandom(distances[i])),
+        "random": distances[i].indexOf(distances[i][math.floor($fx.rand() * 
+          distances[i].length)]),
         "closest": distances[i].indexOf(math.min(distances[i])),
         "farthest": distances[i].indexOf(math.max(distances[i])),
       };
@@ -186,7 +188,7 @@ function rulesetAlgorithm1() {
           //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("r") == "hawk") {
             //~ console.log("left and right two hawks. will fight...");
-            if ($fx.rand() > 0.5) {
+            if (math.floor($fx.rand() * 2)) {
               //~ console.log("left hawk wins");
               s[f[i].getData("rightBusy")].setData({
                 "dead": true,
