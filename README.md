@@ -19,6 +19,9 @@ theory. Some links for an in depth explanation about how the game works:
 
 * <https://en.wikipedia.org/wiki/Chicken_(game)>
 * <https://en.wikipedia.org/wiki/Evolutionary_game_theory>
+* <https://en.wikipedia.org/wiki/Resource_holding_potential>
+* <https://en.wikipedia.org/wiki/Genetic_algorithm>
+* <https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html>
 
 Why
 ---
