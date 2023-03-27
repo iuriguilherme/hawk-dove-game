@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.7.3  
+ * @version 0.7.4  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,17 +23,13 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.7.3";
+export const version = "0.7.4";
 
 export var hawkAndDove = ["hawk", "dove"];
 
 import {
-  findFoodAlgorithmMap,
-  foodsPlacementAlgorithmMap,
-  rulesetAlgorithmMap,
-  subjectsPlacementAlgorithmMap,
   getSpritesThemeMap,
-} from "./params.js";
+} from "./sprites.js";
 
 let spritesThemeMap = getSpritesThemeMap(hawkAndDove);
 
@@ -171,6 +167,13 @@ import {
 import {
   fxArray,
 } from "./util.js";
+
+import {
+  findFoodAlgorithmMap,
+  foodsPlacementAlgorithmMap,
+  rulesetAlgorithmMap,
+  subjectsPlacementAlgorithmMap,
+} from "./params.js";
 
 export const initialFoodRate = $fx.getRawParam("starting_food");
 export const growthRate = $fx.getRawParam("growth_rate");

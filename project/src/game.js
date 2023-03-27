@@ -129,9 +129,11 @@ class HawkDoveScene extends Phaser.Scene {
       "repeat": (startingSubjects * initialFoodRate) / 1e2,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
+      let s = subjects.getChildren()[i];
       let r = hawkAndDove[math.floor($fx.rand() * hawkAndDove.length)];
-      subjects.getChildren()[i].setData({
-        "p": fxArray[i],
+      let p = fxArray[math.floor($fx.rand() * fxArray.length)];
+      s.setData({
+        "p": p,
         "r": r,
         "waiting": true,
         "eating": false,
@@ -139,8 +141,9 @@ class HawkDoveScene extends Phaser.Scene {
         "dead": false,
         "strong": false,
         "age": 0,
+        "gen": 0,
       });
-      subjects.getChildren()[i].setTexture(r);
+      s.setTexture(r);
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({

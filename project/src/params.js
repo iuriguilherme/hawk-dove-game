@@ -165,15 +165,16 @@ function findFoodAlgorithm3() {
 
 /*
  * @description Ruleset 1:
- *  If two Hawks met, one of them eats all the food and reproduce, while the 
- *    other one dies;
- *  If two Doves met, they share the food and don't reproduce;
- *  If one Hawk and one Dove met, the Hawk eats all the food alone and 
- *    reproduce, while the Dove flees, surviving but not reproducing;
- *  If only one Bird finds a food, then it eats all of it and reproduce;
- *  Food suply is constant and fixed;
- *  If a bird is alone in it's group (only one hawk or dove), it reproduces 
- *    once.
+ * If two Hawks met, one of them eats all the food and reproduce, while the 
+ *  other one dies;
+ * If two Doves met, they share the food and don't reproduce;
+ * If one Hawk and one Dove met, the Hawk eats all the food alone and 
+ *  reproduce, while the Dove flees, surviving but not reproducing;
+ * If only one Bird finds a food, then it eats all of it and reproduce;
+ * Food suply is constant and fixed;
+ * If a bird is alone in it's group (only one hawk or dove), it reproduces 
+ *  once.
+ * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
  */
 function rulesetAlgorithm1() {
   let s = subjects.getChildren();
@@ -300,94 +301,4 @@ function rulesetAlgorithm1() {
       //~ }
     //~ }
   }
-}
-
-export function getSpritesThemeMap(hawkAndDove) {
-  return {
-    "Boy and Girl": [
-      {
-        "key": hawkAndDove[0],
-        "type": "svg",
-        "file": "boy.svg",
-        "scale": "1",
-      },
-      {
-        "key": hawkAndDove[1],
-        "type": "svg",
-        "file": "girl.svg",
-        "scale": "1",
-      },
-      {
-        "key": "food",
-        "type": "svg",
-        "file": "heart.svg",
-        "scale": "1",
-      },
-    ],
-    "Devil and Angel": [
-      {
-        "key": hawkAndDove[0],
-        "type": "svg",
-        "file": "face-devilish-2.svg",
-        "scale": "0.5",
-      },
-      {
-        "key": hawkAndDove[1],
-        "type": "svg",
-        "file": "face-angel-2.svg",
-        "scale": "0.5",
-      },
-      {
-        "key": "food",
-        "type": "svg",
-        "file": "emblem-favorite-2.svg",
-        "scale": "0.5",
-      },
-      //~ {
-        //~ "key": "food",
-        //~ "type": "image",
-        //~ "file": "food-strawberry_with_light_shadow.png",
-      //~ },
-    ],
-    "Gimp and Lyx": [
-      {
-        "key": hawkAndDove[0],
-        "type": "svg",
-        "file": "gimp-3.svg",
-        "scale": "0.08",
-      },
-      {
-        "key": hawkAndDove[1],
-        "type": "svg",
-        "file": "lyx.svg",
-        "scale": "0.25",
-      },
-      {
-        "key": "food",
-        "type": "svg",
-        "file": "applications-other-3.svg",
-        "scale": "0.6",
-      },
-    ],
-    "Eagle and Doves": [
-      {
-        "key": hawkAndDove[0],
-        "type": "image",
-        "file": "animals-eagle.png",
-        "scale": "0.1",
-      },
-      {
-        "key": hawkAndDove[1],
-        "type": "image",
-        "file": "animals-doves_of_peace.png",
-        "scale": "0.1",
-      },
-      {
-        "key": "food",
-        "type": "image",
-        "file": "food-worm_in_apple.png",
-        "scale": "0.1",
-      },      
-    ],
-  };
 }

@@ -29,12 +29,12 @@ export var gData = {};
 
 for (let i = 0; i < properAlphabet.length; i++) {
   gData[properAlphabet[i]] = {
-    "s": $fx.rand(),
-    "p": $fx.rand(),
-    "e": $fx.rand(),
-    "c": $fx.rand(),
-    "i": $fx.rand(),
-    "a": $fx.rand(),
-    "l": $fx.rand(),
+    "S": $fx.rand(),
+    "P": $fx.rand(),
+    "E": $fx.rand(),
+    "C": $fx.rand(),
+    "I": $fx.rand(),
+    "A": $fx.rand(),
+    "L": $fx.rand(),
   };
 }
