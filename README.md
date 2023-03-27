@@ -1,12 +1,47 @@
-fxhash4
+Hawk Dove Game
 ===
 
+How
+---
+
 Powered by 
-[fxhash webpack boilerplate](https://github.com/fxhash/fxhash-webpack-boilerplate) 
-and [phaser.js](https://phaser.io)  
+[fxhash boilerplate](https://github.com/fxhash/fxhash-boilerplate) and 
+[phaser.js](https://phaser.io)  
 
 Generated tokens available on 
 [fx(hash)](https://www.fxhash.xyz/u/Iuri%20Guilherme)  
+
+What
+---
+
+Hawk Dove Game is an genetic algorithm using a model of conflict in game 
+theory. Some links for an in depth explanation about how the game works:  
+
+* <https://en.wikipedia.org/wiki/Chicken_(game)>
+* <https://en.wikipedia.org/wiki/Evolutionary_game_theory>
+
+Why
+---
+
+This is a Javascript implementation for use in generative NFTs. This 
+version is developed to work with 
+[fx(params)](https://www.fxhash.xyz/doc/collect/fxparams-mint-tickets).  
+
+To test the game with fx(lens) use `npm run start`. To build the project in 
+the dist/ folder for use in a web server or in the blockhain, use 
+`npm run build`.  
+
+If you don't know what "npm" is, go to `https://nodejs.org/en`  
+
+Assets licenses
+---
+
+Boy, Girl and Hearth from [css.gg](https://css.gg), 
+[MIT](https://css.gg/doc/licence).  
+
+Angel, Demon, Strawberry, Gimp, Lyx, Favorite from 
+[openiconlibrary](https://sourceforge.net/projects/openiconlibrary/), Public 
+Domain  
 
 LICENSE
 ---

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.7.0  
+ * @version 0.7.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.7.0";
+export const version = "0.7.1";
 
 $fx.params([
   {
