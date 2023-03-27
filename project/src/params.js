@@ -35,7 +35,7 @@ import {
 const minDistance = 20;
 
 export const rulesetAlgorithmMap = {
-  "1": rulesetAlgorithm1,
+  "classic": rulesetAlgorithm1,
 };
 
 export const findFoodAlgorithmMap = {

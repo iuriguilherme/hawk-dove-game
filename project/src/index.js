@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.7.4  
+ * @version 0.7.5  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,9 +23,16 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.7.4";
+export const version = "0.7.5";
 
 export var hawkAndDove = ["hawk", "dove"];
+
+import {
+  findFoodAlgorithmMap,
+  foodsPlacementAlgorithmMap,
+  rulesetAlgorithmMap,
+  subjectsPlacementAlgorithmMap,
+} from "./params.js";
 
 import {
   getSpritesThemeMap,
@@ -95,7 +102,7 @@ $fx.params([
     "name": "Ruleset (see token description)",
     "type": "select",
     "options": {
-      "options": ["1"],
+      "options": Object.keys(rulesetAlgorithmMap),
     }
   },
   {
@@ -103,11 +110,7 @@ $fx.params([
     "name": "Food finding algorithm",
     "type": "select",
     "options": {
-      "options": [
-        "random",
-        "closest",
-        "farthest",
-      ],
+      "options": Object.keys(findFoodAlgorithmMap),
     }
   },
   {
@@ -115,10 +118,7 @@ $fx.params([
     "name": "Subject placement algorithm",
     "type": "select",
     "options": {
-      "options": [
-        "circle",
-        "random",
-      ],
+      "options": Object.keys(subjectsPlacementAlgorithmMap),
     }
   },
   {
@@ -126,10 +126,7 @@ $fx.params([
     "name": "Food placement algorithm",
     "type": "select",
     "options": {
-      "options": [
-        "circle",
-        "random",
-      ],
+      "options": Object.keys(foodsPlacementAlgorithmMap),
     }
   },
   {
@@ -160,21 +157,6 @@ import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
 import Phaser from "phaser";
 
-import {
-  phaserGame,
-} from "./game.js";
-
-import {
-  fxArray,
-} from "./util.js";
-
-import {
-  findFoodAlgorithmMap,
-  foodsPlacementAlgorithmMap,
-  rulesetAlgorithmMap,
-  subjectsPlacementAlgorithmMap,
-} from "./params.js";
-
 export const initialFoodRate = $fx.getRawParam("starting_food");
 export const growthRate = $fx.getRawParam("growth_rate");
 export const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getRawParam("ruleset")];
@@ -184,36 +166,32 @@ export const subjectsPlacementAlgorithm =
   subjectsPlacementAlgorithmMap[$fx.getRawParam("subjects_placement")];
 export const foodsPlacementAlgorithm = 
   foodsPlacementAlgorithmMap[$fx.getRawParam("foods_placement")];
-hawkAndDove = [
-  $fx.getRawParam("hawk_string"),
-  $fx.getRawParam("dove_string"),
-];
+hawkAndDove = [$fx.getRawParam("hawk_string"), $fx.getRawParam("dove_string")];
 spritesThemeMap = getSpritesThemeMap(hawkAndDove);
-$fx.params($fx.getDefinitions().slice(0, -1).concat([
-  {
-    "id": "sprites_theme",
-    "name": "Sprites theme",
-    "type": "select",
-    "options": {
-      "options": Object.keys(spritesThemeMap),
-    }
-  },
-]));
+$fx.params($fx.getDefinitions().slice(0, -1).concat([{
+  "id": "sprites_theme",
+  "name": "Sprites theme",
+  "type": "select",
+  "options": {
+    "options": Object.keys(spritesThemeMap),
+  }
+}]));
 
 export const hawkAndDoveColors = [
   $fx.getParam("hawk_color").hex.rgb,
   $fx.getParam("dove_color").hex.rgb,
 ];
 export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
+
+import {
+  fxArray,
+} from "./util.js";
+
 export const startingSubjects = fxArray.length;
 
-export function updateInjection() {
-  $fx.preview();
-};
-
-export function getFxParam(param) {
-  return $fx.getRawParam(param);
-};
+import {
+  phaserGame,
+} from "./game.js";
 
 window.addEventListener("resize", phaserGame.scale.setMaxZoom());
 
