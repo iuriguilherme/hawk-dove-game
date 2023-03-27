@@ -144,6 +144,7 @@ class HawkDoveScene extends Phaser.Scene {
         "gen": 0,
       });
       s.setTexture(r);
+      //~ s.scale = spritesTheme[hawkAndDove.indexOf(r)]["scale"];
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({
