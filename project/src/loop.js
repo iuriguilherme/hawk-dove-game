@@ -99,7 +99,7 @@ export function loop(scene) {
         // TODO: Find out why hawk get stuck with one subject
         let toCreate = hawkAndDove[i];
         console.log("Creating a new " + toCreate);
-        let children = subjects.create(0, 0, toCreate.getData("r"));
+        let children = subjects.create(0, 0, toCreate);
         children.setData({
           "p": fxArray[math.floor($fx.rand() * fxArray.length)],
           "r": toCreate,
