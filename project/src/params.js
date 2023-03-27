@@ -169,7 +169,9 @@ function findFoodAlgorithm3() {
  *  If one Hawk and one Dove met, the Hawk eats all the food alone and 
  *    reproduce, while the Dove flees, surviving but not reproducing;
  *  If only one Bird finds a food, then it eats all of it and reproduce;
- *  Food suply is constant and fixed.
+ *  Food suply is constant and fixed;
+ *  If a bird is alone in it's group (only one hawk or dove), it reproduces 
+ *    once.
  */
 function rulesetAlgorithm1() {
   let s = subjects.getChildren();
