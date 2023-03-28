@@ -59,48 +59,6 @@ export var subjectsCircle;
 let data;
 let datasets;
 
-export function getAgeData() {
-  let labels = [];
-  let data = [];
-  let maxAge = 0;
-  for (let i = 0; i < subjects.getChildren().length; i++) {
-    maxAge = math.max(maxAge, subjects.getChildren()[i].getData("age"));
-  }
-  for (let j = 0; j <= maxAge; j++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData("age") == j).length;
-    if (new_data > 0) {
-      labels.push(j);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
-}
-
-export function getHawkAndDoveData() {
-  let data = [];
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    data[i] = subjects.getChildren().filter(
-      s => s.getData("r") == hawkAndDove[i]).length;
-  }
-  data.push(subjects.getChildren().length)
-  return data;
-}
-
-export function getPopulationData() {
-  let labels = [];
-  let data = [];
-  for (let i = 0; i < alphabetArray.length; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData("p") == alphabetArray[i]).length;
-    if (new_data > 0) {
-      labels.push(alphabetArray[i]);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
-}
-
 class HawkDoveScene extends Phaser.Scene {
   constructor () {
     super();
@@ -158,12 +116,12 @@ class HawkDoveScene extends Phaser.Scene {
     subjectsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
-      (this.cameras.main.height / 2.5),
+      (this.cameras.main.height / 3),
     );
     foodsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
-      (this.cameras.main.height / 4),
+      (this.cameras.main.height / 4.5),
     );
     Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
     Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
@@ -184,9 +142,10 @@ for (let i = 0; i < graphsCanvas.length; i++) {
 
 const config = {
   "type": Phaser.CANVAS,
-  //~ "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
-  "width": window.innerWidth - (window.innerHeight / 60),
+  "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
   "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
+  //~ "width": window.innerWidth - (window.innerWidth / 60),
+  //~ "height": window.innerHeight - (window.innerHeight / 60),
   "backgroundColor": "#e8e8e8",
   "canvas": gameCanvas,
   "parent": "game",
@@ -196,5 +155,48 @@ const config = {
   },
   "scene": HawkDoveScene,
 };
+
+export function getAgeData(key) {
+  let labels = [];
+  let data = [];
+  let maxAge = 0;
+  for (let i = 0; i < subjects.getChildren().length; i++) {
+    maxAge = math.max(maxAge, subjects.getChildren()[i].getData(key));
+  }
+  for (let j = 0; j <= maxAge; j++) {
+    let new_data = subjects.getChildren().filter(
+      s => s.getData(key) == j).length;
+    if (new_data > 0) {
+      labels.push(j);
+      data.push(new_data);
+    }
+  }
+  return [labels, data];
+}
+
+export function getHawkAndDoveData() {
+  let data = [];
+  for (let i = 0; i < hawkAndDove.length; i++) {
+    data[i] = subjects.getChildren().filter(
+      s => s.getData("r") == hawkAndDove[i]).length;
+  }
+  data.push(subjects.getChildren().length);
+  data.push(foods.getChildren().length);
+  return data;
+}
+
+export function getPopulationData() {
+  let labels = [];
+  let data = [];
+  for (let i = 0; i < alphabetArray.length; i++) {
+    let new_data = subjects.getChildren().filter(
+      s => s.getData("p") == alphabetArray[i]).length;
+    if (new_data > 0) {
+      labels.push(alphabetArray[i]);
+      data.push(new_data);
+    }
+  }
+  return [labels, data];
+}
 
 export const phaserGame = new Phaser.Game(config);

@@ -28,6 +28,7 @@ const math = create(all, {});
 
 import {
   getAgeData,
+  getGenData,
   getHawkAndDoveData,
   getPopulationData,
 } from "./game.js";
@@ -38,7 +39,7 @@ import {
 
 import {
   hawkAndDove,
-  hawkAndDoveColors,
+  graphColors,
 } from "./index.js";
 
 import {
@@ -50,49 +51,6 @@ let datasets;
 export var charts = {};
 
 export function createCharts() {
-  data = getPopulationData();
-  charts["population"] = new Chart(graphsCanvas[0], {
-    "type": "bar",
-    "data": {
-      "labels": data[0],
-      "datasets": [{
-        "label": "Genetic Population",
-        "data": data[1],
-        "borderWidth": 1
-      }]
-    },
-    "options": {
-      "responsive": true,
-      "maintainAspectRatio": false,
-      "scales": {
-        "y": {
-          "beginAtZero": true
-        }
-      }
-    }
-  });
-  
-  //~ charts["hawkAndDove"] = new Chart(graphsCanvas[2], {
-    //~ "type": "bar",
-    //~ "data": {
-      //~ "labels": hawkAndDove.concat(["total"]),
-      //~ "datasets": [{
-        //~ "label": "Hawk and Dove Population",
-        //~ "data": getHawkAndDoveData(),
-        //~ "borderWidth": 1
-      //~ }]
-    //~ },
-    //~ "options": {
-      //~ "responsive": true,
-      //~ "maintainAspectRatio": false,
-      //~ "scales": {
-        //~ "y": {
-          //~ "beginAtZero": true
-        //~ }
-      //~ }
-    //~ }
-  //~ });
-  
   data = getHawkAndDoveData();
   datasets = [];
   for (let i = 0; i < hawkAndDove.length; i++) {
@@ -104,14 +62,14 @@ export function createCharts() {
       "borderWidth": 0.5,
       //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
       //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
-      "backgroundColor": hawkAndDoveColors[i],
-      "borderColor": hawkAndDoveColors[i],
+      "backgroundColor": graphColors["hawkAndDove"][i],
+      "borderColor": graphColors["hawkAndDove"][i],
       "tension": 0.1
     });
   }
   datasets.push({
     "label": "total",
-    "data": [data[data.length - 1]],
+    "data": [data[data.length - 2]],
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
@@ -121,7 +79,19 @@ export function createCharts() {
     //~ "borderColor": "rgb(180, 180, 180)",
     "tension": 0.1
   });
-  charts["populationLine"] = new Chart(graphsCanvas[1], {
+  datasets.push({
+    "label": "food",
+    "data": [data[data.length - 1]],
+    "fill": false,
+    "pointStyle": false,
+    "borderWidth": 0.5,
+    "backgroundColor": "rgb(180, 30, 30)",
+    //~ "backgroundColor": "rgb(180, 180, 180)",
+    "borderColor": "rgb(180, 30, 30)",
+    //~ "borderColor": "rgb(180, 180, 180)",
+    "tension": 0.1
+  });
+  charts["populationLine"] = new Chart(graphsCanvas[0], {
     "type": "line",
     "data": {
       "labels": [iteration],
@@ -129,29 +99,99 @@ export function createCharts() {
     },
     "options": {
       "responsive": true,
-      "maintainAspectRatio": false
-    }
+      "maintainAspectRatio": true,
+    },
   });
   
-  //~ data = getAgeData();
-  //~ charts["age"] = new Chart(graphsCanvas[3], {
-    //~ "type": "bar",
-    //~ "data": {
-      //~ "labels": data[0],
+  charts["hawkAndDove"] = new Chart(graphsCanvas[1], {
+    "type": "bar",
+    "data": {
+      //~ "labels": hawkAndDove.concat(["total", "food"]),
+      "labels": ["Total individuals"],
+      "datasets": datasets,
       //~ "datasets": [{
-        //~ "label": "Age",
-        //~ "data": data[1],
+        //~ "label": "Hawk and Dove Population",
+        //~ "data": data,
         //~ "borderWidth": 1
       //~ }]
-    //~ },
-    //~ "options": {
-      //~ "responsive": true,
-      //~ "maintainAspectRatio": false,
-      //~ "scales": {
-        //~ "y": {
-          //~ "beginAtZero": true
-        //~ }
-      //~ }
-    //~ }
-  //~ });
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": true,
+      "scales": {
+        "y": {
+          "beginAtZero": true,
+        },
+      },
+    },
+  });
+  
+  data = getAgeData("age");
+  charts["age"] = new Chart(graphsCanvas[2], {
+    "type": "bar",
+    "data": {
+      "labels": data[0],
+      "datasets": [{
+        "label": "individuals at age #",
+        "data": data[1],
+        "borderWidth": 1,
+        "backgroundColor": graphColors["age"],
+      }]
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": true,
+      "scales": {
+        "y": {
+          "beginAtZero": true,
+        },
+      },
+    },
+  });
+
+  data = getAgeData("gen");
+  charts["gen"] = new Chart(graphsCanvas[3], {
+    "type": "bar",
+    "data": {
+      "labels": data[0],
+      "datasets": [{
+        "label": "individuals from generation #",
+        "data": data[1],
+        "borderWidth": 1,
+        "backgroundColor": graphColors["gen"],
+      }],
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": true,
+      "scales": {
+        "y": {
+          "beginAtZero": true,
+        },
+      },
+    },
+  });
+  
+  data = getPopulationData();
+  charts["population"] = new Chart(graphsCanvas[4], {
+    "type": "bar",
+    "data": {
+      "labels": data[0],
+      "datasets": [{
+        "label": "Genetic Population",
+        "data": data[1],
+        "borderWidth": 1,
+        "backgroundColor": graphColors["population"],
+      }]
+    },
+    "options": {
+      "responsive": true,
+      "maintainAspectRatio": true,
+      "scales": {
+        "y": {
+          "beginAtZero": true
+        }
+      },
+    },
+  });
 }

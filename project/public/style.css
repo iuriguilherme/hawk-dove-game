@@ -87,6 +87,7 @@ canvas {
 }
 */
 
+/*
 .gameCol,
 .graphCol,
 .graphSmallCol
@@ -95,48 +96,53 @@ canvas {
 .gameDiv
 {
   margin: 0 auto;
+  padding: 0 auto;
+  display: grid;
+  float: left;
+}
+*/
+
+.gameCanvas,
+.gameCol,
+.gameDiv,
+.graphCanvas,
+.graphCol
+.graphDiv,
+.graphRow,
+.graphsCol,
+.graphSmallCol,
+.graphSmallDiv
+{
+  margin: 0 auto;
 /*
   padding: 0 auto;
 */
   display: grid;
   float: left;
+  max-width: 100%;
+  height: auto;
+}
+/*
+
+.graphCol
+.graphRow,
+.graphsCol,
+.graphSmallCol
+{
 }
 
-.gameCol,
+.graphCanvas,
+.graphDiv,
+.graphSmallDiv
 {
   max-width: 100%;
 }
-
-/*
-.graphDiv,
-.graphCanvas,
 */
-.graphCol
-{
-  max-width: 50%;
-}
 
-.graphSmallCol,
-.graphSmallDiv
-{
-  max-width: 25%;
-}
-
-.graphCol,
-.graphSmallCol,
-.gameDiv,
-.graphDiv,
-.graphSmallDiv
-.graphCanvas,
 .gameCanvas
 {
-/*
-  width: 100%;
-*/
-/*
-  width: auto;
-*/
-  height: auto;
+  position: absolute;
+  top: 0;
 }
 
 /*

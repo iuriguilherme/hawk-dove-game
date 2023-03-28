@@ -21,10 +21,10 @@
  * 
  */
 
-const graphs = 4;
-const graphsRows = 3;
-const graphsBig = 2;
-const graphsSmall = 2;
+const graphs = 5;
+const graphsRows = 1;
+const graphsBig = 5;
+const graphsSmall = 0;
 const containerDiv = document.createElement("div");
 const containerRow = document.createElement("div");
 const graphsCol = document.createElement("div");
@@ -80,7 +80,7 @@ for (let i = 0; i < graphsBig; i++) {
   graphsCanvas.push(graphCanvas);
   graphsDivs.push(graphDiv);
 }
-//~ for (let i = graphsBig; i < graphsRows; i++) {
+//~ for (let i = graphsBig; i < graphsRows + graphsBig; i++) {
   //~ let graphRow = document.createElement("div");
   //~ graphRow.className = "row graphSmallRow";
   //~ graphsCol.appendChild(graphRow);
