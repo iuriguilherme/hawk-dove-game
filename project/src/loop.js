@@ -34,6 +34,7 @@ import {
 
 import {
   findFoodAlgorithm,
+  foodName,
   foodsPlacementAlgorithm,
   growthRate,
   hawkAndDove,
@@ -203,7 +204,7 @@ export function loop(scene) {
     subjectsPlacementAlgorithm();
       
     if ($fx.rand() < moreFood * 1e-2) {
-      foods.create(0, 0, "food");
+      foods.create(0, 0, foodName);
       console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFood * 1e-2) {
@@ -225,7 +226,6 @@ export function loop(scene) {
 }
 
 function createNew(key) {
-  console.log(`[${name} v${version}]: Creating a new ${key}`);
   let children = subjects.create(0, 0, key);
   children.setData({
     "p": fxArray[math.floor($fx.rand() * fxArray.length)],
@@ -239,6 +239,8 @@ function createNew(key) {
     "gen": 0,
   });
   children.setTexture(key);
+  console.log(`[${name} v${version}]: Creating a new ${key}`,
+    `(${subjects.getChildren().length})`);
 }
 
 function endGame(scene, i, data, cause) {

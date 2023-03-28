@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.8.0  
+ * @version 0.8.2  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,11 +23,15 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.8.0";
+export const version = "0.8.2";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
 import Phaser from "phaser";
+
+import {
+  phaserGame,
+} from "./game.js";
 
 import {
   findFoodAlgorithmMap,
@@ -40,9 +44,14 @@ import {
   getSpritesThemeMap,
 } from "./sprites.js";
 
-export var hawkAndDove = ["hawk", "dove"];
+import {
+  fxArray,
+} from "./util.js";
 
-let spritesThemeMap = getSpritesThemeMap(hawkAndDove);
+export var hawkAndDove = ["hawk", "dove"];
+export var foodName = "food";
+
+let spritesThemeMap = getSpritesThemeMap(hawkAndDove, foodName);
 
 $fx.params([
   {
@@ -90,8 +99,8 @@ $fx.params([
     },
   },
   {
-    "id": "more_food_chance",
-    "name": "Chance to create new food",
+    "id": "less_food_chance",
+    "name": "Chance to destroy one food",
     "type": "number",
     "default": 1,
     "options": {
@@ -101,8 +110,8 @@ $fx.params([
     },
   },
   {
-    "id": "less_food_chance",
-    "name": "Chance to destroy one food",
+    "id": "more_food_chance",
+    "name": "Chance to create new food",
     "type": "number",
     "default": 1,
     "options": {
@@ -179,6 +188,16 @@ $fx.params([
     },
   },
   {
+    "id": "food_string",
+    "name": "Food label",
+    "type": "string",
+    "default": "food",
+    "options": {
+      "minLength": 1,
+      "maxLength": 16,
+    },
+  },
+  {
     "id": "infinite",
     "name": "Keep simulating (no game over)",
     "type": "boolean",
@@ -227,12 +246,6 @@ $fx.params([
 ]);
 
 $fx.features({
-  //~ "A random feature": Math.floor($fx.rand() * 10),
-  //~ "A random boolean": $fx.rand() > 0.5,
-  //~ "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand()*4)),
-  //~ "Feature from params, its a number": $fx.getParam("number_id"),
-  "Ruleset": $fx.getParam("ruleset"),
-  "Sprites theme": $fx.getParam("sprites_theme"),
   "Starting individuals": $fx.getParam("starting_subjects"),
   "Reproduction multiplier": $fx.getParam("growth_rate"),
   "Longevity": $fx.getParam("max_age"),
@@ -241,33 +254,35 @@ $fx.features({
   "Food creation chance": $fx.getParam("more_food_chance") + "%",
   "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
   "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
+  "Infinite generation": $fx.getParam("infinite"),
+  "Ruleset": $fx.getParam("ruleset"),
+  "Food finding algorithm": $fx.getParam("food_find"),
   "Subject placement algorithm": $fx.getParam("subjects_placement"),
   "Food placement algorithm": $fx.getParam("foods_placement"),
-  "Food finding algorithm": $fx.getParam("food_find"),
-  "Infinite generation": $fx.getParam("infinite"),
+  "Sprites theme": $fx.getParam("sprites_theme"),
 });
 
 //~ export const startingSubjects = fxArray.length;
 export const startingSubjects = $fx.getParam("starting_subjects");
-export const initialFoodRate = $fx.getRawParam("starting_food");
-export const growthRate = $fx.getRawParam("growth_rate");
-export const maxAge = $fx.getRawParam("max_age");
-export const moreDove = $fx.getRawParam("more_dove_chance");
-export const moreFood = $fx.getRawParam("more_food_chance");
-export const moreHawk = $fx.getRawParam("more_hawk_chance");
-export const lessFood = $fx.getRawParam("less_food_chance");
-export const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getRawParam("ruleset")];
+export const initialFoodRate = $fx.getParam("starting_food");
+export const growthRate = $fx.getParam("growth_rate");
+export const maxAge = $fx.getParam("max_age");
+export const moreDove = $fx.getParam("more_dove_chance");
+export const moreFood = $fx.getParam("more_food_chance");
+export const moreHawk = $fx.getParam("more_hawk_chance");
+export const lessFood = $fx.getParam("less_food_chance");
+export const rulesetAlgorithm = rulesetAlgorithmMap[$fx.getParam("ruleset")];
 export const findFoodAlgorithm = 
-  findFoodAlgorithmMap[$fx.getRawParam("food_find")];
+  findFoodAlgorithmMap[$fx.getParam("food_find")];
 export const subjectsPlacementAlgorithm = 
-  subjectsPlacementAlgorithmMap[$fx.getRawParam("subjects_placement")];
+  subjectsPlacementAlgorithmMap[$fx.getParam("subjects_placement")];
 export const foodsPlacementAlgorithm = 
-  foodsPlacementAlgorithmMap[$fx.getRawParam("foods_placement")];
-hawkAndDove = [$fx.getRawParam("hawk_string"), $fx.getRawParam("dove_string")];
-spritesThemeMap = getSpritesThemeMap(hawkAndDove);
+  foodsPlacementAlgorithmMap[$fx.getParam("foods_placement")];
+hawkAndDove = [$fx.getParam("hawk_string"), $fx.getParam("dove_string")];
+foodName = $fx.getParam("food_string");
+spritesThemeMap = getSpritesThemeMap(hawkAndDove, foodName);
 
-$fx.params($fx.getDefinitions().slice(0,
-  $fx.getDefinitions().indexOf($fx.getRawParam("sprites_theme"))).concat([{
+$fx.params($fx.getDefinitions().slice(0, -1).concat([{
   "id": "sprites_theme",
   "name": "Sprites theme",
   "type": "select",
@@ -275,7 +290,6 @@ $fx.params($fx.getDefinitions().slice(0,
     "options": Object.keys(spritesThemeMap),
   }
 }]));
-
 export const graphColors = {
   "hawkAndDove": [
     $fx.getParam("hawk_color").hex.rgb,
@@ -285,25 +299,10 @@ export const graphColors = {
   "age": $fx.getParam("age_color").hex.rgb,
   "gen": $fx.getParam("gen_color").hex.rgb,
 };
-export const spritesTheme = spritesThemeMap[$fx.getRawParam("sprites_theme")];
-
-import {
-  fxArray,
-} from "./util.js";
-
-import {
-  phaserGame,
-} from "./game.js";
-
-window.addEventListener("resize", phaserGame.scale.setMaxZoom());
-
-document.body.style.background = "#e8e8e8";
+export const spritesTheme = spritesThemeMap[$fx.getParam("sprites_theme")];
 
 console.log(
   `[${name} v${version}]:\nfx(hash): ${fxhashTrunc}\n`,
-  `fx(params) Current ruleset: ${$fx.getParam("ruleset")} `,
-  `(${rulesetAlgorithm.name})\n`,
-  `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}\n`,
   `fx(params) Starting individuals: ${$fx.getParam("starting_subjects")}%\n`,
   `fx(params) Reproduction multiplier: ${$fx.getParam("growth_rate")}\n`,
   `fx(params) Longevity: ${$fx.getParam("max_age")}\n`,
@@ -312,6 +311,9 @@ console.log(
   `fx(params) Chance of new food: ${$fx.getParam("more_food_chance")}%\n`,
   `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
+  `fx(params) Keep simulating: ${$fx.getParam("infinite")}\n`,
+  `fx(params) Current ruleset: ${$fx.getParam("ruleset")} `,
+  `(${rulesetAlgorithm.name})\n`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")} `,
   `(${findFoodAlgorithm.name})\n`,
   `fx(params) Subject placing algorithm: `,
@@ -319,7 +321,11 @@ console.log(
   `(${subjectsPlacementAlgorithm.name})\n`,
   `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")} `,
   `(${foodsPlacementAlgorithm.name})\n`,
-  `fx(params) Keep simulating: ${$fx.getParam("infinite")}\n`,
+  `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}\n`,
 );
+
+window.addEventListener("resize", phaserGame.scale.setMaxZoom());
+
+document.body.style.background = "#e8e8e8";
 
 console.log(`[${name} v${version}] fully loaded and working properly!`);

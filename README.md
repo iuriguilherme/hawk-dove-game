@@ -36,15 +36,58 @@ the dist/ folder for use in a web server or in the blockhain, use
 
 If you don't know what "npm" is, go to `https://nodejs.org/en`  
 
-Assets licenses
+ASSETS LICENSE
 ---
 
-Boy, Girl and Hearth from [css.gg](https://css.gg), 
-[MIT](https://css.gg/doc/licence).  
+From [css.gg](https://css.gg), [MIT](https://css.gg/doc/licence):  
 
-Angel, Demon, Strawberry, Gimp, Lyx, Favorite from 
-[openiconlibrary](https://sourceforge.net/projects/openiconlibrary/), Public 
-Domain  
+* block.svg
+* boy.svg
+* girl.svg
+* heart.svg
+* swiss.svg
+* yinyang.svg
+
+From 
+[openiconlibrary](https://sourceforge.net/projects/openiconlibrary/), 
+Public Domain:  
+
+* animals-ant.png
+* animals-bear.png
+* animals-beaver.png
+* animals-black_widow.png
+* animals-blowfish.png
+* animals-butterfly.png
+* animals-crow.png
+* animals-doves_of_peace.png
+* animals-eagle.png
+* animals-elephant.png
+* animals-goat.png
+* animals-hornet.png
+* animals-hummingbird.png
+* animals-octopus.png
+* animals-owl.png
+* animals-penguin.png
+* animals-whale.png
+* applications-other-3.svg
+* emblem-favorite-2.svg
+* face-angel-2.svg
+* face-devilish-2.svg
+* food-blackberry.png
+* food-grapes.png
+* food-kiwi.png
+* food-worm_in_apple.png
+* gimp-3.svg
+* licenses-cc-nd-no_derivatives.svg
+* licenses-kopimi.png
+* linux_distribution-debian.png
+* lyx.svg
+* plant-acorn.png
+* plant-flower-apple_blossom.png
+* plant-leaf.png
+* text-x-generic.svg
+* text-x-python.svg
+* windows.png
 
 LICENSE
 ---

@@ -132,7 +132,7 @@ export function createCharts() {
     "data": {
       "labels": data[0],
       "datasets": [{
-        "label": "individuals at age #",
+        "label": "Individuals at age #",
         "data": data[1],
         "borderWidth": 1,
         "backgroundColor": graphColors["age"],
@@ -155,7 +155,7 @@ export function createCharts() {
     "data": {
       "labels": data[0],
       "datasets": [{
-        "label": "individuals from generation #",
+        "label": "Individuals from generation #",
         "data": data[1],
         "borderWidth": 1,
         "backgroundColor": graphColors["gen"],
@@ -178,7 +178,7 @@ export function createCharts() {
     "data": {
       "labels": data[0],
       "datasets": [{
-        "label": "Genetic Population",
+        "label": "Genetic population",
         "data": data[1],
         "borderWidth": 1,
         "backgroundColor": graphColors["population"],

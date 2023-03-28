@@ -35,6 +35,7 @@ import {
 
 import {
   hawkAndDove,
+  foodName,
   initialFoodRate,
   name,
   spritesTheme,
@@ -83,7 +84,7 @@ class HawkDoveScene extends Phaser.Scene {
       "repeat": startingSubjects,
     });
     foods = this.add.group({
-      "key": "food",
+      "key": foodName,
       "repeat": (startingSubjects * initialFoodRate) / 1e2,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
