@@ -90,7 +90,7 @@ export function loop(scene) {
     charts["age"].data.datasets[0].data = data[1];
     charts["age"].update();
     
-    data = getAgeData("gen");
+    data = getAgeData("generation");
     charts["generation"].data.labels = data[0];
     charts["generation"].data.datasets[0].data = data[1];
     charts["generation"].update();
@@ -109,6 +109,7 @@ export function loop(scene) {
     updatePopulationChart("hawkAndDove");
     //~ updatePopulationMovingChartCompat("population");
     updatePopulationMovingChart("population");
+    //~ updatePopulationMovingChartHack("population");
     //~ let key = "population";
     //~ data = getPopulationDataCompat();
     //~ for (let i = 0; i < charts[key].data.datasets.length; i++) {
@@ -137,7 +138,7 @@ export function loop(scene) {
       if (data[hawkAndDove[i]] < 1) {
         let reason = `${hawkAndDove[i]} population reached zero at ` +
           `iteration ${iteration}`;
-        console.log(`[${name} v${version}]: ${reason}`);
+        //~ console.log(`[${name} v${version}]: ${reason}`);
         endGame(scene, i, reason);
         return;
       }
@@ -158,8 +159,8 @@ export function loop(scene) {
       let toCheck = s[i];
       if (maxAge > 0) {
         if (toCheck.getData("age") > maxAge) {
-          console.log(`[${name} v${version}]: One ${toCheck.getData("r")} died`,
-            `of old age`);
+          //~ console.log(`[${name} v${version}]: One`,
+            //~ `${toCheck.getData("strategy")} died of old age`);
           toCheck.setData({"dead": true});
         }
       }
@@ -175,25 +176,25 @@ export function loop(scene) {
     for (let i = 0; i < toReproduce.length; i++) {
       for (let j = 0; j < growthRate; j++) {
         let parent = toReproduce[i];
-        let children = subjects.create(0, 0, parent.getData("r"));
+        let children = subjects.create(0, 0, parent.getData("strategy"));
         children.setData({
           "waiting": true,
           "eating": false,
           "fleeing": false,
           "dead": false,
           "strong": false,
-          "p": parent.getData("p"),
-          "r": parent.getData("r"),
+          "gene": parent.getData("gene"),
+          "strategy": parent.getData("strategy"),
           "age": 0,
-          "gen": parent.getData("gen") + 1,
+          "generation": parent.getData("generation") + 1,
         });
-        children.setTexture(parent.getData("r"));
+        children.setTexture(parent.getData("strategy"));
       }
     }
     
     if (s.length  == 0) {
       let reason = `all population reached zero at iteration ${iteration}`;
-      console.log(`[${name} v${version}]: ${reason}`);
+      //~ console.log(`[${name} v${version}]: ${reason}`);
       endGame(scene, 0, reason);
       return;
     }
@@ -208,7 +209,7 @@ export function loop(scene) {
         "strong": false,
         "age": toReset.getData("age") + 1,
       });
-      toReset.setTexture(toReset.getData("r"));
+      toReset.setTexture(toReset.getData("strategy"));
     }
     
     if ($fx.rand() < moreHawk * 1e-2) {
@@ -223,11 +224,11 @@ export function loop(scene) {
       
     if ($fx.rand() < moreFood * 1e-2) {
       foods.create(0, 0, foodName);
-      console.log(`[${name} v${version}]: Creating one food (${f.length})`);
+      //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFood * 1e-2) {
       foods.getChildren()[0].destroy();
-      console.log(`[${name} v${version}]: Destroying one food (${f.length})`);
+      //~ console.log(`[${name} v${version}]: Destroying one food (${f.length})`);
     }
     for (let i = 0; i < f.length; i++) {
       f[i].setData({
@@ -246,19 +247,19 @@ export function loop(scene) {
 function createNew(key) {
   let children = subjects.create(0, 0, key);
   children.setData({
-    "p": fxArray[math.floor($fx.rand() * fxArray.length)],
-    "r": key,
+    "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
+    "strategy": key,
     "waiting": true,
     "eating": false,
     "fleeing": false,
     "dead": false,
     "strong": false,
     "age": 0,
-    "gen": 0,
+    "generation": 0,
   });
   children.setTexture(key);
-  console.log(`[${name} v${version}]: Creating a new ${key}`,
-    `(${getPopulationData()[key]})`);
+  //~ console.log(`[${name} v${version}]: Creating a new ${key}`,
+    //~ `(${getPopulationData()[key]})`);
 }
 
 function updatePopulationChart(key) {
@@ -283,6 +284,28 @@ function updatePopulationMovingChart(key) {
   charts[key].update();
 }
 
+function updatePopulationMovingChartHack(key) {
+  data = getPopulationData();
+  charts[key].data.labels.push(iteration);
+  for (let i = 0; i < charts[key].data.labels.length; i++) {
+    charts[key].data.datasets[0].data.push(
+      data["total"]
+      //~ $fx.rand() * 99
+    );
+    charts[key].data.datasets[1].data.push(
+      data[foodName]
+      //~ $fx.rand() * 99
+    );
+    for (let i = 0; i < hawkAndDove.length; i++) {
+      charts[key].data.datasets[i + 2].data.push(
+        data[hawkAndDove[i]]
+        //~ $fx.rand() * 99
+      );
+    }
+  }
+  charts[key].update();
+}
+
 function updatePopulationMovingChartCompat(key) {
   data = getPopulationDataCompat();
   for (let i = 0; i < charts[key].data.datasets.length; i++) {
@@ -292,7 +315,7 @@ function updatePopulationMovingChartCompat(key) {
   charts[key].update();
 }
 
-function getAgeData(key) {
+export function getAgeData(key) {
   let labels = [];
   let data = [];
   let limit = 0;
@@ -316,28 +339,28 @@ function getPopulationDataCompat() {
   data.push(foods.getChildren().length);
   for (let i = 0; i < hawkAndDove.length; i++) {
     data[i] = subjects.getChildren().filter(
-      s => s.getData("r") == hawkAndDove[i]).length;
+      s => s.getData("strategy") == hawkAndDove[i]).length;
   }
   return data;
 }
 
-function getPopulationData() {
+export function getPopulationData() {
   let data = {};
   data["total"] = subjects.getChildren().length;
   data[foodName] = foods.getChildren().length;
   for (let i = 0; i < hawkAndDove.length; i++) {
     data[hawkAndDove[i]] = subjects.getChildren().filter(
-      s => s.getData("r") == hawkAndDove[i]).length;
+      s => s.getData("strategy") == hawkAndDove[i]).length;
   }
   return data;
 }
 
-function getGeneticData() {
+export function getGeneticData() {
   let labels = [];
   let data = [];
   for (let i = 0; i < alphabetArray.length; i++) {
     let new_data = subjects.getChildren().filter(
-      s => s.getData("p") == alphabetArray[i]).length;
+      s => s.getData("gene") == alphabetArray[i]).length;
     if (new_data > 0) {
       labels.push(alphabetArray[i]);
       data.push(new_data);
@@ -407,9 +430,9 @@ function endGame(scene, i, cause) {
     geneWinnerN = math.max(geneticData[1]);
     geneWinner = geneticData[0][geneticData[1].indexOf(geneWinnerN)];
     for (let j = 0; j < s.length; j++) {
-      if (s[j].getData("p") == geneWinner) {
+      if (s[j].getData("gene") == geneWinner) {
         geneWinners["ages"].push(s[j].getData("age"));
-        geneWinners["gens"].push(s[j].getData("gen"));
+        geneWinners["gens"].push(s[j].getData("generation"));
       }
     }
   } else {

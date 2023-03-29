@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.8.2  
+ * @version 0.9.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.9.0";
+export const version = "0.9.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -102,7 +102,7 @@ $fx.params([
     "id": "less_food_chance",
     "name": "Chance to destroy one food",
     "type": "number",
-    "default": 1,
+    "default": 0,
     "options": {
       "min": 0,
       "max": 100,
@@ -113,7 +113,7 @@ $fx.params([
     "id": "more_food_chance",
     "name": "Chance to create new food",
     "type": "number",
-    "default": 1,
+    "default": 0,
     "options": {
       "min": 0,
       "max": 100,
@@ -124,7 +124,7 @@ $fx.params([
     "id": "more_dove_chance",
     "name": "Chance to spawn new dove",
     "type": "number",
-    "default": 1,
+    "default": 0,
     "options": {
       "min": 0,
       "max": 100,
@@ -135,7 +135,7 @@ $fx.params([
     "id": "more_hawk_chance",
     "name": "Chance to spawn new hawk",
     "type": "number",
-    "default": 1,
+    "default": 0,
     "options": {
       "min": 0,
       "max": 100,
@@ -301,7 +301,7 @@ export const graphColors = {
   ],
   "population": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,
-  "gen": $fx.getParam("gen_color").hex.rgb,
+  "generation": $fx.getParam("gen_color").hex.rgb,
 };
 export const spritesTheme = spritesThemeMap[$fx.getParam("sprites_theme")];
 

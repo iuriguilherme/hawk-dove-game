@@ -26,12 +26,11 @@ import { create, all } from "mathjs";
 const math = create(all, {});
 //~ import Plotly from "plotly.js-dist-min";
 
-//~ import {
-  //~ getAgeData,
-  //~ getGenData,
-  //~ getPopulationData,
-  //~ getGeneticData,
-//~ } from "./game.js";
+import {
+  getAgeData,
+  getPopulationData,
+  getGeneticData,
+} from "./loop.js";
 
 import {
   graphsCanvas,
@@ -48,11 +47,11 @@ let datasets;
 export var charts = {};
 
 export function createCharts() {
-  //~ data = getPopulationData();
+  data = getPopulationData();
   datasets = [];
   datasets.push({
     "label": "total",
-    "data": [],
+    "data": [data["total"]],
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
@@ -64,7 +63,7 @@ export function createCharts() {
   });
   datasets.push({
     "label": foodName,
-    "data": [],
+    "data": [data[foodName]],
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
@@ -77,7 +76,7 @@ export function createCharts() {
   for (let i = 0; i < hawkAndDove.length; i++) {
     datasets.push({
       "label": hawkAndDove[i],
-      "data": [],
+      "data": [data[hawkAndDove[i]]],
       "fill": false,
       "pointStyle": false,
       //~ "borderWidth": 0.5,
@@ -152,7 +151,7 @@ export function createCharts() {
     },
   });
 
-  //~ data = getAgeData("gen");
+  //~ data = getAgeData("generation");
   charts["generation"] = new Chart(graphsCanvas[3], {
     "type": "bar",
     "data": {
@@ -161,7 +160,7 @@ export function createCharts() {
         "label": "Individuals from generation #",
         "data": [],
         "borderWidth": 1,
-        "backgroundColor": graphColors["gen"],
+        "backgroundColor": graphColors["generation"],
       }],
     },
     "options": {

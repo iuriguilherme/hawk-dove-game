@@ -63,9 +63,9 @@ export function rulesetAlgorithm4() {
       //~ console.log("left populated");
       if (f[i].getData("rightBusy")) {
         //~ console.log("right populated");
-        if (s[f[i].getData("leftBusy")].getData("r") == hawkAndDove[0]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == hawkAndDove[0]) {
           //~ console.log("left is hawk");
-          if (s[f[i].getData("rightBusy")].getData("r") == hawkAndDove[0]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == hawkAndDove[0]) {
             //~ console.log("left and right two hawks. both die...");
             s[f[i].getData("rightBusy")].setData({
               "dead": true,
@@ -94,7 +94,7 @@ export function rulesetAlgorithm4() {
           }
         } else {
           //~ console.log("left is dove");
-          if (s[f[i].getData("rightBusy")].getData("r") == hawkAndDove[0]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == hawkAndDove[0]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
@@ -118,7 +118,7 @@ export function rulesetAlgorithm4() {
         }
       } else {
         //~ console.log("no one on right");
-        if (s[f[i].getData("leftBusy")].getData("r") == hawkAndDove[0]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == hawkAndDove[0]) {
           //~ console.log("left is hawk, hawk alone");
           s[f[i].getData("leftBusy")].setData({
             "strong": true,
@@ -135,7 +135,7 @@ export function rulesetAlgorithm4() {
     } else {
       //~ console.log("no one on left");
       if (f[i].getData("rightBusy")) {
-        if (s[f[i].getData("rightBusy")].getData("r")) {
+        if (s[f[i].getData("rightBusy")].getData("strategy")) {
           //~ console.log("right is hawk, hawk alone");
           s[f[i].getData("rightBusy")].setData({
             "strong": true,
@@ -155,7 +155,7 @@ export function rulesetAlgorithm4() {
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("r")} died of`,
+    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")} died of`,
       //~ `hunger`);
     if (s[i].getData("eating")) {
       s[i].setData({

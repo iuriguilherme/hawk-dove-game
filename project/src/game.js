@@ -89,21 +89,21 @@ class HawkDoveScene extends Phaser.Scene {
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let s = subjects.getChildren()[i];
-      let r = hawkAndDove[math.floor($fx.rand() * hawkAndDove.length)];
-      let p = fxArray[math.floor($fx.rand() * fxArray.length)];
+      let strategy = hawkAndDove[math.floor($fx.rand() * hawkAndDove.length)];
+      let gene = fxArray[math.floor($fx.rand() * fxArray.length)];
       s.setData({
-        "p": p,
-        "r": r,
+        "gene": gene,
+        "strategy": strategy,
         "waiting": true,
         "eating": false,
         "fleeing": false,
         "dead": false,
         "strong": false,
         "age": 0,
-        "gen": 0,
+        "generation": 0,
       });
-      s.setTexture(r);
-      //~ s.scale = spritesTheme[hawkAndDove.indexOf(r)]["scale"];
+      s.setTexture(strategy);
+      //~ s.scale = spritesTheme[hawkAndDove.indexOf(strategy)]["scale"];
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({
