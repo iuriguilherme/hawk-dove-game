@@ -56,8 +56,8 @@ import {
 import {
   subjects,
   foods,
-  subjectsCircle,
-  foodsCircle,
+  //~ subjectsCircle,
+  //~ foodsCircle,
 } from "./game.js";
 
 import {
@@ -298,20 +298,6 @@ function getSimpleData(key) {
     }
   }
   return data;
-}
-
-export function getNestedDataCompat(key, array) {
-  let labels = [];
-  let data = [];
-  for (let i = 0; i < array.length; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData(key) == array[i]).length;
-    if (new_data > 0) {
-      labels.push(array[i]);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
 }
 
 function getNestedData(key, array) {
