@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.9.1  
+ * @version 0.9.2  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.9.1";
+export const version = "0.9.2";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
