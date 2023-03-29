@@ -25,7 +25,7 @@ import { rulesetAlgorithm1 } from "./rulesets/ruleset1.js";
 import { rulesetAlgorithm2 } from "./rulesets/ruleset2.js";
 import { rulesetAlgorithm3 } from "./rulesets/ruleset3.js";
 import { rulesetAlgorithm4 } from "./rulesets/ruleset4.js";
-import { rulesetAlgorithm5 } from "./rulesets/ruleset5.js";
+//~ import { rulesetAlgorithm5 } from "./rulesets/ruleset5.js";
 
 export const rulesetAlgorithmMap = {
   "classic": rulesetAlgorithm1,

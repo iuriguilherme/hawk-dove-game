@@ -74,9 +74,9 @@ export const getSpritesTheme = function(key) {
   return spritesThemeMap[key];
 }
 
-export const getDynamicParams = function(dynamicParams) {
-  strategiesMap = getStrategiesMap(dynamicParams);
-  spritesThemeMap = getSpritesThemeMap(dynamicParams);
+export const getDynamicParams = function(keys) {
+  strategiesMap = getStrategiesMap(keys);
+  spritesThemeMap = getSpritesThemeMap(keys);
   return [
     {
       "id": "strategies",

@@ -21,7 +21,6 @@
  * 
  */
 
-export const getStrategiesMap = function(strings) {
-  let hawkAndDove = strings["hawkAndDove"];
+export const getStrategiesMap = function(keys) {
   return {"hereditary": "hereditary"};
 }

@@ -38,16 +38,15 @@ import {
 
 import {
   findFoodAlgorithm,
-  foodName,
   foodsPlacementAlgorithm,
   growthRate,
-  hawkAndDove,
   lessFood,
   maxAge,
   moreDove,
   moreFood,
   moreHawk,
   name,
+  names,
   rulesetAlgorithm,
   subjectsPlacementAlgorithm,
   updateInjection,
@@ -59,10 +58,6 @@ import {
   foods,
   subjectsCircle,
   foodsCircle,
-  //~ getAgeData,
-  //~ getGeneticData,
-  //~ getPopulationData,
-  //~ getPopulationDataCompat,
 } from "./game.js";
 
 import {
@@ -80,71 +75,31 @@ export function loop(scene) {
     let s = subjects.getChildren();
     let f = foods.getChildren();
     
-    data = getGeneticData();
-    charts["genetic"].data.labels = data[0];
-    charts["genetic"].data.datasets[0].data = data[1];
+    data = getNestedData("gene", alphabetArray);
+    charts["genetic"].data.labels = data["labels"];
+    charts["genetic"].data.datasets[0].data = data["data"];
     charts["genetic"].update();
     
-    data = getAgeData("age");
-    charts["age"].data.labels = data[0];
-    charts["age"].data.datasets[0].data = data[1];
-    charts["age"].update();
-    
-    data = getAgeData("generation");
-    charts["generation"].data.labels = data[0];
-    charts["generation"].data.datasets[0].data = data[1];
-    charts["generation"].update();
+    updateNestedBarChart("genetic", "gene", alphabetArray)
+    updateSimpleBarChart("age");
+    updateSimpleBarChart("generation");
+    updatePopulationChart("hawkAndDove");
+    updatePopulationMovingChart("population");
     
     data = getPopulationData();
-    
-    //~ charts["population"].data.labels.push(iteration);
-    //~ charts["population"].data.datasets[0].data.push(data["total"]);
-    //~ charts["population"].data.datasets[1].data.push(data[foodName]);
-    //~ for (let i = 2; i < (hawkAndDove.length + 2); i++) {
-      //~ charts["population"].data.datasets[i].data.push(
-        //~ data[hawkAndDove[i - 2]]);
-    //~ }
-    //~ charts["population"].update();
-    
-    updatePopulationChart("hawkAndDove");
-    //~ updatePopulationMovingChartCompat("population");
-    updatePopulationMovingChart("population");
-    //~ updatePopulationMovingChartHack("population");
-    //~ let key = "population";
-    //~ data = getPopulationDataCompat();
-    //~ for (let i = 0; i < charts[key].data.datasets.length; i++) {
-      //~ charts[key].data.datasets[i].data.push(data[i]);
-    //~ }
-    //~ charts[key].data.labels.push(iteration);
-    //~ console.log(charts[key].data);
-    //~ charts[key].update();
-    //~ data = getPopulationData();
-    //~ charts["population"].data.labels.push(iteration);
-    //~ charts["population"].data.labels.push(data["total"]);
-    //~ charts["population"].data.datasets[0].data.concat([data["total"]]);
-    //~ charts["population"].data.datasets[1].data = [data[foodName]];
-    //~ for (let i = 0; i < hawkAndDove.length; i++) {
-      //~ charts["population"].data.datasets[i + 2].data = [data[hawkAndDove[i]]];
-    //~ }
-    //~ charts["population"].data.datasets.forEach((dataset) => {
-        //~ dataset.data.push(data["total"]);
-    //~ });
-    //~ console.log(charts["population"].data.datasets);
-    //~ charts["population"].update();
-    
-    // Tests game over at iteration 10
-    //~ if (iteration == 10) {data[1] = 0;}
-    for (let i = 0; i < hawkAndDove.length; i++) {
-      if (data[hawkAndDove[i]] < 1) {
-        let reason = `${hawkAndDove[i]} population reached zero at ` +
+    //~ // Tests game over at iteration 10
+    //~ if (iteration == 10) {data[names[1]] = 0;}
+    for (let i = 1; i < names.length; i++) {
+      if (data[names[i]] < 1) {
+        let reason = `${names[i]} population reached zero at ` +
           `iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
-        endGame(scene, i, reason);
+        endGame(scene, reason);
         return;
       }
-      else if (data[hawkAndDove[i]] < 2) {
+      else if (data[names[i]] < 2) {
         // TODO: Find out why hawk get stuck with one subject at classic ruleset
-        createNew(hawkAndDove[i]);
+        createNew(names[i]);
       }
     }
     
@@ -195,7 +150,7 @@ export function loop(scene) {
     if (s.length  == 0) {
       let reason = `all population reached zero at iteration ${iteration}`;
       //~ console.log(`[${name} v${version}]: ${reason}`);
-      endGame(scene, 0, reason);
+      endGame(scene, reason);
       return;
     }
     
@@ -213,17 +168,17 @@ export function loop(scene) {
     }
     
     if ($fx.rand() < moreHawk * 1e-2) {
-      createNew("hawk");
+      createNew(names[1]);
     }
     
     if ($fx.rand() < moreDove * 1e-2) {
-      createNew("dove");
+      createNew(names[2]);
     }
     
     subjectsPlacementAlgorithm();
       
     if ($fx.rand() < moreFood * 1e-2) {
-      foods.create(0, 0, foodName);
+      foods.create(0, 0, names[0]);
       //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFood * 1e-2) {
@@ -262,24 +217,37 @@ function createNew(key) {
     //~ `(${getPopulationData()[key]})`);
 }
 
+function updateSimpleBarChart(key) {
+  data = getSimpleData(key);
+  charts[key].data.labels = data["labels"];
+  charts[key].data.datasets[0].data = data["data"];
+  charts[key].update();
+}
+
+function updateNestedBarChart(chart, key, array) {
+  data = getNestedData(key, array);
+  charts[chart].data.labels = data["labels"];
+  charts[chart].data.datasets[0].data = data["data"];
+  charts[chart].update();
+}
+
 function updatePopulationChart(key) {
   data = getPopulationData();
   charts[key].data.datasets[0].data = [data["total"]];
-  charts[key].data.datasets[1].data = [data[foodName]];
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    charts[key].data.datasets[i + 2].data = [data[hawkAndDove[i]]];
+  charts[key].data.datasets[1].data = [data[names[0]]];
+  for (let i = 1; i < names.length; i++) {
+    charts[key].data.datasets[i + 1].data = [data[names[i]]];
   }
   charts[key].update();
 }
 
 function updatePopulationMovingChart(key) {
   data = getPopulationData();
-  //~ console.log(data);
   charts[key].data.labels.push(iteration);
   charts[key].data.datasets[0].data.push(data["total"]);
-  charts[key].data.datasets[1].data.push(data[foodName]);
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    charts[key].data.datasets[i + 2].data.push(data[hawkAndDove[i]]);
+  charts[key].data.datasets[1].data.push(data[names[0]]);
+  for (let i = 1; i < names.length; i++) {
+    charts[key].data.datasets[i].data.push(data[names[i]]);
   }
   charts[key].update();
 }
@@ -293,12 +261,12 @@ function updatePopulationMovingChartHack(key) {
       //~ $fx.rand() * 99
     );
     charts[key].data.datasets[1].data.push(
-      data[foodName]
+      data[names[0]]
       //~ $fx.rand() * 99
     );
-    for (let i = 0; i < hawkAndDove.length; i++) {
-      charts[key].data.datasets[i + 2].data.push(
-        data[hawkAndDove[i]]
+    for (let i = 1; i < names.length; i++) {
+      charts[key].data.datasets[i + 1].data.push(
+        data[names[i]]
         //~ $fx.rand() * 99
       );
     }
@@ -315,65 +283,83 @@ function updatePopulationMovingChartCompat(key) {
   charts[key].update();
 }
 
-export function getAgeData(key) {
-  let labels = [];
-  let data = [];
+function getSimpleData(key) {
+  let data = {"data": [], "labels": []};
   let limit = 0;
   for (let i = 0; i < subjects.getChildren().length; i++) {
     limit = math.max(limit, subjects.getChildren()[i].getData(key));
   }
-  for (let j = 0; j <= limit; j++) {
+  for (let i = 0; i <= limit; i++) {
     let new_data = subjects.getChildren().filter(
-      s => s.getData(key) == j).length;
+      s => s.getData(key) == i).length;
     if (new_data > 0) {
-      labels.push(j);
+      data["labels"].push(i);
+      data["data"].push(new_data);
+    }
+  }
+  return data;
+}
+
+export function getNestedDataCompat(key, array) {
+  let labels = [];
+  let data = [];
+  for (let i = 0; i < array.length; i++) {
+    let new_data = subjects.getChildren().filter(
+      s => s.getData(key) == array[i]).length;
+    if (new_data > 0) {
+      labels.push(array[i]);
       data.push(new_data);
     }
   }
   return [labels, data];
+}
+
+function getNestedData(key, array) {
+  let data = {"data": [], "labels": []};
+  for (let i = 0; i < array.length; i++) {
+    let new_data = subjects.getChildren().filter(
+      s => s.getData(key) == array[i]).length;
+    if (new_data > 0) {
+      data["labels"].push(array[i]);
+      data["data"].push(new_data);
+    }
+  }
+  return data;
 }
 
 function getPopulationDataCompat() {
   let data = [];
   data.push(subjects.getChildren().length);
   data.push(foods.getChildren().length);
-  for (let i = 0; i < hawkAndDove.length; i++) {
+  for (let i = 1; i < names.length; i++) {
     data[i] = subjects.getChildren().filter(
-      s => s.getData("strategy") == hawkAndDove[i]).length;
+      s => s.getData("strategy") == names[i]).length;
   }
   return data;
 }
 
-export function getPopulationData() {
+function getPopulationData() {
   let data = {};
   data["total"] = subjects.getChildren().length;
-  data[foodName] = foods.getChildren().length;
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    data[hawkAndDove[i]] = subjects.getChildren().filter(
-      s => s.getData("strategy") == hawkAndDove[i]).length;
+  data[names[0]] = foods.getChildren().length;
+  for (let i = 1; i < names.length; i++) {
+    data[names[i]] = subjects.getChildren().filter(
+      s => s.getData("strategy") == names[i]).length;
   }
   return data;
 }
 
-export function getGeneticData() {
-  let labels = [];
-  let data = [];
-  for (let i = 0; i < alphabetArray.length; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData("gene") == alphabetArray[i]).length;
-    if (new_data > 0) {
-      labels.push(alphabetArray[i]);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
-}
-
-function endGame(scene, i, cause) {
-  let geneticData = getGeneticData();
+function endGame(scene, cause) {
+  let geneticData = getNestedData("gene", alphabetArray);
   let populationData = getPopulationData();
   let s = subjects.getChildren();
   let f = foods.getChildren();
+  
+  updateNestedBarChart("genetic", "gene", alphabetArray);
+  updatePopulationChart("hawkAndDove");
+  updateSimpleBarChart("age");
+  updateSimpleBarChart("generation");
+  
   scene.add.text(
     15,
     30,
@@ -385,11 +371,11 @@ function endGame(scene, i, cause) {
       "align": "center"
     }
   );
-  for (let j = 0; j < hawkAndDove.length; j++) {
+  for (let i = 1; i < names.length; i++) {
     scene.add.text(
       15,
-      30 * (j + 2),
-      `${hawkAndDove[j]} population: ${populationData[hawkAndDove[j]]}`,
+      30 * (i + 2),
+      `${names[i]} population: ${populationData[names[i]]}`,
       {
         "fontSize": "2em",
         "fill": "#121212",
@@ -400,7 +386,7 @@ function endGame(scene, i, cause) {
   }
   scene.add.text(
     15,
-    30 * (hawkAndDove.length + 2),
+    30 * (names.length + 2),
     `total population: ${populationData["total"]}`,
     {
       "fontSize": "2em",
@@ -411,8 +397,8 @@ function endGame(scene, i, cause) {
   );
   scene.add.text(
     15,
-    30 * (hawkAndDove.length + 3),
-    `remaining ${foodName}: ${populationData[foodName]}`,
+    30 * (names.length + 3),
+    `remaining ${names[0]}: ${populationData[names[0]]}`,
     {
       "fontSize": "2em",
       "fill": "#121212",
@@ -420,28 +406,27 @@ function endGame(scene, i, cause) {
       "align": "center"
     }
   );
+  
   let geneWinner, geneWinnerN;
   let geneWinners = {"ages": [], "gens": []};
-  charts["genetic"].data.labels = geneticData[0];
-  charts["genetic"].data.datasets[0].data = geneticData[1];
-  charts["genetic"].update();
-  updatePopulationChart("hawkAndDove");
-  if (geneticData[1].length > 0) {
-    geneWinnerN = math.max(geneticData[1]);
-    geneWinner = geneticData[0][geneticData[1].indexOf(geneWinnerN)];
-    for (let j = 0; j < s.length; j++) {
-      if (s[j].getData("gene") == geneWinner) {
-        geneWinners["ages"].push(s[j].getData("age"));
-        geneWinners["gens"].push(s[j].getData("generation"));
+  if (geneticData["data"].length > 0) {
+    geneWinnerN = math.max(geneticData["data"]);
+    geneWinner = geneticData["labels"][geneticData["data"].indexOf(
+      geneWinnerN)];
+    for (let i = 0; i < s.length; i++) {
+      if (s[i].getData("gene") == geneWinner) {
+        geneWinners["ages"].push(s[i].getData("age"));
+        geneWinners["gens"].push(s[i].getData("generation"));
       }
     }
   } else {
     geneWinner = "None";
   }
+  
   if (geneWinner != "None") {
     scene.add.text(
       15,
-      30 * (hawkAndDove.length + 4),
+      30 * (names.length + 4),
       `highest genetic pool: \#${geneWinner} (${geneWinnerN} individuals)`,
       {
         "fontSize": "2em",
@@ -452,7 +437,7 @@ function endGame(scene, i, cause) {
     );
     scene.add.text(
       15,
-      30 * (hawkAndDove.length + 5),
+      30 * (names.length + 5),
       `highest age from all \#${geneWinner}: ${math.max(geneWinners["ages"])}`,
       {
         "fontSize": "2em",
@@ -463,7 +448,7 @@ function endGame(scene, i, cause) {
     );
     scene.add.text(
       15,
-      30 * (hawkAndDove.length + 6),
+      30 * (names.length + 6),
       `oldest generation from all \#${geneWinner}: ` + 
         `${math.min(geneWinners["gens"])}`,
       {
@@ -475,7 +460,7 @@ function endGame(scene, i, cause) {
     );
     scene.add.text(
       15,
-      30 * (hawkAndDove.length + 7),
+      30 * (names.length + 7),
       `newest generation from all \#${geneWinner}: ` + 
         `${math.max(geneWinners["gens"])}`,
       {
@@ -485,15 +470,12 @@ function endGame(scene, i, cause) {
         "align": "left"
       }
     );
-    let keys = Object.keys(gData[geneWinner]);
-    let attrs = [];
-    for (let j = 0; j < keys.length; j++) {
-      attrs.push(`${keys[j]}: ${gData[geneWinner][keys[j]]}`);
-    }
+    let attrs = Object.entries(gData[geneWinner]).map(
+      ([k, v]) => `${k}: ${v}`).join("\n\t");
     scene.add.text(
       15,
-      30 * (hawkAndDove.length + 8),
-      `genetic attributes for \#${geneWinner}:\n${attrs.join('\n')}`,
+      30 * (names.length + 8),
+      `genetic attributes for \#${geneWinner}:\n\t${attrs}`,
       {
         "fontSize": "2em",
         "fill": "#121212",

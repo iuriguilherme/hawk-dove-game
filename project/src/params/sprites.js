@@ -21,25 +21,23 @@
  * 
  */
 
-export const getSpritesThemeMap = function(strings) {
-  let hawkAndDove = strings["hawkAndDove"];
-  let foodName = strings["foodName"];
+export const getSpritesThemeMap = function(keys) {
   return {
     "Boys, Girls & Hearths": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "svg",
         "file": "boy.svg",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "svg",
         "file": "girl.svg",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "svg",
         "file": "heart.svg",
         "scale": "1.0",
@@ -47,19 +45,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Devils, Angels & Hearths": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "svg",
         "file": "face-devilish-2.svg",
         "scale": "0.5",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "svg",
         "file": "face-angel-2.svg",
         "scale": "0.5",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "svg",
         "file": "emblem-favorite-2.svg",
         "scale": "0.5",
@@ -67,19 +65,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Gimps, Lyxes & Files": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "svg",
         "file": "gimp-3.svg",
         "scale": "0.08",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "svg",
         "file": "lyx.svg",
         "scale": "0.25",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "svg",
         "file": "applications-other-3.svg",
         "scale": "0.6",
@@ -87,19 +85,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Eagles, Doves & Apples": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-eagle.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-doves_of_peace.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "food-worm_in_apple.png",
         "scale": "1.0",
@@ -107,19 +105,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Spiders, Ants & Leaves": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-black_widow.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-ant.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "plant-leaf.png",
         "scale": "1.0",
@@ -127,19 +125,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Hornet, Butterfly & Flowers": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-hornet.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-butterfly.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "plant-flower-apple_blossom.png",
         "scale": "1.0",
@@ -147,19 +145,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Crow, Hummingbird & Blackberries": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-crow.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-hummingbird.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "food-blackberry.png",
         "scale": "1.0",
@@ -167,19 +165,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Octopuses, Whales & Blowfishes": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-octopus.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-whale.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "animals-blowfish.png",
         "scale": "1.0",
@@ -187,19 +185,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Bears, Beavers & Acorns": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-bear.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-beaver.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "plant-acorn.png",
         "scale": "1.0",
@@ -207,19 +205,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Goats, Elephants & Kiwis": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-goat.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-elephant.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "food-kiwi.png",
         "scale": "1.0",
@@ -227,19 +225,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Owls, Penguins & Grapes": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "animals-owl.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "animals-penguin.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "image",
         "file": "food-grapes.png",
         "scale": "1.0",
@@ -247,19 +245,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Windows, Debian & Files": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "image",
         "file": "windows.png",
         "scale": "1.0",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "linux_distribution-debian.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "svg",
         "file": "text-x-generic.svg",
         "scale": "0.6",
@@ -267,19 +265,19 @@ export const getSpritesThemeMap = function(strings) {
     ],
     "Proprietary, Kopimi & Code": [
       {
-        "key": hawkAndDove[0],
+        "key": keys[1],
         "type": "svg",
         "file": "licenses-cc-nd-no_derivatives.svg",
         "scale": "0.5",
       },
       {
-        "key": hawkAndDove[1],
+        "key": keys[2],
         "type": "image",
         "file": "licenses-kopimi.png",
         "scale": "1.0",
       },
       {
-        "key": foodName,
+        "key": keys[0],
         "type": "svg",
         "file": "text-x-python.svg",
         "scale": "0.6",

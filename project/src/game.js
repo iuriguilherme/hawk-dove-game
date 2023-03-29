@@ -34,10 +34,9 @@ import {
 } from "./html.js";
 
 import {
-  hawkAndDove,
-  foodName,
   initialFoodRate,
   name,
+  names,
   spritesTheme,
   startingSubjects,
   version,
@@ -48,7 +47,6 @@ import {
 } from "./loop.js";
 
 import {
-  //~ alphabetArray,
   fxArray,
 } from "./util.js";
 
@@ -82,16 +80,16 @@ class HawkDoveScene extends Phaser.Scene {
     // TODO create new Phaser.ObjectGroup etc. and add the subjects 
     //  dinamically without these cryptic gimmicks
     subjects = this.add.group({
-      "key": "hawk",
+      "key": names[1],
       "repeat": startingSubjects - 1,
     });
     foods = this.add.group({
-      "key": foodName,
+      "key": names[0],
       "repeat": ((startingSubjects * initialFoodRate) / 1e2) - 1,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let s = subjects.getChildren()[i];
-      let strategy = hawkAndDove[math.floor($fx.rand() * hawkAndDove.length)];
+      let strategy = names[math.max(1, math.floor($fx.rand() * names.length))];
       let gene = fxArray[math.floor($fx.rand() * fxArray.length)];
       s.setData({
         "gene": gene,
@@ -105,7 +103,7 @@ class HawkDoveScene extends Phaser.Scene {
         "generation": 0,
       });
       s.setTexture(strategy);
-      //~ s.scale = spritesTheme[hawkAndDove.indexOf(strategy)]["scale"];
+      //~ s.scale = spritesTheme[names.indexOf(strategy)]["scale"];
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.10.0  
+ * @version 0.10.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.10.0";
+export const version = "0.10.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -71,18 +71,17 @@ export const subjectsPlacementAlgorithm =
 export const foodsPlacementAlgorithm = 
   getFoodsPlacementAlgorithm($fx.getParam("foods_placement"));
 
-export const hawkAndDove = [
+export const names = [
+  $fx.getParam("food_string"),
   $fx.getParam("hawk_string"),
   $fx.getParam("dove_string"),
 ];
-export const foodName = $fx.getParam("food_string");
-let dynamicParams = {"hawkAndDove": hawkAndDove, "foodName": foodName};
-$fx.params($fx.getDefinitions().concat(getDynamicParams(dynamicParams)));
+$fx.params($fx.getDefinitions().concat(getDynamicParams(names)));
 export const graphColors = {
-  "hawkAndDove": [
-    $fx.getParam("hawk_color").hex.rgb,
-    $fx.getParam("dove_color").hex.rgb,
-  ],
+  "hawkAndDove": {
+    [names[1]]: $fx.getParam("hawk_color").hex.rgb,
+    [names[2]]: $fx.getParam("dove_color").hex.rgb,
+  },
   "population": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,
   "generation": $fx.getParam("gen_color").hex.rgb,
