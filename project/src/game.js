@@ -21,8 +21,8 @@
  * 
  */
 
-import { create, all } from "mathjs";
-const math = create(all, {});
+import { create as mcreate, all as mall } from "mathjs";
+const math = mcreate(mall, {});
 import Phaser from "phaser";
 
 import {
@@ -79,6 +79,8 @@ class HawkDoveScene extends Phaser.Scene {
     this.load.svg("fleeing", "swiss.svg");
   }
   create () {
+    // TODO create new Phaser.ObjectGroup etc. and add the subjects 
+    //  dinamically without these cryptic gimmicks
     subjects = this.add.group({
       "key": "hawk",
       "repeat": startingSubjects - 1,
@@ -111,9 +113,9 @@ class HawkDoveScene extends Phaser.Scene {
         "rightBusy": false,
       });
     }
-    console.log(`[${name} v${version}] created ` +
-`${subjects.getChildren().length} subjects and ${foods.getChildren().length} ` +
-`foods.`);
+    //~ console.log(`[${name} v${version}] created`,
+      //~ `${subjects.getChildren().length} subjects and`,
+      //~ `${foods.getChildren().length} foods.`);
     subjectsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,

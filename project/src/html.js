@@ -57,7 +57,7 @@ document.body.appendChild(containerDiv);
 containerDiv.appendChild(containerRow);
 containerRow.appendChild(graphsCol);
 export var graphsCanvas = [];
-let graphsDivs = [];
+export var graphsDivs = [];
 for (let i = 0; i < graphsBig; i++) {
   let graphRow = document.createElement("div");
   let graphCol = document.createElement("div");

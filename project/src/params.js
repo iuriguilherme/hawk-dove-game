@@ -32,35 +32,261 @@ import {
   foodsCircle,
 } from "./game.js";
 
-import { rulesetAlgorithm1 } from "./rulesets/ruleset1.js";
-import { rulesetAlgorithm2 } from "./rulesets/ruleset2.js";
-import { rulesetAlgorithm3 } from "./rulesets/ruleset3.js";
-import { rulesetAlgorithm4 } from "./rulesets/ruleset4.js";
+import { findFoodAlgorithmMap } from "./params/findFood.js";
+import { rulesetAlgorithmMap } from "./params/rulesets.js";
+import { getStrategiesMap } from "./params/strategies.js";
+import { getSpritesThemeMap } from "./params/sprites.js";
 
-const minDistance = 20;
-
-export const rulesetAlgorithmMap = {
-  "classic": rulesetAlgorithm1,
-  "classic + starvation": rulesetAlgorithm2,
-  "primer #1": rulesetAlgorithm3,
-  "primer #1 + starvation": rulesetAlgorithm4,
-};
-
-export const findFoodAlgorithmMap = {
-  "random": findFoodAlgorithm1,
-  "closest": findFoodAlgorithm2,
-  "farthest": findFoodAlgorithm3,
-};
-
-export const subjectsPlacementAlgorithmMap = {
+const subjectsPlacementAlgorithmMap = {
   "circle": subjectsPlacementAlgorithm1,
   "random": subjectsPlacementAlgorithm2,
 };
 
-export const foodsPlacementAlgorithmMap = {
+const foodsPlacementAlgorithmMap = {
   "circle": foodsPlacementAlgorithm1,
   "random": foodsPlacementAlgorithm2,
 };
+
+let spritesThemeMap;
+let strategiesMap;
+
+export const getFindFoodAlgorithm = function(key) {
+  return findFoodAlgorithmMap[key];
+}
+
+export const getRulesetAlgorithm = function(key) {
+  return rulesetAlgorithmMap[key];
+}
+
+export const getFoodsPlacementAlgorithm = function(key) {
+  return foodsPlacementAlgorithmMap[key];
+}
+
+export const getSubjectsPlacementAlgorithm = function(key) {
+  return subjectsPlacementAlgorithmMap[key];
+}
+
+export const getStrategies = function(key) {
+  return strategiesMap[key];
+}
+
+export const getSpritesTheme = function(key) {
+  return spritesThemeMap[key];
+}
+
+export const getDynamicParams = function(dynamicParams) {
+  strategiesMap = getStrategiesMap(dynamicParams);
+  spritesThemeMap = getSpritesThemeMap(dynamicParams);
+  return [
+    {
+      "id": "strategies",
+      "name": "Available strategies",
+      "type": "select",
+      "default": "hereditary",
+      "options": {
+        "options": Object.keys(strategiesMap),
+      },
+    },
+    {
+      "id": "sprites_theme",
+      "name": "Sprites theme",
+      "type": "select",
+      "options": {
+        "options": Object.keys(spritesThemeMap),
+      }
+    },
+  ];
+}
+
+export const getStaticParams = function () {
+  return [
+      {
+      "id": "starting_subjects",
+      "name": "Starting individuals",
+      "type": "number",
+      "default": 58,
+      "options": {
+        "min": 1,
+        "max": 174,
+        "step": 1,
+      },
+    },
+    {
+      "id": "growth_rate",
+      "name": "Reproduction multiplier",
+      "type": "number",
+      "default": 1,
+      "options": {
+        "min": 0,
+        "max": 10,
+        "step": 1,
+      },
+    },
+    {
+      "id": "max_age",
+      "name": "Longevity (max age) (zero is infinite)",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 10000,
+        "step": 100,
+      },
+    },
+    {
+      "id": "starting_food",
+      "name": "Starting food (relative to population)",
+      "type": "number",
+      "default": 100,
+      "options": {
+        "min": 0,
+        "max": 200,
+        "step": 1,
+      },
+    },
+    {
+      "id": "less_food_chance",
+      "name": "Chance to destroy one food",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+      },
+    },
+    {
+      "id": "more_food_chance",
+      "name": "Chance to create new food",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+      },
+    },
+    {
+      "id": "more_dove_chance",
+      "name": "Chance to spawn new dove",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+      },
+    },
+    {
+      "id": "more_hawk_chance",
+      "name": "Chance to spawn new hawk",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+      },
+    },
+    {
+      id: "hawk_color",
+      name: "Hawk graph color",
+      type: "color",
+    },
+    {
+      id: "dove_color",
+      name: "Dove graph color",
+      type: "color",
+    },
+    {
+      id: "age_color",
+      name: "Age graph color",
+      type: "color",
+    },
+    {
+      id: "gen_color",
+      name: "Generation graph color",
+      type: "color",
+    },
+    {
+      id: "population_color",
+      name: "Population graph color",
+      type: "color",
+    },
+    {
+      "id": "hawk_string",
+      "name": "Hawk label",
+      "type": "string",
+      "default": "hawk",
+      "options": {
+        "minLength": 1,
+        "maxLength": 24,
+      },
+    },
+    {
+      "id": "dove_string",
+      "name": "Dove label",
+      "type": "string",
+      "default": "dove",
+      "options": {
+        "minLength": 1,
+        "maxLength": 24,
+      },
+    },
+    {
+      "id": "food_string",
+      "name": "Food label",
+      "type": "string",
+      "default": "food",
+      "options": {
+        "minLength": 1,
+        "maxLength": 16,
+      },
+    },
+    {
+      "id": "infinite",
+      "name": "Keep simulating (no game over)",
+      "type": "boolean",
+      "default": false,
+    },
+    {
+      "id": "ruleset",
+      "name": "Ruleset (see token description)",
+      "type": "select",
+      "default": "classic",
+      "options": {
+        "options": Object.keys(rulesetAlgorithmMap),
+      },
+    },
+    {
+      "id": "food_find",
+      "name": "Food finding algorithm",
+      "type": "select",
+      "default": "random",
+      "options": {
+        "options": Object.keys(findFoodAlgorithmMap),
+      },
+    },
+    {
+      "id": "subjects_placement",
+      "name": "Subject placement algorithm",
+      "type": "select",
+      "default": "circle",
+      "options": {
+        "options": Object.keys(subjectsPlacementAlgorithmMap),
+      },
+    },
+    {
+      "id": "foods_placement",
+      "name": "Food placement algorithm",
+      "type": "select",
+      "default": "circle",
+      "options": {
+        "options": Object.keys(foodsPlacementAlgorithmMap),
+      },
+    },
+  ];
+}
 
 /*
  * @description Subject placement method 1:
@@ -93,80 +319,4 @@ function foodsPlacementAlgorithm1() {
  */
 function foodsPlacementAlgorithm2() {
   Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
-}
-
-function findFoodAlgorithmMain(selection) {
-  let s = subjects.getChildren();
-  let f = foods.getChildren();
-  let distances = [];
-  for (let i = 0; i < s.length; i++) {
-    distances[i] = [];
-    for (let j = 0; j < f.length; j++) {
-      distances[i][j] = Phaser.Math.Distance.Between(
-        s[i].x, s[i].y, f[j].x, f[j].y);
-    }
-    while (s[i].getData("waiting")) {
-      if (distances[i].length == 0) {
-        s[i].setData({
-          "dead": true,
-          "waiting": false,
-        });
-        break;
-      }
-      let metrics = {
-        //~ "random_old": distances[i].indexOf(math.pickRandom(distances[i])),
-        "random": distances[i].indexOf(distances[i][math.floor($fx.rand() * 
-          distances[i].length)]),
-        "closest": distances[i].indexOf(math.min(distances[i])),
-        "farthest": distances[i].indexOf(math.max(distances[i])),
-      };
-      let foodMap = {
-        "random": f[metrics["random"]],
-        "closest": f[metrics["closest"]],
-        "farthest": f[metrics["farthest"]],
-      };
-      let currentFood = foodMap[selection];
-      let currentMetric = metrics[selection];
-      if (currentFood.getData("leftBusy")) {
-        if (currentFood.getData("rightBusy")) {
-          distances[i].splice(currentMetric, 1);
-        } else {
-          s[i].x = currentFood.x + minDistance;
-          s[i].y = currentFood.y - minDistance;
-          currentFood.setData({"rightBusy": i});
-          s[i].setData({"waiting": false, "eating": true});
-        }
-      } else {
-        s[i].x = currentFood.x - minDistance;
-        s[i].y = currentFood.y - minDistance;
-        currentFood.setData({"leftBusy": i});
-        s[i].setData({"waiting": false, "eating": true});
-      }
-    }
-  }
-}
-
-/*
- * @description Food finding method 1:
- *    Subject looks for a random free food until they find it, or an infinte 
- *    loop is reached.  
- */
-function findFoodAlgorithm1() {
-  findFoodAlgorithmMain("random");
-}
-
-/*
- * @description Food finding method 2:
- *    Subject looks for the closest free food.  
- */
-function findFoodAlgorithm2() {
-  findFoodAlgorithmMain("closest");
-}
-
-/*
- * @description Food finding method 3:
- *    Subject looks for the farthest free food.  
- */
-function findFoodAlgorithm3() {
-  findFoodAlgorithmMain("farthest");
 }

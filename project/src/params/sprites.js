@@ -21,7 +21,9 @@
  * 
  */
 
-export function getSpritesThemeMap(hawkAndDove, foodName) {
+export const getSpritesThemeMap = function(strings) {
+  let hawkAndDove = strings["hawkAndDove"];
+  let foodName = strings["foodName"];
   return {
     "Boys, Girls & Hearths": [
       {

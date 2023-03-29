@@ -1,5 +1,5 @@
 /**
- * @file ruleset2.js Classic ruleset with starvation for Hawk Dove Game  
+ * @file ruleset5.js Strategist: Pure dove for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -27,30 +27,24 @@ const math = create(all, {});
 import {
   subjects,
   foods,
-} from "../game.js";
+} from "../../game.js";
 
 import {
   hawkAndDove,
   name,
   version,
-} from "../index.js";
+} from "../../index.js";
 
 /*
- * @description Ruleset 2:
- * If two Hawks met, one of them eats all the food and reproduce, while the 
- *  other one dies;
- * If two Doves met, they share the food and don't reproduce;
- * If one Hawk and one Dove met, the Hawk eats all the food alone and 
- *  reproduce, while the Dove flees, surviving but not reproducing;
- * If only one Bird finds a food, then it eats all of it and reproduce;
- * Food suply is constant and fixed;
- * If a bird is alone in it's group (only one hawk or dove), it reproduces 
- *  once.
- * In the end, the ones which don't find a food die. This is removed from 
- *  ruleset 1 because it creates an infinite hawk loop.
- * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
+ * @description Ruleset 5:
+ * This uses the classic ruleset with starvation described on Ruleset #2;
+ * However this one is different because the subjects are able to choose a 
+ *  strategy instead of getting stuck with the one they have been born with;
+ * This version uses the Pure dove strategy as described on Primer Youtube 
+ *  channel;
+ * https://youtu.be/YNMkADpvO4w?t=51
  */
-export function rulesetAlgorithm2() {
+export function rulesetAlgorithm5() {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {

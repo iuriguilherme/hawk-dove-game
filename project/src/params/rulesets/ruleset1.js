@@ -1,5 +1,5 @@
 /**
- * @file ruleset3.js Primer ruleset #1 for Hawk Dove Game  
+ * @file ruleset1.js Classic ruleset for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -27,32 +27,28 @@ const math = create(all, {});
 import {
   subjects,
   foods,
-} from "../game.js";
+} from "../../game.js";
 
 import {
   hawkAndDove,
   name,
   version,
-} from "../index.js";
+} from "../../index.js";
 
 /*
- * @description Ruleset 3:
- * Youtube channel Primer defines that eating 100% of the food is needed for 
- *  reproduction and 50% is needed for survival. If a bird gets 25% of the 
- *  food, it'll have a 50% chance of surival, and if it gets 75% of the food,
- *  it has 50% chance of reproduction;
- * If a Hawk and a Dove meet, the Dove will have 50% chance of survival, while 
- *  the Hawk will have 100% chance of survival and 50% chance of reproduction,
- *  because the Hawk will eat 75% of the food, and the Dove will eat 25%;
- * If two Hawks meet, both have 0% chance of survival, because they will fight,
- *  wasting all energy and whatever food they eat is irrelevant;
- * If two Doves meet, they both have 100% chance of survival and 0% of chance 
- *  of reproduction, because both will share the food equally;
- * If a Hawk or a Dove finds a food alone, they have 100% of chance of 
- *  reproduction, because they'll eat all the food alone;
- * https://youtu.be/YNMkADpvO4w?t=89
+ * @description Ruleset 1:
+ * If two Hawks met, one of them eats all the food and reproduce, while the 
+ *  other one dies;
+ * If two Doves met, they share the food and don't reproduce;
+ * If one Hawk and one Dove met, the Hawk eats all the food alone and 
+ *  reproduce, while the Dove flees, surviving but not reproducing;
+ * If only one Bird finds a food, then it eats all of it and reproduce;
+ * Food suply is constant and fixed;
+ * If a bird is alone in it's group (only one hawk or dove), it reproduces 
+ *  once.
+ * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
  */
-export function rulesetAlgorithm3() {
+export function rulesetAlgorithm1() {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
@@ -64,54 +60,67 @@ export function rulesetAlgorithm3() {
         if (s[f[i].getData("leftBusy")].getData("strategy") == hawkAndDove[0]) {
           //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("strategy") == hawkAndDove[0]) {
-            //~ console.log("left and right two hawks. both die...");
-            s[f[i].getData("rightBusy")].setData({
-              "dead": true,
-              "eating": false,
-            });
-            s[f[i].getData("leftBusy")].setData({
-              "dead": true,
-              "eating": false,
-            });
+            //~ console.log("left and right two hawks. will fight...");
+            if (math.floor($fx.rand() * 2)) {
+              //~ console.log("left hawk wins");
+              s[f[i].getData("rightBusy")].setData({
+                "dead": true,
+                "eating": false
+              });
+              //~ s[f[i].getData("rightBusy")].setTexture("dead");
+              s[f[i].getData("leftBusy")].setData({
+                "strong": true,
+                "eating": false
+              });
+              //~ s[f[i].getData("leftBusy")].setTexture("strong");
+            } else {
+              //~ console.log("right hawk wins");
+              s[f[i].getData("leftBusy")].setData({
+                "dead": true,
+                "eating": false
+              });
+              //~ s[f[i].getData("leftBusy")].setTexture("dead");
+              s[f[i].getData("rightBusy")].setData({
+                "strong": true,
+                "eating": false
+              });
+              //~ s[f[i].getData("rightBusy")].setTexture("strong");
+            }
           } else {
             //~ console.log("right is dove, hawk and dove");
-            s[f[i].getData("leftBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
-              s[f[i].getData("leftBusy")].setData({"strong": true});
-            }
+            s[f[i].getData("leftBusy")].setData({
+              "strong": true,
+              "eating": false
+            });
+            //~ s[f[i].getData("leftBusy")].setTexture("strong");
             s[f[i].getData("rightBusy")].setData({
               "fleeing": true,
-              "eating": false,
+              "eating": false
             });
-            if ($fx.rand() > 0.5) {
-              s[f[i].getData("rightBusy")].setData({
-                "fleeing": false,
-                "dead": true,
-              });
-            }
+            //~ s[f[i].getData("rightBusy")].setTexture("fleeing");
           }
         } else {
           //~ console.log("left is dove");
           if (s[f[i].getData("rightBusy")].getData("strategy") == hawkAndDove[0]) {
             //~ console.log("right is hawk, dove and hawk");
-            s[f[i].getData("rightBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
-              s[f[i].getData("rightBusy")].setData({"strong": true});
-            }
             s[f[i].getData("leftBusy")].setData({
               "fleeing": true,
-              "eating": false,
+              "eating": false
             });
-            if ($fx.rand() > 0.5) {
-              s[f[i].getData("leftBusy")].setData({
-                "fleeing": false,
-                "dead": true,
-              });
-            }
+            //~ s[f[i].getData("leftBusy")].setTexture("fleeing");
+            s[f[i].getData("rightBusy")].setData({
+              "strong": true,
+              "eating": false
+            });
+            //~ s[f[i].getData("rightBusy")].setTexture("strong");
           } else {
             //~ console.log("right is dove, dove and dove");
-            s[f[i].getData("leftBusy")].setData({"eating": false});
-            s[f[i].getData("rightBusy")].setData({"eating": false});
+            s[f[i].getData("leftBusy")].setData({
+              "eating": false
+            });
+            s[f[i].getData("rightBusy")].setData({
+              "eating": false
+            });
           }
         }
       } else {
@@ -122,12 +131,14 @@ export function rulesetAlgorithm3() {
             "strong": true,
             "eating": false
           });
+          //~ s[f[i].getData("leftBusy")].setTexture("strong");
         } else {
           //~ console.log("left is dove, dove alone");
           s[f[i].getData("leftBusy")].setData({
             "strong": true,
             "eating": false
           });
+          //~ s[f[i].getData("leftBusy")].setTexture("strong");
         }
       }
     } else {
@@ -139,12 +150,14 @@ export function rulesetAlgorithm3() {
             "strong": true,
             "eating": false
           });
+          //~ s[f[i].getData("rightBusy")].setTexture("strong");
         } else {
           //~ console.log("right is dove, dove alone");
           s[f[i].getData("rightBusy")].setData({
             "strong": true,
             "eating": false
           });
+          //~ s[f[i].getData("rightBusy")].setTexture("strong");
         }
       } else {
         //~ console.log("Food is alone");
@@ -152,14 +165,4 @@ export function rulesetAlgorithm3() {
       }
     }
   }
-  //~ for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")} died of`,
-      //~ `hunger`);
-    //~ if (s[i].getData("eating")) {
-      //~ s[i].setData({
-        //~ "dead": true,
-        //~ "eating": false
-      //~ });
-    //~ }
-  //~ }
 }
