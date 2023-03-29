@@ -48,7 +48,7 @@ import {
 } from "./loop.js";
 
 import {
-  alphabetArray,
+  //~ alphabetArray,
   fxArray,
 } from "./util.js";
 
@@ -81,11 +81,11 @@ class HawkDoveScene extends Phaser.Scene {
   create () {
     subjects = this.add.group({
       "key": "hawk",
-      "repeat": startingSubjects,
+      "repeat": startingSubjects - 1,
     });
     foods = this.add.group({
       "key": foodName,
-      "repeat": (startingSubjects * initialFoodRate) / 1e2,
+      "repeat": ((startingSubjects * initialFoodRate) / 1e2) - 1,
     });
     for (let i = 0; i < subjects.getChildren().length; i++) {
       let s = subjects.getChildren()[i];
@@ -156,48 +156,5 @@ const config = {
   },
   "scene": HawkDoveScene,
 };
-
-export function getAgeData(key) {
-  let labels = [];
-  let data = [];
-  let maxAge = 0;
-  for (let i = 0; i < subjects.getChildren().length; i++) {
-    maxAge = math.max(maxAge, subjects.getChildren()[i].getData(key));
-  }
-  for (let j = 0; j <= maxAge; j++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData(key) == j).length;
-    if (new_data > 0) {
-      labels.push(j);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
-}
-
-export function getHawkAndDoveData() {
-  let data = [];
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    data[i] = subjects.getChildren().filter(
-      s => s.getData("r") == hawkAndDove[i]).length;
-  }
-  data.push(subjects.getChildren().length);
-  data.push(foods.getChildren().length);
-  return data;
-}
-
-export function getPopulationData() {
-  let labels = [];
-  let data = [];
-  for (let i = 0; i < alphabetArray.length; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData("p") == alphabetArray[i]).length;
-    if (new_data > 0) {
-      labels.push(alphabetArray[i]);
-      data.push(new_data);
-    }
-  }
-  return [labels, data];
-}
 
 export const phaserGame = new Phaser.Game(config);

@@ -26,12 +26,12 @@ import { create, all } from "mathjs";
 const math = create(all, {});
 //~ import Plotly from "plotly.js-dist-min";
 
-import {
-  getAgeData,
-  getGenData,
-  getHawkAndDoveData,
-  getPopulationData,
-} from "./game.js";
+//~ import {
+  //~ getAgeData,
+  //~ getGenData,
+  //~ getPopulationData,
+  //~ getGeneticData,
+//~ } from "./game.js";
 
 import {
   graphsCanvas,
@@ -39,37 +39,20 @@ import {
 
 import {
   hawkAndDove,
+  foodName,
   graphColors,
 } from "./index.js";
-
-import {
-  iteration,
-} from "./loop.js";
 
 let data;
 let datasets;
 export var charts = {};
 
 export function createCharts() {
-  data = getHawkAndDoveData();
+  //~ data = getPopulationData();
   datasets = [];
-  for (let i = 0; i < hawkAndDove.length; i++) {
-    datasets.push({
-      "label": hawkAndDove[i],
-      "data": [data[i]],
-      "fill": false,
-      "pointStyle": false,
-      "borderWidth": 0.5,
-      //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
-      //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
-      "backgroundColor": graphColors["hawkAndDove"][i],
-      "borderColor": graphColors["hawkAndDove"][i],
-      "tension": 0.1
-    });
-  }
   datasets.push({
     "label": "total",
-    "data": [data[data.length - 2]],
+    "data": [],
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
@@ -77,11 +60,11 @@ export function createCharts() {
     //~ "backgroundColor": "rgb(180, 180, 180)",
     "borderColor": "rgb(30, 30, 30)",
     //~ "borderColor": "rgb(180, 180, 180)",
-    "tension": 0.1
+    "tension": 0.1,
   });
   datasets.push({
-    "label": "food",
-    "data": [data[data.length - 1]],
+    "label": foodName,
+    "data": [],
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
@@ -89,17 +72,37 @@ export function createCharts() {
     //~ "backgroundColor": "rgb(180, 180, 180)",
     "borderColor": "rgb(180, 30, 30)",
     //~ "borderColor": "rgb(180, 180, 180)",
-    "tension": 0.1
+    "tension": 0.1,
   });
-  charts["populationLine"] = new Chart(graphsCanvas[0], {
+  for (let i = 0; i < hawkAndDove.length; i++) {
+    datasets.push({
+      "label": hawkAndDove[i],
+      "data": [],
+      "fill": false,
+      "pointStyle": false,
+      //~ "borderWidth": 0.5,
+      //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
+      //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
+      "backgroundColor": graphColors["hawkAndDove"][i],
+      "borderColor": graphColors["hawkAndDove"][i],
+      "tension": 0.1,
+    });
+  }
+  
+  charts["population"] = new Chart(graphsCanvas[0], {
     "type": "line",
     "data": {
-      "labels": [iteration],
+      "labels": [],
       "datasets": datasets
     },
     "options": {
       "responsive": true,
       "maintainAspectRatio": true,
+      "scales": {
+        "y": {
+          "beginAtZero": true,
+        },
+      },
     },
   });
   
@@ -107,8 +110,8 @@ export function createCharts() {
     "type": "bar",
     "data": {
       //~ "labels": hawkAndDove.concat(["total", "food"]),
-      "labels": ["Total individuals"],
-      "datasets": datasets,
+      "labels": ["# of individuals / food"],
+      "datasets": datasets
       //~ "datasets": [{
         //~ "label": "Hawk and Dove Population",
         //~ "data": data,
@@ -126,14 +129,14 @@ export function createCharts() {
     },
   });
   
-  data = getAgeData("age");
+  //~ data = getAgeData("age");
   charts["age"] = new Chart(graphsCanvas[2], {
     "type": "bar",
     "data": {
-      "labels": data[0],
+      "labels": [],
       "datasets": [{
         "label": "Individuals at age #",
-        "data": data[1],
+        "data": [],
         "borderWidth": 1,
         "backgroundColor": graphColors["age"],
       }]
@@ -149,14 +152,14 @@ export function createCharts() {
     },
   });
 
-  data = getAgeData("gen");
-  charts["gen"] = new Chart(graphsCanvas[3], {
+  //~ data = getAgeData("gen");
+  charts["generation"] = new Chart(graphsCanvas[3], {
     "type": "bar",
     "data": {
-      "labels": data[0],
+      "labels": [],
       "datasets": [{
         "label": "Individuals from generation #",
-        "data": data[1],
+        "data": [],
         "borderWidth": 1,
         "backgroundColor": graphColors["gen"],
       }],
@@ -172,14 +175,14 @@ export function createCharts() {
     },
   });
   
-  data = getPopulationData();
-  charts["population"] = new Chart(graphsCanvas[4], {
+  //~ data = getGeneticData();
+  charts["genetic"] = new Chart(graphsCanvas[4], {
     "type": "bar",
     "data": {
-      "labels": data[0],
+      "labels": [],
       "datasets": [{
         "label": "Genetic population",
-        "data": data[1],
+        "data": [],
         "borderWidth": 1,
         "backgroundColor": graphColors["population"],
       }]

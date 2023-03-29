@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.8.2";
+export const version = "0.9.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -207,6 +207,7 @@ $fx.params([
     "id": "ruleset",
     "name": "Ruleset (see token description)",
     "type": "select",
+    "default": "classic",
     "options": {
       "options": Object.keys(rulesetAlgorithmMap),
     },
@@ -215,6 +216,7 @@ $fx.params([
     "id": "food_find",
     "name": "Food finding algorithm",
     "type": "select",
+    "default": "random",
     "options": {
       "options": Object.keys(findFoodAlgorithmMap),
     },
@@ -223,6 +225,7 @@ $fx.params([
     "id": "subjects_placement",
     "name": "Subject placement algorithm",
     "type": "select",
+    "default": "circle",
     "options": {
       "options": Object.keys(subjectsPlacementAlgorithmMap),
     },
@@ -231,6 +234,7 @@ $fx.params([
     "id": "foods_placement",
     "name": "Food placement algorithm",
     "type": "select",
+    "default": "circle",
     "options": {
       "options": Object.keys(foodsPlacementAlgorithmMap),
     },
