@@ -95,7 +95,7 @@ export function loop(scene) {
     
     data = getPopulationData();
     //~ // Tests game over at iteration 10
-    //~ if (iteration == 10) {data[names[1]] = 0;}
+    //~ if (iteration == 10) {data[names[2]] = 0;}
     for (let i = 1; i < names.length; i++) {
       if (data[names[i]] < 1) {
         let reason = `${names[i]} population reached zero at ` +
@@ -206,11 +206,11 @@ export function loop(scene) {
     }
     
     if ($fx.rand() < moreHawks * 1e-2) {
-      createNew(names[1]);
+      createNew(names[2]);
     }
     
     if ($fx.rand() < moreDoves * 1e-2) {
-      createNew(names[2]);
+      createNew(names[1]);
     }
     
     if ($fx.rand() < moreSubjects * 1e-2) {

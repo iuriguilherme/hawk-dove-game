@@ -52,13 +52,13 @@ export function strategy2(subjects, foods, names, name, version) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": names[2]});
-      c.setTexture(names[2]);
+      c.setData({"strategy": names[1]});
+      c.setTexture(names[1]);
     }
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": names[2]});
-      c.setTexture(names[2]);
+      c.setData({"strategy": names[1]});
+      c.setTexture(names[1]);
     }
   }
 }

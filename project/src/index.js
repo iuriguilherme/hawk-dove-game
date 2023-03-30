@@ -43,8 +43,8 @@ $fx.params(getStaticParams());
 
 export const names = [
   $fx.getParam("food_string"),
-  $fx.getParam("hawk_string"),
   $fx.getParam("dove_string"),
+  $fx.getParam("hawk_string"),
 ];
 $fx.params($fx.getDefinitions().concat(getDynamicParams(names)));
 
@@ -70,8 +70,8 @@ export const foodsPlacementAlgorithm =
 
 export const graphColors = {
   "hawkAndDove": {
-    [names[1]]: $fx.getParam("hawk_color").hex.rgb,
-    [names[2]]: $fx.getParam("dove_color").hex.rgb,
+    [names[1]]: $fx.getParam("dove_color").hex.rgb,
+    [names[2]]: $fx.getParam("hawk_color").hex.rgb,
   },
   "population": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,

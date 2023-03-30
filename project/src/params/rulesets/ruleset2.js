@@ -63,9 +63,9 @@ export function ruleset2(subjects, foods, names, name, version) {
       //~ console.log("left populated");
       if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
           //~ console.log("left is hawk");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
             //~ console.log("left and right two hawks. both die...");
             s[f[i].getData("rightBusy")].setData({
               "dead": true,
@@ -93,7 +93,7 @@ export function ruleset2(subjects, foods, names, name, version) {
           }
         } else {
           //~ console.log("left is dove");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {

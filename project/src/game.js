@@ -81,10 +81,10 @@ class HawkDoveScene extends Phaser.Scene {
       createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
     }
     for (let i = 0; i < startingHawks; i++) {
-      createNew(names[1]);
+      createNew(names[2]);
     }
     for (let i = 0; i < startingDoves; i++) {
-      createNew(names[2]);
+      createNew(names[1]);
     }
     foods = this.add.group({
       "key": names[0],
