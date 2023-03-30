@@ -23,11 +23,13 @@
 
 import { strategy2 } from "./strategies/strategy2.js";
 
-export const getStrategiesMap = function(keys) {
-  return {
-    "Hereditary": strategy1,
-    "Doves": strategy2,
-  };
+export const strategiesMap = {
+  "Hereditary": strategy1,
+  "Doves": strategy2,
 }
 
+/* 
+ * Subjects will remain with the strategies they were born with, therefore no
+ * logic is required
+ */
 function strategy1() {}

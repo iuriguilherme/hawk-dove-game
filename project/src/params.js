@@ -35,10 +35,9 @@ import {
 import { rulesetMap } from "./params/rulesets.js";
 
 import { getSpritesThemeMap } from "./params/sprites.js";
-import { getStrategiesMap } from "./params/strategies.js";
+import { strategiesMap } from "./params/strategies.js";
 
 let spritesThemeMap;
-let strategiesMap;
 
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
@@ -65,18 +64,8 @@ export function getSpritesTheme(key) {
 }
 
 export function getDynamicParams(keys) {
-  strategiesMap = getStrategiesMap(keys);
   spritesThemeMap = getSpritesThemeMap(keys);
   return [
-    {
-      "id": "strategies",
-      "name": "Available strategies",
-      "type": "select",
-      //~ "default": "hereditary",
-      "options": {
-        "options": Object.keys(strategiesMap),
-      },
-    },
     {
       "id": "sprites_theme",
       "name": "Sprites theme",
@@ -271,6 +260,15 @@ export function getStaticParams() {
       "name": "Keep simulating (no game over)",
       "type": "boolean",
       //~ "default": false,
+    },
+    {
+      "id": "strategies",
+      "name": "Available strategies",
+      "type": "select",
+      //~ "default": "hereditary",
+      "options": {
+        "options": Object.keys(strategiesMap),
+      },
     },
     {
       "id": "ruleset",
