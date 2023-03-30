@@ -21,6 +21,12 @@
  * 
  */
 
+/* 
+ * FIXME: fx(lens) e032c762 (or me) made it stop being able to change some 
+ * fx(params) that have a "default" value. Like the ruleset, placement 
+ * algorithms, and infinite here for example.
+ */
+
 import { findFoodAlgorithmMap } from "./params/findFood.js";
 import {
   foodsPlacementAlgorithmMap,
@@ -34,31 +40,31 @@ import { getStrategiesMap } from "./params/strategies.js";
 let spritesThemeMap;
 let strategiesMap;
 
-export const getFindFoodAlgorithm = function(key) {
+export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
 }
 
-export const getRulesetAlgorithm = function(key) {
+export function getRulesetAlgorithm(key) {
   return rulesetAlgorithmMap[key];
 }
 
-export const getFoodsPlacementAlgorithm = function(key) {
+export function getFoodsPlacementAlgorithm(key) {
   return foodsPlacementAlgorithmMap[key];
 }
 
-export const getSubjectsPlacementAlgorithm = function(key) {
+export function getSubjectsPlacementAlgorithm(key) {
   return subjectsPlacementAlgorithmMap[key];
 }
 
-export const getStrategies = function(key) {
+export function getStrategies(key) {
   return strategiesMap[key];
 }
 
-export const getSpritesTheme = function(key) {
+export function getSpritesTheme(key) {
   return spritesThemeMap[key];
 }
 
-export const getDynamicParams = function(keys) {
+export function getDynamicParams(keys) {
   strategiesMap = getStrategiesMap(keys);
   spritesThemeMap = getSpritesThemeMap(keys);
   return [
@@ -82,7 +88,7 @@ export const getDynamicParams = function(keys) {
   ];
 }
 
-export const getStaticParams = function () {
+export function getStaticParams() {
   return [
       {
       "id": "starting_subjects",
@@ -224,7 +230,7 @@ export const getStaticParams = function () {
       "default": "food",
       "options": {
         "minLength": 1,
-        "maxLength": 16,
+        "maxLength": 24,
       },
     },
     {
@@ -237,7 +243,7 @@ export const getStaticParams = function () {
       "id": "ruleset",
       "name": "Ruleset (see token description)",
       "type": "select",
-      "default": "classic",
+      //~ "default": "classic",
       "options": {
         "options": Object.keys(rulesetAlgorithmMap),
       },

@@ -40,6 +40,7 @@ import {
   findFoodAlgorithm,
   foodsPlacementAlgorithm,
   growthRate,
+  infinite,
   lessFood,
   maxAge,
   moreDove,
@@ -94,12 +95,14 @@ export function loop(scene) {
         let reason = `${names[i]} population reached zero at ` +
           `iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
-        endGame(scene, reason);
-        return;
+        if (!infinite) {
+          endGame(scene, reason);
+          return;
+        }
       }
       else if (data[names[i]] < 2) {
         // TODO: Find out why hawk get stuck with one subject at classic ruleset
-        createNew(names[i]);
+        //~ createNew(names[i]);
       }
     }
     
@@ -150,8 +153,10 @@ export function loop(scene) {
     if (s.length  == 0) {
       let reason = `all population reached zero at iteration ${iteration}`;
       //~ console.log(`[${name} v${version}]: ${reason}`);
-      endGame(scene, reason);
-      return;
+      if (!infinite) {
+        endGame(scene, reason);
+        return;
+      }
     }
     
     for (let i = 0; i < s.length; i++) {
@@ -182,13 +187,15 @@ export function loop(scene) {
       //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFood * 1e-2) {
-      foods.getChildren()[0].destroy();
+      try {
+        foods.getChildren()[0].destroy();
+      } catch {}
       //~ console.log(`[${name} v${version}]: Destroying one food (${f.length})`);
     }
     for (let i = 0; i < f.length; i++) {
       f[i].setData({
-        "leftBusy": false,
-        "rightBusy": false
+        "leftBusy": -1,
+        "rightBusy": -1,
       });
     }
     
@@ -241,6 +248,7 @@ function updatePopulationChart(key) {
   charts[key].update();
 }
 
+// FIXME: The population line chart is broken since 0.9
 function updatePopulationMovingChart(key) {
   data = getPopulationData();
   charts[key].data.labels.push(iteration);
@@ -360,7 +368,7 @@ function endGame(scene, cause) {
   for (let i = 1; i < names.length; i++) {
     scene.add.text(
       15,
-      30 * (i + 2),
+      30 * (i + 1),
       `${names[i]} population: ${populationData[names[i]]}`,
       {
         "fontSize": "2em",

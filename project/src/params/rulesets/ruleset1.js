@@ -1,5 +1,6 @@
 /**
- * @file ruleset1.js Classic ruleset for Hawk Dove Game  
+ * @file ruleset1.js Classic ruleset (no starvation) (deprecated) for Hawk Dove 
+ *  Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -53,9 +54,9 @@ export function rulesetAlgorithm1() {
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
-    if (f[i].getData("leftBusy")) {
+    if (f[i].getData("leftBusy") > -1) {
       //~ console.log("left populated");
-      if (f[i].getData("rightBusy")) {
+      if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
         if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
           //~ console.log("left is hawk");
@@ -143,7 +144,7 @@ export function rulesetAlgorithm1() {
       }
     } else {
       //~ console.log("no one on left");
-      if (f[i].getData("rightBusy")) {
+      if (f[i].getData("rightBusy") > -1) {
         if (s[f[i].getData("rightBusy")].getData("strategy")) {
           //~ console.log("right is hawk, hawk alone");
           s[f[i].getData("rightBusy")].setData({

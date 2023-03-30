@@ -1,5 +1,5 @@
 /**
- * @file ruleset4.js Primer ruleset #1 with starvation for Hawk Dove Game  
+ * @file ruleset4.js Primer ruleset for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -50,8 +50,7 @@ import {
  *  of reproduction, because both will share the food equally;
  * If a Hawk or a Dove finds a food alone, they have 100% of chance of 
  *  reproduction, because they'll eat all the food alone;
- * In the end, the ones which don't find a food die. This is removed from 
- *  ruleset 1 because it creates an infinite hawk loop.
+ * In the end, the ones which don't find a food die.
  * https://youtu.be/YNMkADpvO4w?t=89
  */
 export function rulesetAlgorithm4() {
@@ -59,9 +58,9 @@ export function rulesetAlgorithm4() {
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
-    if (f[i].getData("leftBusy")) {
+    if (f[i].getData("leftBusy") > -1) {
       //~ console.log("left populated");
-      if (f[i].getData("rightBusy")) {
+      if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
         if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
           //~ console.log("left is hawk");
@@ -81,15 +80,14 @@ export function rulesetAlgorithm4() {
             if ($fx.rand() > 0.5) {
               s[f[i].getData("leftBusy")].setData({"strong": true});
             }
-            s[f[i].getData("rightBusy")].setData({
-              "fleeing": true,
-              "eating": false,
-            });
+            s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
               s[f[i].getData("rightBusy")].setData({
                 "fleeing": false,
                 "dead": true,
               });
+            } else {
+              s[f[i].getData("rightBusy")].setData({"fleeing": true});
             }
           }
         } else {
@@ -100,15 +98,14 @@ export function rulesetAlgorithm4() {
             if ($fx.rand() > 0.5) {
               s[f[i].getData("rightBusy")].setData({"strong": true});
             }
-            s[f[i].getData("leftBusy")].setData({
-              "fleeing": true,
-              "eating": false,
-            });
+            s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
               s[f[i].getData("leftBusy")].setData({
                 "fleeing": false,
                 "dead": true,
               });
+            } else {
+              s[f[i].getData("leftBusy")].setData({"fleeing": true});
             }
           } else {
             //~ console.log("right is dove, dove and dove");
@@ -118,49 +115,29 @@ export function rulesetAlgorithm4() {
         }
       } else {
         //~ console.log("no one on right");
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
-          //~ console.log("left is hawk, hawk alone");
-          s[f[i].getData("leftBusy")].setData({
-            "strong": true,
-            "eating": false
-          });
-        } else {
-          //~ console.log("left is dove, dove alone");
-          s[f[i].getData("leftBusy")].setData({
-            "strong": true,
-            "eating": false
-          });
-        }
+        s[f[i].getData("leftBusy")].setData({
+          "strong": true,
+          "eating": false,
+        });
       }
     } else {
       //~ console.log("no one on left");
-      if (f[i].getData("rightBusy")) {
-        if (s[f[i].getData("rightBusy")].getData("strategy")) {
-          //~ console.log("right is hawk, hawk alone");
-          s[f[i].getData("rightBusy")].setData({
-            "strong": true,
-            "eating": false
-          });
-        } else {
-          //~ console.log("right is dove, dove alone");
-          s[f[i].getData("rightBusy")].setData({
-            "strong": true,
-            "eating": false
-          });
-        }
-      } else {
-        //~ console.log("Food is alone");
-        f[i].setTint(0xff0000);
+      if (f[i].getData("rightBusy") > -1) {
+        //~ console.log("someone on right");
+        s[f[i].getData("rightBusy")].setData({
+          "strong": true,
+          "eating": false
+        });
       }
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")} died of`,
-      //~ `hunger`);
-    if (s[i].getData("eating")) {
+    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")}`,
+      //~ `died of`);
+    if (s[i].getData("eating") === true) {
       s[i].setData({
         "dead": true,
-        "eating": false
+        "eating": false,
       });
     }
   }

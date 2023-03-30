@@ -78,7 +78,7 @@ function findFoodAlgorithmMain(selection) {
           "dead": true,
           "waiting": false,
         });
-        break;
+        continue;
       }
       let metrics = {
         "random": distances[i].indexOf(distances[i][math.floor($fx.rand() * 
@@ -93,8 +93,8 @@ function findFoodAlgorithmMain(selection) {
       };
       let currentFood = foodMap[selection];
       let currentMetric = metrics[selection];
-      if (currentFood.getData("leftBusy")) {
-        if (currentFood.getData("rightBusy")) {
+      if (currentFood.getData("leftBusy") > -1) {
+        if (currentFood.getData("rightBusy") > -1) {
           distances[i].splice(currentMetric, 1);
         } else {
           s[i].x = currentFood.x + minDistance;

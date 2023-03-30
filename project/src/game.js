@@ -107,8 +107,8 @@ class HawkDoveScene extends Phaser.Scene {
     }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({
-        "leftBusy": false,
-        "rightBusy": false,
+        "leftBusy": -1,
+        "rightBusy": -1,
       });
     }
     //~ console.log(`[${name} v${version}] created`,
