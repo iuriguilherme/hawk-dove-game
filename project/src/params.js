@@ -94,7 +94,7 @@ export function getParamsStep2(names) {
       "id": "ruleset",
       "name": "Ruleset (submit to change available strategies)",
       "type": "select",
-      //~ "default": "classic",
+      "default": "Classic Hawks & Doves",
       "options": {
         "options": Object.keys(rulesetMap),
       },
@@ -281,16 +281,28 @@ export function getParamsStep1() {
       },
     },
     {
-      "id": "infinite",
-      "name": "Keep simulating (no game over)",
+      "id": "game_over_population",
+      "name": "Population erradication causes game over?",
       "type": "boolean",
-      //~ "default": false,
+      "default": false,
+    },
+    {
+      "id": "game_over_strategy",
+      "name": "Strategy erradication causes game over?",
+      "type": "boolean",
+      "default": false,
+    },
+    {
+      "id": "game_over_genetic",
+      "name": "Single gene in gene pool causes game over?",
+      "type": "boolean",
+      "default": false,
     },
     {
       "id": "food_find",
       "name": "Food finding algorithm",
       "type": "select",
-      //~ "default": "random",
+      "default": "random",
       "options": {
         "options": Object.keys(findFoodAlgorithmMap),
       },
@@ -299,7 +311,7 @@ export function getParamsStep1() {
       "id": "subjects_placement",
       "name": "Subject placement algorithm",
       "type": "select",
-      //~ "default": "circle",
+      "default": "circle",
       "options": {
         "options": Object.keys(subjectsPlacementAlgorithmMap),
       },
@@ -308,7 +320,7 @@ export function getParamsStep1() {
       "id": "foods_placement",
       "name": "Food placement algorithm",
       "type": "select",
-      //~ "default": "circle",
+      "default": "circle",
       "options": {
         "options": Object.keys(foodsPlacementAlgorithmMap),
       },

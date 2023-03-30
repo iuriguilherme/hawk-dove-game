@@ -50,8 +50,10 @@ export const loop = function(
   foodsCircle,
   findFoodAlgorithm,
   foodsPlacementAlgorithm,
+  gameOverGenetic,
+  gameOverPopulation,
+  gameOverStrategy,
   growthRate,
-  infinite,
   lessFoods,
   maxAge,
   moreDoves,
@@ -190,12 +192,7 @@ export const loop = function(
     let s = subjects.getChildren();
     let f = foods.getChildren();
     
-    //~ chartData = getNestedData("gene", alphabetArray);
-    //~ charts["genetic"].data.labels = chartData["labels"];
-    //~ charts["genetic"].data.datasets[0].data = chartData["data"];
-    //~ charts["genetic"].update();
-    
-    updateNestedBarChart("genetic", "gene", alphabetArray)
+    updateNestedBarChart("genetic", "gene", alphabetArray);
     updateSimpleBarChart("age");
     updateSimpleBarChart("generation");
     updatePopulationChart("population");
@@ -209,7 +206,7 @@ export const loop = function(
         let reason = `${names["strategies"][strategiesNames[i]]} ` +
           `population reached zero at iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
-        if (!infinite) {
+        if (gameOverStrategy) {
           endGame(
             scene,
             reason,
@@ -283,7 +280,32 @@ export const loop = function(
     if (s.length  == 0) {
       let reason = `all population reached zero at iteration ${iteration}`;
       //~ console.log(`[${name} v${version}]: ${reason}`);
-      if (!infinite) {
+      if (gameOverPopulation) {
+        endGame(
+          scene,
+          reason,
+          subjects,
+          foods,
+          getNestedData,
+          getStrategyData,
+          names,
+          updateNestedBarChart,
+          updatePopulationChart,
+          updateSimpleBarChart,
+          gData,
+          strategiesNames,
+        );
+        gameOver = true;
+        return;
+      }
+    }
+    
+    chartData = getNestedData("gene", alphabetArray);
+    if (chartData["labels"].length === 1) {
+      let reason = `all other genes but ${chartData["data"][0]} have been ` +
+        `erradicated`;
+      //~ console.log(`[${name} v${version}]: ${reason}`);
+      if (gameOverGenetic) {
         endGame(
           scene,
           reason,
@@ -325,8 +347,8 @@ export const loop = function(
     }
     
     if ($fx.rand() < moreSubjects * 1e-2) {
-      createNew(
-        names["strategies"][labels[math.floor($fx.rand() * strategiesNames.length)]]);
+      createNew(names["strategies"][labels[
+        math.floor($fx.rand() * strategiesNames.length)]]);
     }
     
     subjectsPlacementAlgorithm(

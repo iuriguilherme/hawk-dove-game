@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.13.1  
+ * @version 0.14.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.13.1";
+export const version = "0.14.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -65,7 +65,7 @@ export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
 export const ruleset = getRuleset($fx.getParam("ruleset"));
 $fx.params($fx.getDefinitions().concat(getParamsStep3(
   $fx.getParam("ruleset"))));
-  
+
 export const strategy = getStrategy($fx.getParam("strategy"));
 
 export const findFoodAlgorithm = 
@@ -73,7 +73,9 @@ export const findFoodAlgorithm =
 export const foodsPlacementAlgorithm = 
   getFoodsPlacementAlgorithm($fx.getParam("foods_placement"));
 export const growthRate = $fx.getParam("growth_rate");
-export const infinite = $fx.getParam("infinite");
+export const gameOverGenetic = $fx.getParam("game_over_genetic");
+export const gameOverPopulation = $fx.getParam("game_over_population");
+export const gameOverStrategy = $fx.getParam("game_over_strategy");
 export const initialFoodRate = $fx.getParam("starting_food");
 export const lessFoods = $fx.getParam("less_food_chance");
 export const maxAge = $fx.getParam("max_age");
@@ -98,7 +100,9 @@ $fx.features({
   "Food creation chance": $fx.getParam("more_food_chance") + "%",
   "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
   "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
-  "Infinite generation": $fx.getParam("infinite"),
+  "Game over by genetic end": $fx.getParam("game_over_genetic"),
+  "Game over by population end": $fx.getParam("game_over_population"),
+  "Game over by strategy end": $fx.getParam("game_over_strategy"),
   "Food finding algorithm": $fx.getParam("food_find"),
   "Food placement algorithm": $fx.getParam("foods_placement"),
   "Subject placement algorithm": $fx.getParam("subjects_placement"),
@@ -158,7 +162,12 @@ console.log(
   `${$fx.getParam("more_random_chance")}%\n`,
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
   `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
-  `fx(params) Keep simulating (no game over): ${$fx.getParam("infinite")}\n`,
+  `fx(params) Game over by genetic end:`,
+  `${$fx.getParam("game_over_genetic")}\n`,
+  `fx(params) Game over by population end:`,
+  `${$fx.getParam("game_over_population")}\n`,
+  `fx(params) Game over by strategy end:`,
+  `${$fx.getParam("game_over_strategy")}\n`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}\n`,
   `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}\n`,
   `fx(params) Subject placing algorithm:`,
