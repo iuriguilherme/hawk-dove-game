@@ -60,7 +60,7 @@ export function createCharts(
     //~ "borderColor": "rgb(180, 180, 180)",
     "tension": 0.1,
   });
-  for (let i = 1; i < strategiesNames.length; i++) {
+  for (let i = 0; i < strategiesNames.length; i++) {
     datasets.push({
       "label": names["strategies"][strategiesNames[i]],
       "data": [],
@@ -70,13 +70,13 @@ export function createCharts(
       //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
       //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
       "backgroundColor": 
-        graphColors["hawkAndDove"][names["strategies"][strategiesNames[i]]],
-      "borderColor": graphColors["hawkAndDove"][names["strategies"][strategiesNames[i]]],
+        graphColors["population"][names["strategies"][strategiesNames[i]]],
+      "borderColor": graphColors["population"][names["strategies"][strategiesNames[i]]],
       "tension": 0.1,
     });
   }
   
-  charts["population"] = new Chart(graphsCanvas[0], {
+  charts["populationHistory"] = new Chart(graphsCanvas[0], {
     "type": "line",
     "data": {
       "labels": [],
@@ -93,7 +93,7 @@ export function createCharts(
     },
   });
   
-  charts["hawkAndDove"] = new Chart(graphsCanvas[1], {
+  charts["population"] = new Chart(graphsCanvas[1], {
     "type": "bar",
     "data": {
       "labels": ["# of individuals / food"],
@@ -162,7 +162,7 @@ export function createCharts(
         "label": "Genetic population",
         "data": [],
         "borderWidth": 1,
-        "backgroundColor": graphColors["population"],
+        "backgroundColor": graphColors["genetic"],
       }]
     },
     "options": {

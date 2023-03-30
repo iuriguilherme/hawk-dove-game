@@ -34,7 +34,7 @@ export function endGame(
   subjects,
   foods,
   getNestedData,
-  getPopulationData,
+  getStrategyData,
   names,
   updateNestedBarChart,
   updatePopulationChart,
@@ -43,12 +43,12 @@ export function endGame(
   strategiesNames,
 ) {
   let geneticData = getNestedData("gene", alphabetArray);
-  let populationData = getPopulationData();
+  let populationData = getStrategyData();
   let s = subjects.getChildren();
   let f = foods.getChildren();
   
   updateNestedBarChart("genetic", "gene", alphabetArray);
-  updatePopulationChart("hawkAndDove");
+  updatePopulationChart("population");
   updateSimpleBarChart("age");
   updateSimpleBarChart("generation");
   
@@ -63,11 +63,11 @@ export function endGame(
       "align": "center"
     }
   );
-  for (let i = 1; i < strategiesNames.length; i++) {
+  for (let i = 0; i < strategiesNames.length; i++) {
     scene.add.text(
       15,
-      30 * (i + 1),
-      `${names["strategies"][strategiesNames[i]]} population:` +
+      30 * (i + 2),
+      `${names["strategies"][strategiesNames[i]]} population: ` +
         `${populationData[names["strategies"][strategiesNames[i]]]}`,
       {
         "fontSize": "2em",

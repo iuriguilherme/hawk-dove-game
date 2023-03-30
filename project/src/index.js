@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.13.0  
+ * @version 0.13.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.13.0";
+export const version = "0.13.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -50,13 +50,12 @@ export const names = {
   },
 };
 export const strategiesNames = Object.keys(names["strategies"]);
-
 export const graphColors = {
-  "hawkAndDove": {
+  "population": {
     [names["strategies"]["dove"]]: $fx.getParam("dove_color").hex.rgb,
     [names["strategies"]["hawk"]]: $fx.getParam("hawk_color").hex.rgb,
   },
-  "population": $fx.getParam("population_color").hex.rgb,
+  "genetic": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,
   "generation": $fx.getParam("gen_color").hex.rgb,
 };
