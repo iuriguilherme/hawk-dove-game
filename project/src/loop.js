@@ -29,6 +29,10 @@ import {
 } from "./charts.js";
 
 import {
+  endGame,
+} from "./gameOver.js";
+
+import {
   gData,
 } from "./genes.js";
 
@@ -97,13 +101,24 @@ export function loop(scene) {
           `iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
         if (!infinite) {
-          endGame(scene, reason);
+          endGame(
+            scene,
+            reason,
+            subjects,
+            foods,
+            getNestedData,
+            getPopulationData,
+            names,
+            math,
+            alphabetArray,
+            updateNestedBarChart,
+            updatePopulationChart,
+            updateSimpleBarChart,
+            gData,
+          );
+          gameOver = true;
           return;
         }
-      }
-      else if (data[names[i]] < 2) {
-        // TODO: Find out why hawk get stuck with one subject at classic ruleset
-        //~ createNew(names[i]);
       }
     }
     
@@ -155,7 +170,22 @@ export function loop(scene) {
       let reason = `all population reached zero at iteration ${iteration}`;
       //~ console.log(`[${name} v${version}]: ${reason}`);
       if (!infinite) {
-        endGame(scene, reason);
+        endGame(
+          scene,
+          reason,
+          subjects,
+          foods,
+          getNestedData,
+          getPopulationData,
+          names,
+          math,
+          alphabetArray,
+          updateNestedBarChart,
+          updatePopulationChart,
+          updateSimpleBarChart,
+          gData,
+        );
+        gameOver = true;
         return;
       }
     }
@@ -286,15 +316,6 @@ function updatePopulationMovingChartHack(key) {
   charts[key].update();
 }
 
-function updatePopulationMovingChartCompat(key) {
-  data = getPopulationDataCompat();
-  for (let i = 0; i < charts[key].data.datasets.length; i++) {
-    charts[key].data.datasets[i].data.push(data[i]);
-  }
-  charts[key].data.labels.push(iteration);
-  charts[key].update();
-}
-
 function getSimpleData(key) {
   let data = {"data": [], "labels": []};
   let limit = 0;
@@ -325,17 +346,6 @@ function getNestedData(key, array) {
   return data;
 }
 
-function getPopulationDataCompat() {
-  let data = [];
-  data.push(subjects.getChildren().length);
-  data.push(foods.getChildren().length);
-  for (let i = 1; i < names.length; i++) {
-    data[i] = subjects.getChildren().filter(
-      s => s.getData("strategy") == names[i]).length;
-  }
-  return data;
-}
-
 function getPopulationData() {
   let data = {};
   data["total"] = subjects.getChildren().length;
@@ -345,145 +355,4 @@ function getPopulationData() {
       s => s.getData("strategy") == names[i]).length;
   }
   return data;
-}
-
-function endGame(scene, cause) {
-  let geneticData = getNestedData("gene", alphabetArray);
-  let populationData = getPopulationData();
-  let s = subjects.getChildren();
-  let f = foods.getChildren();
-  
-  updateNestedBarChart("genetic", "gene", alphabetArray);
-  updatePopulationChart("hawkAndDove");
-  updateSimpleBarChart("age");
-  updateSimpleBarChart("generation");
-  
-  scene.add.text(
-    15,
-    30,
-    cause,
-    {
-      "fontSize": "2em",
-      "fill": "#121212",
-      //~ "fill": "#e8e8e8",
-      "align": "center"
-    }
-  );
-  for (let i = 1; i < names.length; i++) {
-    scene.add.text(
-      15,
-      30 * (i + 1),
-      `${names[i]} population: ${populationData[names[i]]}`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "center"
-      }
-    );
-  }
-  scene.add.text(
-    15,
-    30 * (names.length + 2),
-    `total population: ${populationData["total"]}`,
-    {
-      "fontSize": "2em",
-      "fill": "#121212",
-      //~ "fill": "#e8e8e8",
-      "align": "center"
-    }
-  );
-  scene.add.text(
-    15,
-    30 * (names.length + 3),
-    `remaining ${names[0]}: ${populationData[names[0]]}`,
-    {
-      "fontSize": "2em",
-      "fill": "#121212",
-      //~ "fill": "#e8e8e8",
-      "align": "center"
-    }
-  );
-  
-  let geneWinner, geneWinnerN;
-  let geneWinners = {"ages": [], "gens": []};
-  if (geneticData["data"].length > 0) {
-    geneWinnerN = math.max(geneticData["data"]);
-    geneWinner = geneticData["labels"][geneticData["data"].indexOf(
-      geneWinnerN)];
-    for (let i = 0; i < s.length; i++) {
-      if (s[i].getData("gene") == geneWinner) {
-        geneWinners["ages"].push(s[i].getData("age"));
-        geneWinners["gens"].push(s[i].getData("generation"));
-      }
-    }
-  } else {
-    geneWinner = "None";
-  }
-  
-  if (geneWinner != "None") {
-    scene.add.text(
-      15,
-      30 * (names.length + 4),
-      `highest genetic pool: \#${geneWinner} (${geneWinnerN} individuals)`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "center"
-      }
-    );
-    scene.add.text(
-      15,
-      30 * (names.length + 5),
-      `highest age from all \#${geneWinner}: ${math.max(geneWinners["ages"])}`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "left"
-      }
-    );
-    scene.add.text(
-      15,
-      30 * (names.length + 6),
-      `oldest generation from all \#${geneWinner}: ` + 
-        `${math.min(geneWinners["gens"])}`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "left"
-      }
-    );
-    scene.add.text(
-      15,
-      30 * (names.length + 7),
-      `newest generation from all \#${geneWinner}: ` + 
-        `${math.max(geneWinners["gens"])}`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "left"
-      }
-    );
-    let attrs = Object.entries(gData[geneWinner]).map(
-      ([k, v]) => `${k}: ${v}`).join("\n\t");
-    scene.add.text(
-      15,
-      30 * (names.length + 8),
-      `genetic attributes for \#${geneWinner}:\n\t${attrs}`,
-      {
-        "fontSize": "2em",
-        "fill": "#121212",
-        //~ "fill": "#e8e8e8",
-        "align": "left"
-      }
-    );
-  }
-  subjects.clear(true);
-  foods.clear(true);
-  gameOver = true;
-  return;
 }

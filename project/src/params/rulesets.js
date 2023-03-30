@@ -21,18 +21,12 @@
  * 
  */
 
-//~ import { rulesetAlgorithm1 } from "./rulesets/ruleset1.js";
+import { rulesetAlgorithm1 } from "./rulesets/ruleset1.js";
 import { rulesetAlgorithm2 } from "./rulesets/ruleset2.js";
-//~ import { rulesetAlgorithm3 } from "./rulesets/ruleset3.js";
-import { rulesetAlgorithm4 } from "./rulesets/ruleset4.js";
-import { rulesetAlgorithm5 } from "./rulesets/ruleset5.js";
+import { rulesetAlgorithm3 } from "./rulesets/ruleset3.js";
 
-// FIXME: Rulesets with starvation are no longer relevant, every ruleset should 
-//  have it because the bug affecting starvation has been fixed on 0.10.2
 export const rulesetAlgorithmMap = {
-  //~ "classic (no starvation)": rulesetAlgorithm1,
-  "Classic Hawk & Dove": rulesetAlgorithm2,
-  //~ "primer (no starvation)": rulesetAlgorithm3,
-  "Primer's Hawk & Dove": rulesetAlgorithm4,
-  "Strategist: Doves": rulesetAlgorithm5,
+  "Classic Hawk & Dove": rulesetAlgorithm1,
+  "Primer's Hawk & Dove": rulesetAlgorithm2,
+  "Strategist: Doves": rulesetAlgorithm3,
 };
