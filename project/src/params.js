@@ -72,7 +72,7 @@ export function getDynamicParams(keys) {
       "id": "strategies",
       "name": "Available strategies",
       "type": "select",
-      "default": "hereditary",
+      //~ "default": "hereditary",
       "options": {
         "options": Object.keys(strategiesMap),
       },
@@ -90,9 +90,31 @@ export function getDynamicParams(keys) {
 
 export function getStaticParams() {
   return [
-      {
+    {
       "id": "starting_subjects",
-      "name": "Starting individuals",
+      "name": "Starting random individuals",
+      "type": "number",
+      "default": 58,
+      "options": {
+        "min": 1,
+        "max": 174,
+        "step": 1,
+      },
+    },
+    {
+      "id": "starting_hawks",
+      "name": "Starting hawks",
+      "type": "number",
+      "default": 58,
+      "options": {
+        "min": 1,
+        "max": 174,
+        "step": 1,
+      },
+    },
+    {
+      "id": "starting_doves",
+      "name": "Starting doves",
       "type": "number",
       "default": 58,
       "options": {
@@ -114,7 +136,7 @@ export function getStaticParams() {
     },
     {
       "id": "max_age",
-      "name": "Longevity (max age) (zero is infinite)",
+      "name": "Longevity (zero is infinite)",
       "type": "number",
       "default": 0,
       "options": {
@@ -179,6 +201,17 @@ export function getStaticParams() {
       },
     },
     {
+      "id": "more_random_chance",
+      "name": "Chance to spawn new random individual",
+      "type": "number",
+      "default": 0,
+      "options": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+      },
+    },
+    {
       id: "hawk_color",
       name: "Hawk graph color",
       type: "color",
@@ -205,7 +238,7 @@ export function getStaticParams() {
     },
     {
       "id": "hawk_string",
-      "name": "Hawk label",
+      "name": "Hawk name",
       "type": "string",
       "default": "hawk",
       "options": {
@@ -215,7 +248,7 @@ export function getStaticParams() {
     },
     {
       "id": "dove_string",
-      "name": "Dove label",
+      "name": "Dove name",
       "type": "string",
       "default": "dove",
       "options": {
@@ -237,7 +270,7 @@ export function getStaticParams() {
       "id": "infinite",
       "name": "Keep simulating (no game over)",
       "type": "boolean",
-      "default": false,
+      //~ "default": false,
     },
     {
       "id": "ruleset",
@@ -252,7 +285,7 @@ export function getStaticParams() {
       "id": "food_find",
       "name": "Food finding algorithm",
       "type": "select",
-      "default": "random",
+      //~ "default": "random",
       "options": {
         "options": Object.keys(findFoodAlgorithmMap),
       },
@@ -261,7 +294,7 @@ export function getStaticParams() {
       "id": "subjects_placement",
       "name": "Subject placement algorithm",
       "type": "select",
-      "default": "circle",
+      //~ "default": "circle",
       "options": {
         "options": Object.keys(subjectsPlacementAlgorithmMap),
       },
@@ -270,7 +303,7 @@ export function getStaticParams() {
       "id": "foods_placement",
       "name": "Food placement algorithm",
       "type": "select",
-      "default": "circle",
+      //~ "default": "circle",
       "options": {
         "options": Object.keys(foodsPlacementAlgorithmMap),
       },

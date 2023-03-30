@@ -39,6 +39,8 @@ import {
   names,
   spritesTheme,
   startingSubjects,
+  startingHawks,
+  startingDoves,
   version,
 } from "./index.js";
 
@@ -80,31 +82,23 @@ class HawkDoveScene extends Phaser.Scene {
     // TODO create new Phaser.ObjectGroup etc. and add the subjects 
     //  dinamically without these cryptic gimmicks
     subjects = this.add.group({
-      "key": names[1],
-      "repeat": startingSubjects - 1,
+      "key": names[2],
+      "repeat": 1,
     });
+    subjects.getChildren()[0].destroy();
+    for (let i = 0; i < startingSubjects; i++) {
+      createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
+    }
+    for (let i = 0; i < startingHawks; i++) {
+      createNew(names[1]);
+    }
+    for (let i = 0; i < startingDoves; i++) {
+      createNew(names[2]);
+    }
     foods = this.add.group({
       "key": names[0],
-      "repeat": ((startingSubjects * initialFoodRate) / 1e2) - 1,
+      "repeat": ((subjects.getChildren().length * initialFoodRate) / 1e2) - 1,
     });
-    for (let i = 0; i < subjects.getChildren().length; i++) {
-      let s = subjects.getChildren()[i];
-      let strategy = names[math.max(1, math.floor($fx.rand() * names.length))];
-      let gene = fxArray[math.floor($fx.rand() * fxArray.length)];
-      s.setData({
-        "gene": gene,
-        "strategy": strategy,
-        "waiting": true,
-        "eating": false,
-        "fleeing": false,
-        "dead": false,
-        "strong": false,
-        "age": 0,
-        "generation": 0,
-      });
-      s.setTexture(strategy);
-      //~ s.scale = spritesTheme[names.indexOf(strategy)]["scale"];
-    }
     for (let i = 0; i < foods.getChildren().length; i++) {
       foods.getChildren()[i].setData({
         "leftBusy": -1,
@@ -114,6 +108,7 @@ class HawkDoveScene extends Phaser.Scene {
     //~ console.log(`[${name} v${version}] created`,
       //~ `${subjects.getChildren().length} subjects and`,
       //~ `${foods.getChildren().length} foods.`);
+    
     subjectsCircle = new Phaser.Geom.Circle(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
@@ -124,14 +119,33 @@ class HawkDoveScene extends Phaser.Scene {
       this.cameras.main.centerY,
       (this.cameras.main.height / 4.5),
     );
+    
     Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
     Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
     
     createCharts();
   }
+  // FIXME: Use imported update function from another module instead
   update () {
     updateWrapper(this);
   }
+}
+
+function createNew(key) {
+  let children = subjects.create(0, 0, key);
+  children.setData({
+    "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
+    "strategy": key,
+    "waiting": true,
+    "eating": false,
+    "fleeing": false,
+    "dead": false,
+    "strong": false,
+    "age": 0,
+    "generation": 0,
+  });
+  children.setTexture(key);
+  //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
 }
 
 let graphsMaxWidth = 0;

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.10.2  
+ * @version 0.10.3  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.10.2";
+export const version = "0.10.3";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -49,13 +49,16 @@ export const names = [
 $fx.params($fx.getDefinitions().concat(getDynamicParams(names)));
 
 export const startingSubjects = $fx.getParam("starting_subjects");
+export const startingHawks = $fx.getParam("starting_hawks");
+export const startingDoves = $fx.getParam("starting_doves");
 export const initialFoodRate = $fx.getParam("starting_food");
 export const growthRate = $fx.getParam("growth_rate");
 export const maxAge = $fx.getParam("max_age");
-export const moreDove = $fx.getParam("more_dove_chance");
-export const moreFood = $fx.getParam("more_food_chance");
-export const moreHawk = $fx.getParam("more_hawk_chance");
-export const lessFood = $fx.getParam("less_food_chance");
+export const moreDoves = $fx.getParam("more_dove_chance");
+export const moreSubjects = $fx.getParam("more_random_chance");
+export const moreFoods = $fx.getParam("more_food_chance");
+export const moreHawks = $fx.getParam("more_hawk_chance");
+export const lessFoods = $fx.getParam("less_food_chance");
 export const rulesetAlgorithm = getRulesetAlgorithm($fx.getParam("ruleset"));
 //~ export const rulesetAlgorithm = getRulesetAlgorithm("strategist: dove only");
 export const infinite = $fx.getParam("infinite");
@@ -80,7 +83,9 @@ export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
 export const strategies = getStrategies($fx.getParam("strategies"));
 
 $fx.features({
-  "Starting individuals": $fx.getParam("starting_subjects"),
+  "Starting random individuals": $fx.getParam("starting_subjects"),
+  "Starting hawks": $fx.getParam("starting_hawks"),
+  "Starting doves": $fx.getParam("starting_doves"),
   "Reproduction multiplier": $fx.getParam("growth_rate"),
   "Longevity": $fx.getParam("max_age"),
   "Starting food rate": $fx.getParam("starting_food") + "%",
@@ -140,15 +145,20 @@ document.body.style.background = "#e8e8e8";
 
 console.log(
   `[${name} v${version}]:\nfx(hash): ${fxhashTrunc}\n`,
-  `fx(params) Starting individuals: ${$fx.getParam("starting_subjects")}\n`,
+  `fx(params) Starting random individuals:`,
+  `${$fx.getParam("starting_subjects")}\n`,
+  `fx(params) Starting hawks: ${$fx.getParam("starting_hawks")}\n`,
+  `fx(params) Starting doves: ${$fx.getParam("starting_doves")}\n`,
   `fx(params) Reproduction multiplier: ${$fx.getParam("growth_rate")}\n`,
   `fx(params) Longevity: ${$fx.getParam("max_age")}\n`,
   `fx(params) Starting food rate: ${$fx.getParam("starting_food")}%\n`,
   `fx(params) Chance of less food: ${$fx.getParam("less_food_chance")}%\n`,
   `fx(params) Chance of new food: ${$fx.getParam("more_food_chance")}%\n`,
+  `fx(params) Chance of new random individual:`,
+  `${$fx.getParam("more_random_chance")}%\n`,
   `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
-  `fx(params) Keep simulating: ${$fx.getParam("infinite")}\n`,
+  `fx(params) Keep simulating (no game over): ${$fx.getParam("infinite")}\n`,
   `fx(params) Current ruleset: ${$fx.getParam("ruleset")}\n`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}\n`,
   `fx(params) Subject placing algorithm:`,

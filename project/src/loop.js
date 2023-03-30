@@ -41,11 +41,12 @@ import {
   foodsPlacementAlgorithm,
   growthRate,
   infinite,
-  lessFood,
+  lessFoods,
   maxAge,
-  moreDove,
-  moreFood,
-  moreHawk,
+  moreDoves,
+  moreFoods,
+  moreHawks,
+  moreSubjects,
   name,
   names,
   rulesetAlgorithm,
@@ -172,21 +173,25 @@ export function loop(scene) {
       toReset.setTexture(toReset.getData("strategy"));
     }
     
-    if ($fx.rand() < moreHawk * 1e-2) {
+    if ($fx.rand() < moreHawks * 1e-2) {
       createNew(names[1]);
     }
     
-    if ($fx.rand() < moreDove * 1e-2) {
+    if ($fx.rand() < moreDoves * 1e-2) {
       createNew(names[2]);
+    }
+    
+    if ($fx.rand() < moreSubjects * 1e-2) {
+      createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
     }
     
     subjectsPlacementAlgorithm();
       
-    if ($fx.rand() < moreFood * 1e-2) {
+    if ($fx.rand() < moreFoods * 1e-2) {
       foods.create(0, 0, names[0]);
       //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
-    if ($fx.rand() < lessFood * 1e-2) {
+    if ($fx.rand() < lessFoods * 1e-2) {
       try {
         foods.getChildren()[0].destroy();
       } catch {}
