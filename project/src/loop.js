@@ -224,7 +224,6 @@ function createNew(key) {
     "age": 0,
     "generation": 0,
   });
-  children.setTexture(key);
   //~ console.log(`[${name} v${version}]: Creating a new ${key}`,
     //~ `(${getPopulationData()[key]})`);
 }

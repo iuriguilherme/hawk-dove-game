@@ -74,18 +74,9 @@ class HawkDoveScene extends Phaser.Scene {
         this.load.image(spritesTheme[i]["key"], spritesTheme[i]["file"]);
       }
     }
-    this.load.svg("strong", "yinyang.svg");
-    this.load.svg("dead", "block.svg");
-    this.load.svg("fleeing", "swiss.svg");
   }
   create () {
-    // TODO create new Phaser.ObjectGroup etc. and add the subjects 
-    //  dinamically without these cryptic gimmicks
-    subjects = this.add.group({
-      "key": names[2],
-      "repeat": 1,
-    });
-    subjects.getChildren()[0].destroy();
+    subjects = new Phaser.GameObjects.Group(this);
     for (let i = 0; i < startingSubjects; i++) {
       createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
     }
@@ -144,7 +135,6 @@ function createNew(key) {
     "age": 0,
     "generation": 0,
   });
-  children.setTexture(key);
   //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
 }
 

@@ -60,9 +60,7 @@ export const moreFoods = $fx.getParam("more_food_chance");
 export const moreHawks = $fx.getParam("more_hawk_chance");
 export const lessFoods = $fx.getParam("less_food_chance");
 export const rulesetAlgorithm = getRulesetAlgorithm($fx.getParam("ruleset"));
-//~ export const rulesetAlgorithm = getRulesetAlgorithm("strategist: dove only");
 export const infinite = $fx.getParam("infinite");
-//~ export const infinite = true;
 export const findFoodAlgorithm = 
   getFindFoodAlgorithm($fx.getParam("food_find"));
 export const subjectsPlacementAlgorithm = 
