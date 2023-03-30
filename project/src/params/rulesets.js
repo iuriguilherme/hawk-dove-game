@@ -21,12 +21,10 @@
  * 
  */
 
-import { rulesetAlgorithm1 } from "./rulesets/ruleset1.js";
-import { rulesetAlgorithm2 } from "./rulesets/ruleset2.js";
-import { rulesetAlgorithm3 } from "./rulesets/ruleset3.js";
+import { ruleset1 } from "./rulesets/ruleset1.js";
+import { ruleset2 } from "./rulesets/ruleset2.js";
 
-export const rulesetAlgorithmMap = {
-  "Classic Hawk & Dove": rulesetAlgorithm1,
-  "Primer's Hawk & Dove": rulesetAlgorithm2,
-  "Strategist: Doves": rulesetAlgorithm3,
+export const rulesetMap = {
+  "Classic Hawk & Dove": ruleset1,
+  "Primer's Hawk & Dove": ruleset2,
 };

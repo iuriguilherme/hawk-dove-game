@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.10.4  
+ * @version 0.10.5  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,20 +23,20 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.10.4";
+export const version = "0.10.5";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
 
 import {
-  getRulesetAlgorithm,
+  getRuleset,
   getFoodsPlacementAlgorithm,
   getFindFoodAlgorithm,
   getSubjectsPlacementAlgorithm,
   getStaticParams,
   getDynamicParams,
   getSpritesTheme,
-  getStrategies,
+  getStrategy,
 } from "./params.js";
 
 $fx.params(getStaticParams());
@@ -59,7 +59,7 @@ export const moreSubjects = $fx.getParam("more_random_chance");
 export const moreFoods = $fx.getParam("more_food_chance");
 export const moreHawks = $fx.getParam("more_hawk_chance");
 export const lessFoods = $fx.getParam("less_food_chance");
-export const rulesetAlgorithm = getRulesetAlgorithm($fx.getParam("ruleset"));
+export const ruleset = getRuleset($fx.getParam("ruleset"));
 export const infinite = $fx.getParam("infinite");
 export const findFoodAlgorithm = 
   getFindFoodAlgorithm($fx.getParam("food_find"));
@@ -78,7 +78,7 @@ export const graphColors = {
   "generation": $fx.getParam("gen_color").hex.rgb,
 };
 export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
-export const strategies = getStrategies($fx.getParam("strategies"));
+export const strategy = getStrategy($fx.getParam("strategies"));
 
 $fx.features({
   "Starting random individuals": $fx.getParam("starting_subjects"),

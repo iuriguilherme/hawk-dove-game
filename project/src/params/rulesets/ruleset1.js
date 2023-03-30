@@ -50,7 +50,7 @@ import {
  *  once.
  * In the end, the ones which don't find a food die.
  */
-export function rulesetAlgorithm1() {
+export function ruleset1(subjects, foods, names, name, version) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
@@ -114,26 +114,19 @@ export function rulesetAlgorithm1() {
           }
         }
       } else {
-        //~ console.log("no one on right");
+        //~ console.log("no one on right, bird is alone");
         s[f[i].getData("leftBusy")].setData({
           "strong": true,
           "eating": false,
         });
       }
     } else {
-      //~ console.log("no one on left");
-      if (f[i].getData("rightBusy") > -1) {
-        //~ console.log("someone on right");
-        s[f[i].getData("rightBusy")].setData({
-          "strong": true,
-          "eating": false,
-        });
-      }
+      //~ console.log("One food was alone");
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")} died of`,
-      //~ `hunger`);
+    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")}`,
+      //~ `died of hunger`);
     if (s[i].getData("eating") === true) {
       s[i].setData({
         "dead": true,

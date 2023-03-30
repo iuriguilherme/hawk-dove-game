@@ -21,10 +21,13 @@
  * 
  */
 
+import { strategy2 } from "./strategies/strategy2.js";
+
 export const getStrategiesMap = function(keys) {
-  return {"hereditary": strategies1};
+  return {
+    "Hereditary": strategy1,
+    "Doves": strategy2,
+  };
 }
 
-function strategies1() {
-  //~ console.log("hereditary strategy");
-}
+function strategy1() {}

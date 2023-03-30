@@ -53,8 +53,8 @@ import {
   moreSubjects,
   name,
   names,
-  rulesetAlgorithm,
-  strategies,
+  ruleset,
+  strategy,
   subjectsPlacementAlgorithm,
   updateInjection,
   version,
@@ -126,8 +126,8 @@ export function loop(scene) {
     iteration++;
     
     findFoodAlgorithm();
-    strategies();
-    rulesetAlgorithm();
+    strategy(subjects, foods, names, name, version);
+    ruleset(subjects, foods, names, name, version);
     
     let toDestroy = [];
     let toReproduce = [];

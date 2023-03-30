@@ -32,7 +32,7 @@ import {
   foodsPlacementAlgorithmMap,
   subjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
-import { rulesetAlgorithmMap } from "./params/rulesets.js";
+import { rulesetMap } from "./params/rulesets.js";
 
 import { getSpritesThemeMap } from "./params/sprites.js";
 import { getStrategiesMap } from "./params/strategies.js";
@@ -44,8 +44,8 @@ export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
 }
 
-export function getRulesetAlgorithm(key) {
-  return rulesetAlgorithmMap[key];
+export function getRuleset(key) {
+  return rulesetMap[key];
 }
 
 export function getFoodsPlacementAlgorithm(key) {
@@ -56,7 +56,7 @@ export function getSubjectsPlacementAlgorithm(key) {
   return subjectsPlacementAlgorithmMap[key];
 }
 
-export function getStrategies(key) {
+export function getStrategy(key) {
   return strategiesMap[key];
 }
 
@@ -278,7 +278,7 @@ export function getStaticParams() {
       "type": "select",
       //~ "default": "classic",
       "options": {
-        "options": Object.keys(rulesetAlgorithmMap),
+        "options": Object.keys(rulesetMap),
       },
     },
     {

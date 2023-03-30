@@ -54,7 +54,7 @@ import {
  *  reproduction, because they'll eat all the food alone;
  * In the end, the ones which don't find a food die.
  */
-export function rulesetAlgorithm2() {
+export function ruleset2(subjects, foods, names, name, version) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
@@ -122,14 +122,7 @@ export function rulesetAlgorithm2() {
         });
       }
     } else {
-      //~ console.log("no one on left");
-      if (f[i].getData("rightBusy") > -1) {
-        //~ console.log("someone on right");
-        s[f[i].getData("rightBusy")].setData({
-          "strong": true,
-          "eating": false
-        });
-      }
+      //~ console.log("One food was alone");
     }
   }
   for (let i = 0; i < s.length; i++) {
