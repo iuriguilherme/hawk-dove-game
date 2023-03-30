@@ -22,5 +22,9 @@
  */
 
 export const getStrategiesMap = function(keys) {
-  return {"hereditary": "hereditary"};
+  return {"hereditary": strategies1};
+}
+
+function strategies1() {
+  //~ console.log("hereditary strategy");
 }
