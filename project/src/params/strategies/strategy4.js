@@ -1,5 +1,5 @@
 /**
- * @file strategy2.js Strategy: Pure dove for Hawk Dove Game  
+ * @file strategy3.js Nash equilibirum strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -21,30 +21,29 @@
  * 
  */
 
-let c;
-
 /*
- * @description Strategy - Doves:
- * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
- * https://youtu.be/YNMkADpvO4w?t=51s
+ * @description Nash equilibrium strategy:
+ * https://en.wikipedia.org/wiki/Nash_equilibrium
+ * https://youtu.be/YNMkADpvO4w?t=281s
  * 
- * This is the "pure dove" strategy (everyone only chooses the dove strategy) 
- * as described on Primer Youtube channel;
- * Everyone chooses to be a Dove.
+ * Nash equilibrium is when no one has anything to gain by changing strategy;
+ * TODO: this needs to take into account the ruleset's payoff matrix. For now, 
+ * it just assumes Primer's Hawk & Dove ruleset, and therefore the Nash 
+ * equilibrium means to play the opposite of the opponent.
  */
-export function strategy2(subjects, foods, names, name, version) {
+export function strategy4(subjects, foods, names, name, version) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
-      c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": names[1]});
-      c.setTexture(names[1]);
-    }
-    if (f[i].getData("rightBusy") > -1) {
-      c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": names[1]});
-      c.setTexture(names[1]);
+      if (f[i].getData("rightBusy") > -1) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
+          s[f[i].getData("rightBusy")].setData({"strategy": names[2]});
+        }
+        else if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
+          s[f[i].getData("rightBusy")].setData({"strategy": names[1]});
+        }
+      }
     }
   }
 }

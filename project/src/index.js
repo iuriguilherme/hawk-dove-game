@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.10.6  
+ * @version 0.10.7  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.10.6";
+export const version = "0.11.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -89,8 +89,8 @@ $fx.features({
   "Starting food rate": $fx.getParam("starting_food") + "%",
   "Food destruction chance": $fx.getParam("less_food_chance") + "%",
   "Food creation chance": $fx.getParam("more_food_chance") + "%",
-  "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
   "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
+  "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
   "Infinite generation": $fx.getParam("infinite"),
   "Ruleset": $fx.getParam("ruleset"),
   "Food finding algorithm": $fx.getParam("food_find"),
@@ -154,15 +154,15 @@ console.log(
   `fx(params) Chance of new food: ${$fx.getParam("more_food_chance")}%\n`,
   `fx(params) Chance of new random individual:`,
   `${$fx.getParam("more_random_chance")}%\n`,
-  `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
+  `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
   `fx(params) Keep simulating (no game over): ${$fx.getParam("infinite")}\n`,
   `fx(params) Current ruleset: ${$fx.getParam("ruleset")}\n`,
+  `fx(params) Available strategies: ${$fx.getParam("strategies")}\n`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}\n`,
   `fx(params) Subject placing algorithm:`,
   `${$fx.getParam("subjects_placement")}\n`,
   `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}\n`,
-  `fx(params) Available strategies: ${$fx.getParam("strategies")}\n`,
   `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}\n`,
 );
 

@@ -263,7 +263,7 @@ export function getStaticParams() {
     },
     {
       "id": "strategies",
-      "name": "Available strategies",
+      "name": "Startegy",
       "type": "select",
       //~ "default": "hereditary",
       "options": {

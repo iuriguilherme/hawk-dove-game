@@ -21,20 +21,6 @@
  * 
  */
 
-import { create, all } from "mathjs";
-const math = create(all, {});
-
-import {
-  subjects,
-  foods,
-} from "../../game.js";
-
-import {
-  names,
-  name,
-  version,
-} from "../../index.js";
-
 /*
  * @description Classic ruleset:
  * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
@@ -48,7 +34,6 @@ import {
  * Food suply is constant and fixed;
  * If a bird is alone in it's group (only one hawk or dove), it reproduces 
  *  once.
- * In the end, the ones which don't find a food die.
  */
 export function ruleset1(subjects, foods, names, name, version) {
   let s = subjects.getChildren();

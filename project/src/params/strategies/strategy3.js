@@ -1,5 +1,5 @@
 /**
- * @file rulesets.js Rulesets for Hawk Dove Game  
+ * @file strategy3.js Strategy: Pure hawk for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -21,14 +21,30 @@
  * 
  */
 
-import { ruleset1 } from "./rulesets/ruleset1.js";
-import { ruleset2 } from "./rulesets/ruleset2.js";
-import { ruleset3 } from "./rulesets/ruleset3.js";
-//~ import { ruleset4 } from "./rulesets/ruleset4.js";
+let c;
 
-export const rulesetMap = {
-  "Classic Hawks & Doves": ruleset1,
-  "Primer's Hawks & Doves": ruleset2,
-  "Primer's modified Hawks & Doves": ruleset3,
-  //~ "Primer's Youtube comments": ruleset4,
-};
+/*
+ * @description Strategy - Hawks:
+ * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
+ * https://youtu.be/YNMkADpvO4w?t=51s
+ * 
+ * This is the opposite of the "pure dove" strategy (everyone only chooses the 
+ * dove strategy) for completeness;
+ * Everyone chooses to be a Hawk.
+ */
+export function strategy3(subjects, foods, names, name, version) {
+  let s = subjects.getChildren();
+  let f = foods.getChildren();
+  for (let i = 0; i < f.length; i++) {
+    if (f[i].getData("leftBusy") > -1) {
+      c = s[f[i].getData("leftBusy")];
+      c.setData({"strategy": names[2]});
+      c.setTexture(names[2]);
+    }
+    if (f[i].getData("rightBusy") > -1) {
+      c = s[f[i].getData("rightBusy")];
+      c.setData({"strategy": names[2]});
+      c.setTexture(names[2]);
+    }
+  }
+}

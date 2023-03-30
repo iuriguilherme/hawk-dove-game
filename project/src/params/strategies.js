@@ -22,10 +22,14 @@
  */
 
 import { strategy2 } from "./strategies/strategy2.js";
+import { strategy3 } from "./strategies/strategy3.js";
+import { strategy4 } from "./strategies/strategy4.js";
 
 export const strategiesMap = {
   "Hereditary": strategy1,
   "Doves": strategy2,
+  "Hawks": strategy3,
+  "Nash equilibrium": strategy4,
 }
 
 /* 
