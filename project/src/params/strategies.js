@@ -35,6 +35,7 @@ export const getStrategiesMap = function(ruleset) {
       break;
     case "Primer's Hawks & Doves":
       return {
+        "Hereditary": strategy1,
         "Doves": strategy2,
         "Hawks": strategy3,
         "Nash equilibrium": strategy4,
@@ -42,6 +43,7 @@ export const getStrategiesMap = function(ruleset) {
       break;
     case "Primer's modified Hawks & Doves":
       return {
+        "Hereditary": strategy1,
         "Doves": strategy2,
         "Hawks": strategy3,
         "Nash equilibrium": strategy4,
@@ -50,9 +52,6 @@ export const getStrategiesMap = function(ruleset) {
     default:
       return {
         "Hereditary": strategy1,
-        "Doves": strategy2,
-        "Hawks": strategy3,
-        "Nash equilibrium": strategy4,
       };
   }
 }

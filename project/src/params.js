@@ -71,7 +71,7 @@ export function getParamsStep3(ruleset) {
       "id": "strategy",
       "name": "Strategy (select and submit ruleset to refresh)",
       "type": "select",
-      //~ "default": "hereditary",
+      "default": "Hereditary",
       "options": {
         "options": Object.keys(strategiesMap),
       },
