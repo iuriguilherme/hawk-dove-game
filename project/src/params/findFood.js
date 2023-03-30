@@ -24,11 +24,6 @@
 import { create, all } from "mathjs";
 const math = create(all, {});
 
-import {
-  subjects,
-  foods,
-} from "../game.js";
-
 export const findFoodAlgorithmMap = {
   "random": findFoodAlgorithm1,
   "closest": findFoodAlgorithm2,
@@ -42,27 +37,27 @@ const minDistance = 20;
  *    Subject looks for a random free food until they find it, or an infinte 
  *    loop is reached.  
  */
-function findFoodAlgorithm1() {
-  findFoodAlgorithmMain("random");
+function findFoodAlgorithm1(subjects, foods) {
+  findFoodAlgorithmMain("random", subjects, foods);
 }
 
 /*
  * @description Food finding method 2:
  *    Subject looks for the closest free food.  
  */
-function findFoodAlgorithm2() {
-  findFoodAlgorithmMain("closest");
+function findFoodAlgorithm2(subjects, foods) {
+  findFoodAlgorithmMain("closest", subjects, foods);
 }
 
 /*
  * @description Food finding method 3:
  *    Subject looks for the farthest free food.  
  */
-function findFoodAlgorithm3() {
-  findFoodAlgorithmMain("farthest");
+function findFoodAlgorithm3(subjects, foods) {
+  findFoodAlgorithmMain("farthest", subjects, foods);
 }
 
-function findFoodAlgorithmMain(selection) {
+function findFoodAlgorithmMain(selection, subjects, foods) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   let distances = [];

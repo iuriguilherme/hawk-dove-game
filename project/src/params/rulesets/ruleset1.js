@@ -44,9 +44,11 @@ export function ruleset1(subjects, foods, names, name, version) {
       //~ console.log("left populated");
       if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["hawk"]) {
           //~ console.log("left is hawk");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             //~ console.log("left and right two hawks. will fight...");
             if ($fx.rand() > 0.5) {
               //~ console.log("left hawk wins");
@@ -82,7 +84,8 @@ export function ruleset1(subjects, foods, names, name, version) {
           }
         } else {
           //~ console.log("left is dove");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("leftBusy")].setData({
               "fleeing": true,

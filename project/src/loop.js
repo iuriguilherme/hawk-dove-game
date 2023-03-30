@@ -25,10 +25,6 @@ import { create, all } from "mathjs";
 const math = create(all, {});
 
 import {
-  charts,
-} from "./charts.js";
-
-import {
   endGame,
 } from "./gameOver.js";
 
@@ -38,9 +34,20 @@ import {
 
 import {
   alphabetArray,
+  fxArray,
 } from "./util.js";
 
-import {
+export var iteration = 0;
+
+let chartData;
+let gameOver = false;
+
+export const loop = function(
+  scene,
+  subjects,
+  foods,
+  subjectsCircle,
+  foodsCircle,
   findFoodAlgorithm,
   foodsPlacementAlgorithm,
   growthRate,
@@ -54,37 +61,138 @@ import {
   name,
   names,
   ruleset,
+  strategiesNames,
   strategy,
   subjectsPlacementAlgorithm,
-  updateInjection,
   version,
-} from "./index.js";
-
-import {
-  subjects,
-  foods,
-  //~ subjectsCircle,
-  //~ foodsCircle,
-} from "./game.js";
-
-import {
-  fxArray,
-} from "./util.js";
-
-export var iteration = 0;
-
-let gameOver = false;
-let data;
-
-export function loop(scene) {
+  charts,
+) {
   $fx.preview();
+  
+  function createNew(key) {
+    let children = subjects.create(0, 0, key);
+    children.setData({
+      "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
+      "strategy": key,
+      "waiting": true,
+      "eating": false,
+      "fleeing": false,
+      "dead": false,
+      "strong": false,
+      "age": 0,
+      "generation": 0,
+    });
+    //~ console.log(`[${name} v${version}]: Creating a new ${key}`,
+      //~ `(${getPopulationData()[key]})`);
+  }
+  
+  function updateSimpleBarChart(key) {
+    chartData = getSimpleData(key);
+    charts[key].data.labels = chartData["labels"];
+    charts[key].data.datasets[0].data = chartData["data"];
+    charts[key].update();
+  }
+  
+  function updateNestedBarChart(chart, key, array) {
+    chartData = getNestedData(key, array);
+    charts[chart].data.labels = chartData["labels"];
+    charts[chart].data.datasets[0].data = chartData["data"];
+    charts[chart].update();
+  }
+  
+  function updatePopulationChart(key) {
+    chartData = getPopulationData();
+    charts[key].data.datasets[0].data = [chartData["total"]];
+    charts[key].data.datasets[1].data = [chartData[names["food"]]];
+    for (let i = 1; i < strategiesNames.length; i++) {
+      charts[key].data.datasets[i + 1].data = [chartData[names["strategies"][strategiesNames[i]]]];
+    }
+    charts[key].update();
+  }
+  
+  // FIXME: The population line chart is broken since 0.9
+  function updatePopulationMovingChart(key) {
+    chartData = getPopulationData();
+    charts[key].data.labels.push(iteration);
+    charts[key].data.datasets[0].data.push(chartData["total"]);
+    charts[key].data.datasets[1].data.push(chartData[names["food"]]);
+    for (let i = 1; i < strategiesNames.length; i++) {
+      charts[key].data.datasets[i].data.push(
+        chartData[names["strategies"][strategiesNames[i]]]);
+    }
+    charts[key].update();
+  }
+  
+  function updatePopulationMovingChartHack(key) {
+    chartData = getPopulationData();
+    charts[key].data.labels.push(iteration);
+    for (let i = 0; i < charts[key].data.strategiesNames.length; i++) {
+      charts[key].data.datasets[0].data.push(
+        chartData["total"]
+        //~ $fx.rand() * 99
+      );
+      charts[key].data.datasets[1].data.push(
+        chartData[names["food"]]
+        //~ $fx.rand() * 99
+      );
+      for (let i = 1; i < strategiesNames.length; i++) {
+        charts[key].data.datasets[i + 1].data.push(
+          chartData[names["strategies"][strategiesNames[i]]]
+          //~ $fx.rand() * 99
+        );
+      }
+    }
+    charts[key].update();
+  }
+  
+  function getSimpleData(key) {
+    let data = {"data": [], "labels": []};
+    let limit = 0;
+    for (let i = 0; i < subjects.getChildren().length; i++) {
+      limit = math.max(limit, subjects.getChildren()[i].getData(key));
+    }
+    for (let i = 0; i <= limit; i++) {
+      let new_data = subjects.getChildren().filter(
+        s => s.getData(key) == i).length;
+      if (new_data > 0) {
+        data["labels"].push(i);
+        data["data"].push(new_data);
+      }
+    }
+    return data;
+  }
+  
+  function getNestedData(key, array) {
+    let data = {"data": [], "labels": []};
+    for (let i = 0; i < array.length; i++) {
+      let new_data = subjects.getChildren().filter(
+        s => s.getData(key) == array[i]).length;
+      if (new_data > 0) {
+        data["labels"].push(array[i]);
+        data["data"].push(new_data);
+      }
+    }
+    return data;
+  }
+  
+  function getPopulationData() {
+    let data = {};
+    data["total"] = subjects.getChildren().length;
+    data[names["food"]] = foods.getChildren().length;
+    for (let i = 1; i < strategiesNames.length; i++) {
+      data[names["strategies"][strategiesNames[i]]] = subjects.getChildren().filter(
+        s => s.getData("strategy") == names["strategies"][strategiesNames[i]]).length;
+    }
+    return data;
+  }
+  
   if (!gameOver) {
     let s = subjects.getChildren();
     let f = foods.getChildren();
     
-    data = getNestedData("gene", alphabetArray);
-    charts["genetic"].data.labels = data["labels"];
-    charts["genetic"].data.datasets[0].data = data["data"];
+    chartData = getNestedData("gene", alphabetArray);
+    charts["genetic"].data.labels = chartData["labels"];
+    charts["genetic"].data.datasets[0].data = chartData["data"];
     charts["genetic"].update();
     
     updateNestedBarChart("genetic", "gene", alphabetArray)
@@ -93,13 +201,13 @@ export function loop(scene) {
     updatePopulationChart("hawkAndDove");
     updatePopulationMovingChart("population");
     
-    data = getPopulationData();
+    chartData = getPopulationData();
     //~ // Tests game over at iteration 10
-    //~ if (iteration == 10) {data[names[2]] = 0;}
-    for (let i = 1; i < names.length; i++) {
-      if (data[names[i]] < 1) {
-        let reason = `${names[i]} population reached zero at ` +
-          `iteration ${iteration}`;
+    //~ if (iteration == 10) {chartData[names["strategies"]["hawk"]] = 0;}
+    for (let i = 1; i < strategiesNames.length; i++) {
+      if (chartData[names["strategies"][strategiesNames[i]]] < 1) {
+        let reason = `${names["strategies"][strategiesNames[i]]} population reached` +
+          `zero at iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
         if (!infinite) {
           endGame(
@@ -116,6 +224,7 @@ export function loop(scene) {
             updatePopulationChart,
             updateSimpleBarChart,
             gData,
+            strategiesNames,
           );
           gameOver = true;
           return;
@@ -125,7 +234,12 @@ export function loop(scene) {
     
     iteration++;
     
-    findFoodAlgorithm();
+    findFoodAlgorithm(
+      subjects,
+      foods,
+      subjectsCircle,
+      foodsCircle,
+    );
     strategy(subjects, foods, names, name, version);
     ruleset(subjects, foods, names, name, version);
     
@@ -186,6 +300,7 @@ export function loop(scene) {
           updatePopulationChart,
           updateSimpleBarChart,
           gData,
+          strategiesNames,
         );
         gameOver = true;
         return;
@@ -206,21 +321,27 @@ export function loop(scene) {
     }
     
     if ($fx.rand() < moreHawks * 1e-2) {
-      createNew(names[2]);
+      createNew(names["strategies"]["hawk"]);
     }
     
     if ($fx.rand() < moreDoves * 1e-2) {
-      createNew(names[1]);
+      createNew(names["strategies"]["dove"]);
     }
     
     if ($fx.rand() < moreSubjects * 1e-2) {
-      createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
+      createNew(
+        names["strategies"][labels[math.floor($fx.rand() * strategiesNames.length)]]);
     }
     
-    subjectsPlacementAlgorithm();
+    subjectsPlacementAlgorithm(
+      subjects,
+      foods,
+      subjectsCircle,
+      foodsCircle,
+    );
       
     if ($fx.rand() < moreFoods * 1e-2) {
-      foods.create(0, 0, names[0]);
+      foods.create(0, 0, names["food"]);
       //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFoods * 1e-2) {
@@ -236,125 +357,14 @@ export function loop(scene) {
       });
     }
     
-    foodsPlacementAlgorithm();
+    foodsPlacementAlgorithm(
+      subjects,
+      foods,
+      subjectsCircle,
+      foodsCircle,
+    );
     
   } else {
     return;
   }
-}
-
-function createNew(key) {
-  let children = subjects.create(0, 0, key);
-  children.setData({
-    "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
-    "strategy": key,
-    "waiting": true,
-    "eating": false,
-    "fleeing": false,
-    "dead": false,
-    "strong": false,
-    "age": 0,
-    "generation": 0,
-  });
-  //~ console.log(`[${name} v${version}]: Creating a new ${key}`,
-    //~ `(${getPopulationData()[key]})`);
-}
-
-function updateSimpleBarChart(key) {
-  data = getSimpleData(key);
-  charts[key].data.labels = data["labels"];
-  charts[key].data.datasets[0].data = data["data"];
-  charts[key].update();
-}
-
-function updateNestedBarChart(chart, key, array) {
-  data = getNestedData(key, array);
-  charts[chart].data.labels = data["labels"];
-  charts[chart].data.datasets[0].data = data["data"];
-  charts[chart].update();
-}
-
-function updatePopulationChart(key) {
-  data = getPopulationData();
-  charts[key].data.datasets[0].data = [data["total"]];
-  charts[key].data.datasets[1].data = [data[names[0]]];
-  for (let i = 1; i < names.length; i++) {
-    charts[key].data.datasets[i + 1].data = [data[names[i]]];
-  }
-  charts[key].update();
-}
-
-// FIXME: The population line chart is broken since 0.9
-function updatePopulationMovingChart(key) {
-  data = getPopulationData();
-  charts[key].data.labels.push(iteration);
-  charts[key].data.datasets[0].data.push(data["total"]);
-  charts[key].data.datasets[1].data.push(data[names[0]]);
-  for (let i = 1; i < names.length; i++) {
-    charts[key].data.datasets[i].data.push(data[names[i]]);
-  }
-  charts[key].update();
-}
-
-function updatePopulationMovingChartHack(key) {
-  data = getPopulationData();
-  charts[key].data.labels.push(iteration);
-  for (let i = 0; i < charts[key].data.labels.length; i++) {
-    charts[key].data.datasets[0].data.push(
-      data["total"]
-      //~ $fx.rand() * 99
-    );
-    charts[key].data.datasets[1].data.push(
-      data[names[0]]
-      //~ $fx.rand() * 99
-    );
-    for (let i = 1; i < names.length; i++) {
-      charts[key].data.datasets[i + 1].data.push(
-        data[names[i]]
-        //~ $fx.rand() * 99
-      );
-    }
-  }
-  charts[key].update();
-}
-
-function getSimpleData(key) {
-  let data = {"data": [], "labels": []};
-  let limit = 0;
-  for (let i = 0; i < subjects.getChildren().length; i++) {
-    limit = math.max(limit, subjects.getChildren()[i].getData(key));
-  }
-  for (let i = 0; i <= limit; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData(key) == i).length;
-    if (new_data > 0) {
-      data["labels"].push(i);
-      data["data"].push(new_data);
-    }
-  }
-  return data;
-}
-
-function getNestedData(key, array) {
-  let data = {"data": [], "labels": []};
-  for (let i = 0; i < array.length; i++) {
-    let new_data = subjects.getChildren().filter(
-      s => s.getData(key) == array[i]).length;
-    if (new_data > 0) {
-      data["labels"].push(array[i]);
-      data["data"].push(new_data);
-    }
-  }
-  return data;
-}
-
-function getPopulationData() {
-  let data = {};
-  data["total"] = subjects.getChildren().length;
-  data[names[0]] = foods.getChildren().length;
-  for (let i = 1; i < names.length; i++) {
-    data[names[i]] = subjects.getChildren().filter(
-      s => s.getData("strategy") == names[i]).length;
-  }
-  return data;
 }

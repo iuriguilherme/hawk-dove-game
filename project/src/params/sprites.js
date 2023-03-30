@@ -25,19 +25,19 @@ export const getSpritesThemeMap = function(names) {
   return {
     "Boys, Girls & Hearths": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "boy.svg",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "girl.svg",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "svg",
         "file": "heart.svg",
         "scale": "1.0",
@@ -45,19 +45,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Devils, Angels & Hearths": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "face-devilish-2.svg",
         "scale": "0.5",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "face-angel-2.svg",
         "scale": "0.5",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "svg",
         "file": "emblem-favorite-2.svg",
         "scale": "0.5",
@@ -65,19 +65,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Gimps, Lyxes & Files": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "gimp-3.svg",
         "scale": "0.08",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "lyx.svg",
         "scale": "0.25",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "svg",
         "file": "applications-other-3.svg",
         "scale": "0.6",
@@ -85,19 +85,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Eagles, Doves & Apples": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-eagle.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-doves_of_peace.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "food-worm_in_apple.png",
         "scale": "1.0",
@@ -105,19 +105,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Spiders, Ants & Leaves": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-black_widow.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-ant.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "plant-leaf.png",
         "scale": "1.0",
@@ -125,19 +125,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Hornet, Butterfly & Flowers": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-hornet.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-butterfly.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "plant-flower-apple_blossom.png",
         "scale": "1.0",
@@ -145,19 +145,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Crow, Hummingbird & Blackberries": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-crow.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-hummingbird.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "food-blackberry.png",
         "scale": "1.0",
@@ -165,19 +165,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Octopuses, Whales & Blowfishes": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-octopus.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-whale.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "animals-blowfish.png",
         "scale": "1.0",
@@ -185,19 +185,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Bears, Beavers & Acorns": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-bear.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-beaver.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "plant-acorn.png",
         "scale": "1.0",
@@ -205,19 +205,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Goats, Elephants & Kiwis": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-goat.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-elephant.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "food-kiwi.png",
         "scale": "1.0",
@@ -225,19 +225,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Owls, Penguins & Grapes": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-owl.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-penguin.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "image",
         "file": "food-grapes.png",
         "scale": "1.0",
@@ -245,19 +245,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Windows, Debian & Files": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "windows.png",
         "scale": "1.0",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "linux_distribution-debian.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "svg",
         "file": "text-x-generic.svg",
         "scale": "0.6",
@@ -265,19 +265,19 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Proprietary, Kopimi & Code": [
       {
-        "key": names[1],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "licenses-cc-nd-no_derivatives.svg",
         "scale": "0.5",
       },
       {
-        "key": names[2],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "licenses-kopimi.png",
         "scale": "1.0",
       },
       {
-        "key": names[0],
+        "key": names["food"],
         "type": "svg",
         "file": "text-x-python.svg",
         "scale": "0.6",

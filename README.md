@@ -57,8 +57,8 @@ generation;
 * Selection of algorithms to further customize the behaviour and outcome of the 
 simulation via fx(params);  
 
-### [0.12.2](
-https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.12.2)
+### [0.13.0](
+https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.13.0)
 
 * Added rulesets from Primer youtube channel;  
 * Implemented strategies, subjects now can choose what to do;  

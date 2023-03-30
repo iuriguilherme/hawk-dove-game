@@ -21,13 +21,6 @@
  * 
  */
 
-import {
-  subjects,
-  foods,
-  subjectsCircle,
-  foodsCircle,
-} from "../game.js";
-
 import Phaser from "phaser";
 
 export const subjectsPlacementAlgorithmMap = {
@@ -44,7 +37,12 @@ export const foodsPlacementAlgorithmMap = {
  * @description Subject placement method 1:
  *    Subjects are placed distributed in a circle.  
  */
-function subjectsPlacementAlgorithm1() {
+function subjectsPlacementAlgorithm1(
+  subjects,
+  foods,
+  subjectsCircle,
+  foodsCircle,
+) {
   Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
 }
 
@@ -52,7 +50,12 @@ function subjectsPlacementAlgorithm1() {
  * @description Subjects placement method 2:
  *    Subjects are placed randomly inside the subject circle.  
  */
-function subjectsPlacementAlgorithm2() {
+function subjectsPlacementAlgorithm2(
+  subjects,
+  foods,
+  subjectsCircle,
+  foodsCircle,
+) {
   Phaser.Actions.RandomCircle(subjects.getChildren(), subjectsCircle);
 }
 
@@ -61,7 +64,12 @@ function subjectsPlacementAlgorithm2() {
  *    Foods are placed distributed in a inner circle, smaller than the 
  *    subjects circle.  
  */
-function foodsPlacementAlgorithm1() {
+function foodsPlacementAlgorithm1(
+  subjects,
+  foods,
+  subjectsCircle,
+  foodsCircle,
+) {
   Phaser.Actions.PlaceOnCircle(foods.getChildren(), foodsCircle);
 }
 
@@ -69,6 +77,11 @@ function foodsPlacementAlgorithm1() {
  * @description Food placement method 2:
  *    Foods are placed randomly inside the subject circle.  
  */
-function foodsPlacementAlgorithm2() {
+function foodsPlacementAlgorithm2(
+  subjects,
+  foods,
+  subjectsCircle,
+  foodsCircle,
+) {
   Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
 }

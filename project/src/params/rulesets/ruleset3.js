@@ -48,8 +48,10 @@ export function ruleset3(subjects, foods, names, name, version) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       if (f[i].getData("rightBusy") > -1) {
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["hawk"]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             s[f[i].getData("rightBusy")].setData({"eating": false});
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > 0.25) {
@@ -58,8 +60,8 @@ export function ruleset3(subjects, foods, names, name, version) {
             if ($fx.rand() > 0.25) {
               s[f[i].getData("leftBusy")].setData({"dead": true});
             }
-          } else
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["dove"]) {
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
               s[f[i].getData("leftBusy")].setData({"strong": true});
@@ -75,8 +77,10 @@ export function ruleset3(subjects, foods, names, name, version) {
             }
           }
         } else
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["dove"]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
               s[f[i].getData("rightBusy")].setData({"strong": true});
@@ -91,7 +95,8 @@ export function ruleset3(subjects, foods, names, name, version) {
               s[f[i].getData("leftBusy")].setData({"fleeing": true});
             }
           } else
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["dove"]) {
             s[f[i].getData("leftBusy")].setData({"eating": false});
             s[f[i].getData("rightBusy")].setData({"eating": false});
           }

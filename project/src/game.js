@@ -29,18 +29,39 @@ import {
   createCharts,
 } from "./charts.js";
 
+export var foods;
+export var foodsCircle;
+export var subjects;
+export var subjectsCircle;
+export var charts = {};
+
 import {
   graphsCanvas,
 } from "./html.js";
 
 import {
+  findFoodAlgorithm,
+  foodsPlacementAlgorithm,
+  graphColors,
+  growthRate,
+  infinite,
   initialFoodRate,
+  maxAge,
+  lessFoods,
+  moreDoves,
+  moreFoods,
+  moreHawks,
+  moreSubjects,
   name,
   names,
+  ruleset,
   spritesTheme,
   startingSubjects,
   startingHawks,
   startingDoves,
+  strategiesNames,
+  strategy,
+  subjectsPlacementAlgorithm,
   version,
 } from "./index.js";
 
@@ -51,11 +72,6 @@ import {
 import {
   fxArray,
 } from "./util.js";
-
-export var foods;
-export var foodsCircle;
-export var subjects;
-export var subjectsCircle;
 
 let data;
 let datasets;
@@ -78,16 +94,17 @@ class HawkDoveScene extends Phaser.Scene {
   create () {
     subjects = new Phaser.GameObjects.Group(this);
     for (let i = 0; i < startingSubjects; i++) {
-      createNew(names[math.max(1, math.floor($fx.rand() * names.length))]);
-    }
-    for (let i = 0; i < startingHawks; i++) {
-      createNew(names[2]);
+      createNew(
+        names["strategies"][labels[math.floor($fx.rand() * strategiesNames.length)]]);
     }
     for (let i = 0; i < startingDoves; i++) {
-      createNew(names[1]);
+      createNew(names["strategies"]["dove"]);
+    }
+    for (let i = 0; i < startingHawks; i++) {
+      createNew(names["strategies"]["hawk"]);
     }
     foods = this.add.group({
-      "key": names[0],
+      "key": names["food"],
       "repeat": ((subjects.getChildren().length * initialFoodRate) / 1e2) - 1,
     });
     for (let i = 0; i < foods.getChildren().length; i++) {
@@ -114,11 +131,40 @@ class HawkDoveScene extends Phaser.Scene {
     Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
     Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
     
-    createCharts();
+    createCharts(
+      charts,
+      names,
+      graphColors,
+      strategiesNames,
+    );
   }
   // FIXME: Use imported update function from another module instead
   update () {
-    updateWrapper(this);
+    updateWrapper(
+      this,
+      subjects,
+      foods,
+      subjectsCircle,
+      foodsCircle,
+      findFoodAlgorithm,
+      foodsPlacementAlgorithm,
+      growthRate,
+      infinite,
+      lessFoods,
+      maxAge,
+      moreDoves,
+      moreFoods,
+      moreHawks,
+      moreSubjects,
+      name,
+      names,
+      ruleset,
+      strategiesNames,
+      strategy,
+      subjectsPlacementAlgorithm,
+      version,
+      charts,
+    );
   }
 }
 

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.12.2  
+ * @version 0.13.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.12.2";
+export const version = "0.13.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -42,15 +42,19 @@ import {
 
 $fx.params(getParamsStep1());
 
-export const names = [
-  $fx.getParam("food_string"),
-  $fx.getParam("dove_string"),
-  $fx.getParam("hawk_string"),
-];
+export const names = {
+  "food": $fx.getParam("food_string"),
+  "strategies": {
+    "dove": $fx.getParam("dove_string"),
+    "hawk": $fx.getParam("hawk_string"),
+  },
+};
+export const strategiesNames = Object.keys(names["strategies"]);
+
 export const graphColors = {
   "hawkAndDove": {
-    [names[1]]: $fx.getParam("dove_color").hex.rgb,
-    [names[2]]: $fx.getParam("hawk_color").hex.rgb,
+    [names["strategies"]["dove"]]: $fx.getParam("dove_color").hex.rgb,
+    [names["strategies"]["hawk"]]: $fx.getParam("hawk_color").hex.rgb,
   },
   "population": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,
@@ -106,12 +110,7 @@ $fx.features({
 
 import {
   charts,
-} from "./charts.js";
-
-import {
   phaserGame,
-  //~ foodsCircle,
-  //~ subjectsCircle,
 } from "./game.js";
 
 import {

@@ -27,15 +27,14 @@ import {
   graphsCanvas,
 } from "./html.js";
 
-import {
+let datasets;
+
+export function createCharts(
+  charts,
   names,
   graphColors,
-} from "./index.js";
-
-let datasets;
-export var charts = {};
-
-export function createCharts() {
+  strategiesNames,
+) {
   datasets = [];
   datasets.push({
     "label": "total",
@@ -50,7 +49,7 @@ export function createCharts() {
     "tension": 0.1,
   });
   datasets.push({
-    "label": names[0],
+    "label": names["food"],
     "data": [],
     "fill": false,
     "pointStyle": false,
@@ -61,17 +60,18 @@ export function createCharts() {
     //~ "borderColor": "rgb(180, 180, 180)",
     "tension": 0.1,
   });
-  for (let i = 1; i < names.length; i++) {
+  for (let i = 1; i < strategiesNames.length; i++) {
     datasets.push({
-      "label": names[i],
+      "label": names["strategies"][strategiesNames[i]],
       "data": [],
       "fill": false,
       "pointStyle": false,
       //~ "borderWidth": 0.5,
       //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
       //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
-      "backgroundColor": graphColors["hawkAndDove"][names[i]],
-      "borderColor": graphColors["hawkAndDove"][names[i]],
+      "backgroundColor": 
+        graphColors["hawkAndDove"][names["strategies"][strategiesNames[i]]],
+      "borderColor": graphColors["hawkAndDove"][names["strategies"][strategiesNames[i]]],
       "tension": 0.1,
     });
   }
@@ -96,14 +96,8 @@ export function createCharts() {
   charts["hawkAndDove"] = new Chart(graphsCanvas[1], {
     "type": "bar",
     "data": {
-      //~ "labels": names.concat(["total", "food"]),
       "labels": ["# of individuals / food"],
       "datasets": datasets
-      //~ "datasets": [{
-        //~ "label": "Hawk and Dove Population",
-        //~ "data": data,
-        //~ "borderWidth": 1
-      //~ }]
     },
     "options": {
       "responsive": true,

@@ -48,9 +48,11 @@ export function ruleset2(subjects, foods, names, name, version) {
       //~ console.log("left populated");
       if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["hawk"]) {
           //~ console.log("left is hawk");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             //~ console.log("left and right two hawks. both die...");
             s[f[i].getData("rightBusy")].setData({
               "dead": true,
@@ -60,8 +62,8 @@ export function ruleset2(subjects, foods, names, name, version) {
               "dead": true,
               "eating": false,
             });
-          } else
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["dove"]) {
             //~ console.log("right is dove, hawk and dove");
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
@@ -77,10 +79,11 @@ export function ruleset2(subjects, foods, names, name, version) {
               s[f[i].getData("rightBusy")].setData({"fleeing": true});
             }
           }
-        } else 
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
+        } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["dove"]) {
           //~ console.log("left is dove");
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[2]) {
+          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > 0.5) {
@@ -95,8 +98,8 @@ export function ruleset2(subjects, foods, names, name, version) {
             } else {
               s[f[i].getData("leftBusy")].setData({"fleeing": true});
             }
-          } else 
-          if (s[f[i].getData("rightBusy")].getData("strategy") == names[1]) {
+          } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
+            names["strategies"]["dove"]) {
             //~ console.log("right is dove, dove and dove");
             s[f[i].getData("leftBusy")].setData({"eating": false});
             s[f[i].getData("rightBusy")].setData({"eating": false});

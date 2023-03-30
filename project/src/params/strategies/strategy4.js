@@ -37,11 +37,16 @@ export function strategy4(subjects, foods, names, name, version) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       if (f[i].getData("rightBusy") > -1) {
-        if (s[f[i].getData("leftBusy")].getData("strategy") == names[1]) {
-          s[f[i].getData("rightBusy")].setData({"strategy": names[2]});
-        }
-        else if (s[f[i].getData("leftBusy")].getData("strategy") == names[2]) {
-          s[f[i].getData("rightBusy")].setData({"strategy": names[1]});
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["dove"]) {
+          s[f[i].getData("rightBusy")].setData({
+            "strategy": names["strategies"]["hawk"],
+          });
+        } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          names["strategies"]["hawk"]) {
+          s[f[i].getData("rightBusy")].setData({
+            "strategy": names["strategies"]["dove"],
+          });
         }
       }
     }
