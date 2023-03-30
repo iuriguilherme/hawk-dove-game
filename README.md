@@ -1,16 +1,6 @@
 Hawk Dove Game
 ===
 
-How
----
-
-Powered by 
-[fxhash boilerplate](https://github.com/fxhash/fxhash-boilerplate) and 
-[phaser.js](https://phaser.io)  
-
-Generated tokens available on 
-[fx(hash)](https://www.fxhash.xyz/u/Iuri%20Guilherme)  
-
 What
 ---
 
@@ -22,6 +12,7 @@ theory. Some links for an in depth explanation about how the game works:
 * <https://en.wikipedia.org/wiki/Resource_holding_potential>
 * <https://en.wikipedia.org/wiki/Genetic_algorithm>
 * <https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html>
+* <https://youtu.be/YNMkADpvO4w>
 
 Why
 ---
@@ -35,6 +26,43 @@ the dist/ folder for use in a web server or in the blockhain, use
 `npm run build`.  
 
 If you don't know what "npm" is, go to `https://nodejs.org/en`  
+
+How
+---
+
+Powered by 
+[fxhash boilerplate](https://github.com/fxhash/fxhash-boilerplate), 
+[phaser.js](https://phaser.io), [chart.js](https://chartjs.org) and 
+[math.js](https://mathjs.org)  
+
+Generated tokens available on 
+[fx(hash)](https://www.fxhash.xyz/u/Iuri%20Guilherme)  
+
+Release log
+---
+
+### [0.8.2](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.8.2)
+
+* Working simulation of hawk-dove game;  
+* fx(params) and fx(features);  
+* Selection of themes for the sprites, mostly from openiconlibrary. Selectable 
+by fx(params);  
+* Option to simulate endlessly or reach a game over screen when the population 
+of either Dove or Hawks is extermined;  
+* Generation concept: when subjects reproduce, the children will be of next 
+generation;
+* Age concept: Each iteration increment all subjects's age;  
+* Graphs showing the population history, current population, generations, age;  
+* Options to customize graphs colors and labels via fx(params);  
+* Selection of algorithms to further customize the behaviour and outcome of the 
+simulation via fx(params);  
+
+### [0.12.2](
+https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.12.2)
+
+* Added rulesets from Primer youtube channel;  
+* Implemented strategies, subjects now can choose what to do;  
+* Conditional fx(params) influence the availability of others;  
 
 ASSETS LICENSE
 ---
