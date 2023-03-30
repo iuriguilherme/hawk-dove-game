@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.10.7  
+ * @version 0.12.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,51 +23,30 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.11.0";
+export const version = "0.12.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
 
 import {
-  getRuleset,
-  getFoodsPlacementAlgorithm,
   getFindFoodAlgorithm,
-  getSubjectsPlacementAlgorithm,
-  getStaticParams,
-  getDynamicParams,
+  getFoodsPlacementAlgorithm,
+  getParamsStep1,
+  getParamsStep2,
+  getParamsStep3,
+  getRuleset,
   getSpritesTheme,
   getStrategy,
+  getSubjectsPlacementAlgorithm,
 } from "./params.js";
 
-$fx.params(getStaticParams());
+$fx.params(getParamsStep1());
 
 export const names = [
   $fx.getParam("food_string"),
   $fx.getParam("dove_string"),
   $fx.getParam("hawk_string"),
 ];
-$fx.params($fx.getDefinitions().concat(getDynamicParams(names)));
-
-export const startingSubjects = $fx.getParam("starting_subjects");
-export const startingHawks = $fx.getParam("starting_hawks");
-export const startingDoves = $fx.getParam("starting_doves");
-export const initialFoodRate = $fx.getParam("starting_food");
-export const growthRate = $fx.getParam("growth_rate");
-export const maxAge = $fx.getParam("max_age");
-export const moreDoves = $fx.getParam("more_dove_chance");
-export const moreSubjects = $fx.getParam("more_random_chance");
-export const moreFoods = $fx.getParam("more_food_chance");
-export const moreHawks = $fx.getParam("more_hawk_chance");
-export const lessFoods = $fx.getParam("less_food_chance");
-export const ruleset = getRuleset($fx.getParam("ruleset"));
-export const infinite = $fx.getParam("infinite");
-export const findFoodAlgorithm = 
-  getFindFoodAlgorithm($fx.getParam("food_find"));
-export const subjectsPlacementAlgorithm = 
-  getSubjectsPlacementAlgorithm($fx.getParam("subjects_placement"));
-export const foodsPlacementAlgorithm = 
-  getFoodsPlacementAlgorithm($fx.getParam("foods_placement"));
-
 export const graphColors = {
   "hawkAndDove": {
     [names[1]]: $fx.getParam("dove_color").hex.rgb,
@@ -77,8 +56,33 @@ export const graphColors = {
   "age": $fx.getParam("age_color").hex.rgb,
   "generation": $fx.getParam("gen_color").hex.rgb,
 };
+$fx.params($fx.getDefinitions().concat(getParamsStep2(names)));
+
 export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
-export const strategy = getStrategy($fx.getParam("strategies"));
+export const ruleset = getRuleset($fx.getParam("ruleset"));
+$fx.params($fx.getDefinitions().concat(getParamsStep3(
+  $fx.getParam("ruleset"))));
+  
+export const strategy = getStrategy($fx.getParam("strategy"));
+
+export const findFoodAlgorithm = 
+  getFindFoodAlgorithm($fx.getParam("food_find"));
+export const foodsPlacementAlgorithm = 
+  getFoodsPlacementAlgorithm($fx.getParam("foods_placement"));
+export const growthRate = $fx.getParam("growth_rate");
+export const infinite = $fx.getParam("infinite");
+export const initialFoodRate = $fx.getParam("starting_food");
+export const lessFoods = $fx.getParam("less_food_chance");
+export const maxAge = $fx.getParam("max_age");
+export const moreDoves = $fx.getParam("more_dove_chance");
+export const moreFoods = $fx.getParam("more_food_chance");
+export const moreHawks = $fx.getParam("more_hawk_chance");
+export const moreSubjects = $fx.getParam("more_random_chance");
+export const startingDoves = $fx.getParam("starting_doves");
+export const startingHawks = $fx.getParam("starting_hawks");
+export const startingSubjects = $fx.getParam("starting_subjects");
+export const subjectsPlacementAlgorithm = 
+  getSubjectsPlacementAlgorithm($fx.getParam("subjects_placement"));
 
 $fx.features({
   "Starting random individuals": $fx.getParam("starting_subjects"),
@@ -92,11 +96,11 @@ $fx.features({
   "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
   "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
   "Infinite generation": $fx.getParam("infinite"),
-  "Ruleset": $fx.getParam("ruleset"),
   "Food finding algorithm": $fx.getParam("food_find"),
-  "Subject placement algorithm": $fx.getParam("subjects_placement"),
   "Food placement algorithm": $fx.getParam("foods_placement"),
-  "Available strategies": $fx.getParam("strategies"),
+  "Subject placement algorithm": $fx.getParam("subjects_placement"),
+  "Ruleset": $fx.getParam("ruleset"),
+  "Strategy": $fx.getParam("strategy"),
   "Sprites theme": $fx.getParam("sprites_theme"),
 });
 
@@ -157,12 +161,12 @@ console.log(
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
   `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
   `fx(params) Keep simulating (no game over): ${$fx.getParam("infinite")}\n`,
-  `fx(params) Current ruleset: ${$fx.getParam("ruleset")}\n`,
-  `fx(params) Available strategies: ${$fx.getParam("strategies")}\n`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}\n`,
+  `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}\n`,
   `fx(params) Subject placing algorithm:`,
   `${$fx.getParam("subjects_placement")}\n`,
-  `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}\n`,
+  `fx(params) Current ruleset: ${$fx.getParam("ruleset")}\n`,
+  `fx(params) Strategy: ${$fx.getParam("strategy")}\n`,
   `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}\n`,
 );
 

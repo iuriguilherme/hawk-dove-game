@@ -35,9 +35,10 @@ import {
 import { rulesetMap } from "./params/rulesets.js";
 
 import { getSpritesThemeMap } from "./params/sprites.js";
-import { strategiesMap } from "./params/strategies.js";
+import { getStrategiesMap } from "./params/strategies.js";
 
 let spritesThemeMap;
+let strategiesMap;
 
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
@@ -63,8 +64,23 @@ export function getSpritesTheme(key) {
   return spritesThemeMap[key];
 }
 
-export function getDynamicParams(keys) {
-  spritesThemeMap = getSpritesThemeMap(keys);
+export function getParamsStep3(ruleset) {
+  strategiesMap = getStrategiesMap(ruleset);
+  return [
+    {
+      "id": "strategy",
+      "name": "Strategy (select and submit ruleset to refresh)",
+      "type": "select",
+      //~ "default": "hereditary",
+      "options": {
+        "options": Object.keys(strategiesMap),
+      },
+    },
+  ];
+}
+
+export function getParamsStep2(names) {
+  spritesThemeMap = getSpritesThemeMap(names);
   return [
     {
       "id": "sprites_theme",
@@ -74,10 +90,19 @@ export function getDynamicParams(keys) {
         "options": Object.keys(spritesThemeMap),
       }
     },
+    {
+      "id": "ruleset",
+      "name": "Ruleset (submit to change available strategies)",
+      "type": "select",
+      //~ "default": "classic",
+      "options": {
+        "options": Object.keys(rulesetMap),
+      },
+    },
   ];
 }
 
-export function getStaticParams() {
+export function getParamsStep1() {
   return [
     {
       "id": "starting_subjects",
@@ -260,24 +285,6 @@ export function getStaticParams() {
       "name": "Keep simulating (no game over)",
       "type": "boolean",
       //~ "default": false,
-    },
-    {
-      "id": "strategies",
-      "name": "Startegy",
-      "type": "select",
-      //~ "default": "hereditary",
-      "options": {
-        "options": Object.keys(strategiesMap),
-      },
-    },
-    {
-      "id": "ruleset",
-      "name": "Ruleset (see token description)",
-      "type": "select",
-      //~ "default": "classic",
-      "options": {
-        "options": Object.keys(rulesetMap),
-      },
     },
     {
       "id": "food_find",
