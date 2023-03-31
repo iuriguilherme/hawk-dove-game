@@ -27,7 +27,8 @@ import {
   graphsCanvas,
 } from "./html.js";
 
-let datasets;
+let datasets = [];
+let datasetsHistory = [];
 
 export function createCharts(
   charts,
@@ -35,7 +36,6 @@ export function createCharts(
   graphColors,
   strategiesNames,
 ) {
-  datasets = [];
   datasets.push({
     "label": "total",
     "data": [],
@@ -43,9 +43,7 @@ export function createCharts(
     "pointStyle": false,
     "borderWidth": 0.5,
     "backgroundColor": "rgb(30, 30, 30)",
-    //~ "backgroundColor": "rgb(180, 180, 180)",
     "borderColor": "rgb(30, 30, 30)",
-    //~ "borderColor": "rgb(180, 180, 180)",
     "tension": 0.1,
   });
   datasets.push({
@@ -54,10 +52,8 @@ export function createCharts(
     "fill": false,
     "pointStyle": false,
     "borderWidth": 0.5,
-    "backgroundColor": "rgb(180, 30, 30)",
-    //~ "backgroundColor": "rgb(180, 180, 180)",
-    "borderColor": "rgb(180, 30, 30)",
-    //~ "borderColor": "rgb(180, 180, 180)",
+    "backgroundColor": graphColors["population"][names["food"]],
+    "borderColor": graphColors["population"][names["food"]],
     "tension": 0.1,
   });
   for (let i = 0; i < strategiesNames.length; i++) {
@@ -66,21 +62,21 @@ export function createCharts(
       "data": [],
       "fill": false,
       "pointStyle": false,
-      //~ "borderWidth": 0.5,
-      //~ "backgroundColor": `rgb(${r}, ${g}, ${b})`,
-      //~ "borderColor": `rgb(${r}, ${g}, ${b})`,
+      "borderWidth": 0.5,
       "backgroundColor": 
         graphColors["population"][names["strategies"][strategiesNames[i]]],
-      "borderColor": graphColors["population"][names["strategies"][strategiesNames[i]]],
+      "borderColor":
+        graphColors["population"][names["strategies"][strategiesNames[i]]],
       "tension": 0.1,
     });
   }
   
+  datasetsHistory = structuredClone(datasets);
   charts["populationHistory"] = new Chart(graphsCanvas[0], {
     "type": "line",
     "data": {
       "labels": [],
-      "datasets": datasets
+      "datasets": datasetsHistory,
     },
     "options": {
       "responsive": true,
@@ -92,12 +88,13 @@ export function createCharts(
       },
     },
   });
+  charts["populationHistory"].update('none');
   
   charts["population"] = new Chart(graphsCanvas[1], {
     "type": "bar",
     "data": {
       "labels": ["# of individuals / food"],
-      "datasets": datasets
+      "datasets": datasets,
     },
     "options": {
       "responsive": true,
@@ -119,7 +116,7 @@ export function createCharts(
         "data": [],
         "borderWidth": 1,
         "backgroundColor": graphColors["age"],
-      }]
+      }],
     },
     "options": {
       "responsive": true,

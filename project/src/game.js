@@ -96,8 +96,8 @@ class HawkDoveScene extends Phaser.Scene {
   create () {
     subjects = new Phaser.GameObjects.Group(this);
     for (let i = 0; i < startingSubjects; i++) {
-      createNew(
-        names["strategies"][labels[math.floor($fx.rand() * strategiesNames.length)]]);
+      createNew(names["strategies"][strategiesNames[
+        math.floor($fx.rand() * strategiesNames.length)]]);
     }
     for (let i = 0; i < startingDoves; i++) {
       createNew(names["strategies"]["dove"]);

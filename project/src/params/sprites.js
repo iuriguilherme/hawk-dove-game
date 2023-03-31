@@ -25,13 +25,13 @@ export const getSpritesThemeMap = function(names) {
   return {
     "Boys, Girls & Hearths": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "boy.svg",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "girl.svg",
         "scale": "1.0",
@@ -45,13 +45,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Devils, Angels & Hearths": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "face-devilish-2.svg",
         "scale": "0.5",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "face-angel-2.svg",
         "scale": "0.5",
@@ -65,13 +65,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Gimps, Lyxes & Files": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "gimp-3.svg",
         "scale": "0.08",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "svg",
         "file": "lyx.svg",
         "scale": "0.25",
@@ -85,13 +85,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Eagles, Doves & Apples": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-eagle.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-doves_of_peace.png",
         "scale": "1.0",
@@ -105,13 +105,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Spiders, Ants & Leaves": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-black_widow.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-ant.png",
         "scale": "1.0",
@@ -125,13 +125,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Hornet, Butterfly & Flowers": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-hornet.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-butterfly.png",
         "scale": "1.0",
@@ -145,13 +145,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Crow, Hummingbird & Blackberries": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-crow.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-hummingbird.png",
         "scale": "1.0",
@@ -165,13 +165,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Octopuses, Whales & Blowfishes": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-octopus.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-whale.png",
         "scale": "1.0",
@@ -185,13 +185,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Bears, Beavers & Acorns": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-bear.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-beaver.png",
         "scale": "1.0",
@@ -205,13 +205,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Goats, Elephants & Kiwis": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-goat.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-elephant.png",
         "scale": "1.0",
@@ -225,13 +225,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Owls, Penguins & Grapes": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "animals-owl.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "animals-penguin.png",
         "scale": "1.0",
@@ -245,13 +245,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Windows, Debian & Files": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "image",
         "file": "windows.png",
         "scale": "1.0",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "linux_distribution-debian.png",
         "scale": "1.0",
@@ -265,13 +265,13 @@ export const getSpritesThemeMap = function(names) {
     ],
     "Proprietary, Kopimi & Code": [
       {
-        "key": names["strategies"]["dove"],
+        "key": names["strategies"]["hawk"],
         "type": "svg",
         "file": "licenses-cc-nd-no_derivatives.svg",
         "scale": "0.5",
       },
       {
-        "key": names["strategies"]["hawk"],
+        "key": names["strategies"]["dove"],
         "type": "image",
         "file": "licenses-kopimi.png",
         "scale": "1.0",

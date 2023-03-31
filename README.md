@@ -41,7 +41,10 @@ Generated tokens available on
 Release log
 ---
 
-### [0.8.2](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.8.2)
+### Pre-alpha
+
+Release tag: 
+[0.14.1](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.14.1)  
 
 * Working simulation of hawk-dove game;  
 * fx(params) and fx(features);  
@@ -56,9 +59,6 @@ generation;
 * Options to customize graphs colors and labels via fx(params);  
 * Selection of algorithms to further customize the behaviour and outcome of the 
 simulation via fx(params);  
-
-### [0.13.1](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.13.1)
-
 * Added rulesets from Primer youtube channel;  
 * Implemented strategies, subjects now can choose what to do;  
 * Conditional fx(params) influence the availability of others;  

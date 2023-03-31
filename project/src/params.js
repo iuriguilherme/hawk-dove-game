@@ -111,7 +111,7 @@ export function getParamsStep1() {
       "default": 0,
       "options": {
         "min": 0,
-        "max": 174,
+        "max": 58,
         "step": 1,
       },
     },
@@ -122,7 +122,7 @@ export function getParamsStep1() {
       "default": 29,
       "options": {
         "min": 0,
-        "max": 174,
+        "max": 58,
         "step": 1,
       },
     },
@@ -133,7 +133,7 @@ export function getParamsStep1() {
       "default": 29,
       "options": {
         "min": 0,
-        "max": 174,
+        "max": 58,
         "step": 1,
       },
     },
@@ -144,7 +144,7 @@ export function getParamsStep1() {
       "default": 1,
       "options": {
         "min": 0,
-        "max": 10,
+        "max": 3,
         "step": 1,
       },
     },
@@ -226,13 +226,18 @@ export function getParamsStep1() {
       },
     },
     {
-      id: "hawk_color",
-      name: "Hawk graph color",
+      id: "food_color",
+      name: "Food graph color",
       type: "color",
     },
     {
       id: "dove_color",
       name: "Dove graph color",
+      type: "color",
+    },
+    {
+      id: "hawk_color",
+      name: "Hawk graph color",
       type: "color",
     },
     {
@@ -257,7 +262,7 @@ export function getParamsStep1() {
       "default": "hawk",
       "options": {
         "minLength": 1,
-        "maxLength": 24,
+        "maxLength": 16,
       },
     },
     {
@@ -267,7 +272,7 @@ export function getParamsStep1() {
       "default": "dove",
       "options": {
         "minLength": 1,
-        "maxLength": 24,
+        "maxLength": 16,
       },
     },
     {
@@ -277,7 +282,7 @@ export function getParamsStep1() {
       "default": "food",
       "options": {
         "minLength": 1,
-        "maxLength": 24,
+        "maxLength": 16,
       },
     },
     {
