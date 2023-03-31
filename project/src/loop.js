@@ -279,8 +279,7 @@ export const loop = function(
     
     chartData = getNestedData("gene", alphabetArray);
     if (chartData["labels"].length === 1) {
-      let reason = `all other genes but ${chartData["data"][0]} have been ` +
-        `erradicated`;
+      let reason = `all other genes have been erradicated`;
       //~ console.log(`[${name} v${version}]: ${reason}`);
       if (gameOverGenetic) {
         endGame(
