@@ -21,22 +21,24 @@
  * 
  */
 
-import {
-  properAlphabet,
-} from "./util.js";
+//~ import {
+  //~ properAlphabet,
+//~ } from "./util.js";
 
-export var gData = {};
+//~ export var gData = {};
 
-for (let i = 0; i < properAlphabet.length; i++) {
-  let weight = Array.from(fxhashTrunc).filter(
-    n => n == properAlphabet[i]).length;
-  gData[properAlphabet[i]] = {
-    "S": $fx.rand() * weight,
-    "P": $fx.rand() * weight,
-    "E": $fx.rand() * weight,
-    "C": $fx.rand() * weight,
-    "I": $fx.rand() * weight,
-    "A": $fx.rand() * weight,
-    "L": $fx.rand() * weight,
-  };
+export const getGeneticData = function(gData, properAlphabet) {
+  for (let i = 0; i < properAlphabet.length; i++) {
+    let weight = Array.from(fxhashTrunc).filter(
+      n => n == properAlphabet[i]).length;
+    gData[properAlphabet[i]] = {
+      "S": $fx.rand() * weight,
+      "P": $fx.rand() * weight,
+      "E": $fx.rand() * weight,
+      "C": $fx.rand() * weight,
+      "I": $fx.rand() * weight,
+      "A": $fx.rand() * weight,
+      "L": $fx.rand() * weight,
+    };
+  }
 }

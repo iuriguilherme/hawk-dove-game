@@ -21,19 +21,12 @@
  * 
  */
 
-/* 
- * FIXME: fx(lens) e032c762 (or me) made it stop being able to change some 
- * fx(params) that have a "default" value. Like the ruleset, placement 
- * algorithms, and infinite here for example.
- */
-
 import { getFindFoodAlgorithmMap } from "./params/findFood.js";
 import {
   getFoodsPlacementAlgorithmMap,
   getSubjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
 import { getRulesetMap } from "./params/rulesets.js";
-
 import { getSpritesThemeMap } from "./params/sprites.js";
 import { getStrategiesMap } from "./params/strategies.js";
 
@@ -68,60 +61,67 @@ export function getSpritesTheme(key) {
   return spritesThemeMap[key];
 }
 
-export function getParamsStep3(ruleset) {
+export function getParamsStep4(params) {
+  return {
+    "spritesTheme": getSpritesTheme(params["spritesTheme"]),
+    "ruleset": getRuleset(params["ruleset"]),
+    "strategy": getStrategy(params["strategy"]),
+    "growthRate": params["growthRate"],
+    "gameOverGenetic": params["gameOverGenetic"],
+    "gameOverPopulation": params["gameOverPopulation"],
+    "gameOverStrategy": params["gameOverStrategy"],
+    "initialFoodRate": params["initialFoodRate"],
+    "lessFoods": params["lessFoods"],
+    "maxAge": params["maxAge"],
+    "moreDoves": params["moreDoves"],
+    "moreFoods": params["moreFoods"],
+    "moreHawks": params["moreHawks"],
+    "moreSubjects": params["moreSubjects"],
+    "startingDoves": params["startingDoves"],
+    "startingHawks": params["startingHawks"],
+    "startingSubjects": params["startingSubjects"],
+    "findFoodAlgorithm": getFindFoodAlgorithm(params["findFoodAlgorithm"]),
+    "foodsPlacementAlgorithm": 
+      getFoodsPlacementAlgorithm(params["foodsPlacementAlgorithm"]),
+    "subjectsPlacementAlgorithm": 
+      getSubjectsPlacementAlgorithm(params["subjectsPlacementAlgorithm"]),
+  };
+}
+
+function getParamsStep3(ruleset) {
   strategiesMap = getStrategiesMap(ruleset);
   return [
     {
       "id": "strategy",
-      "name": "Strategy (select and submit ruleset to refresh)",
+      "name": "Strategy",
       "type": "select",
       "default": "Hereditary",
       "options": {
         "options": Object.keys(strategiesMap),
-        //~ "options": ["Hereditary", "Doves", "Hawks", "Nash equilibrium"],
       },
     },
   ];
 }
 
-export function getParamsStep2(names) {
+function getParamsStep2(names) {
   spritesThemeMap = getSpritesThemeMap(names);
   return [
     {
       "id": "sprites_theme",
       "name": "Sprites theme",
       "type": "select",
+      "default": "Devils, Angels & Hearths",
       "options": {
         "options": Object.keys(spritesThemeMap),
-        //~ "options": [
-          //~ "Boys, Girls & Hearths",
-          //~ "Devils, Angels & Hearths",
-          //~ "Gimps, Lyxes & Files",
-          //~ "Eagles, Doves & Apples",
-          //~ "Spiders, Ants & Leaves",
-          //~ "Hornet, Butterfly & Flowers",
-          //~ "Crow, Hummingbird & Blackberries",
-          //~ "Octopuses, Whales & Blowfishes",
-          //~ "Bears, Beavers & Acorns",
-          //~ "Goats, Elephants & Kiwis",
-          //~ "Owls, Penguins & Grapes",
-          //~ "Windows, Debian & Files",
-          //~ "Proprietary, Kopimi & Code",
-        //~ ],
       },
     },
     {
       "id": "ruleset",
-      "name": "Ruleset (submit to change available strategies)",
+      "name": "Ruleset",
       "type": "select",
       "default": "Classic Hawks & Doves",
       "options": {
         "options": Object.keys(rulesetMap),
-        //~ "options": [
-          //~ "Classic Hawks & Doves",
-          //~ "Primer's Hawks & Doves",
-          //~ "Primer's modified Hawks & Doves",
-        //~ ],
       },
     },
   ];
@@ -281,36 +281,6 @@ export function getParamsStep1(names, ruleset) {
       type: "color",
     },
     {
-      "id": "hawk_string",
-      "name": "Hawk name",
-      "type": "string",
-      "default": "hawk",
-      "options": {
-        "minLength": 1,
-        "maxLength": 16,
-      },
-    },
-    {
-      "id": "dove_string",
-      "name": "Dove name",
-      "type": "string",
-      "default": "dove",
-      "options": {
-        "minLength": 1,
-        "maxLength": 16,
-      },
-    },
-    {
-      "id": "food_string",
-      "name": "Food label",
-      "type": "string",
-      "default": "food",
-      "options": {
-        "minLength": 1,
-        "maxLength": 16,
-      },
-    },
-    {
       "id": "game_over_population",
       "name": "Population erradication causes game over?",
       "type": "boolean",
@@ -335,7 +305,6 @@ export function getParamsStep1(names, ruleset) {
       "default": "random",
       "options": {
         "options": Object.keys(findFoodAlgorithmMap),
-        //~ "options": ["random", "closest", "farthest"],
       },
     },
     {
@@ -345,7 +314,6 @@ export function getParamsStep1(names, ruleset) {
       "default": "circle",
       "options": {
         "options": Object.keys(subjectsPlacementAlgorithmMap),
-        //~ "options": ["random", "circle"],
       },
     },
     {
@@ -355,7 +323,6 @@ export function getParamsStep1(names, ruleset) {
       "default": "circle",
       "options": {
         "options": Object.keys(foodsPlacementAlgorithmMap),
-        //~ "options": ["random", "circle"],
       },
     },
   ].concat(getParamsStep2(names)).concat(getParamsStep3(ruleset));

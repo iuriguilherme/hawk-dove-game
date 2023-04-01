@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.15.2  
+ * @version 0.16.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,115 +22,62 @@
  * 
  */
 
-export const name = "hawk-dove-game";
-export const version = "0.15.2";
+const name = "hawk-dove-game";
+const version = "0.16.0";
 
+import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
+import Phaser from "phaser";
 
 import {
-  getFindFoodAlgorithm,
-  getFoodsPlacementAlgorithm,
   getParamsStep1,
-  //~ getParamsStep2,
-  //~ getParamsStep3,
-  getRuleset,
-  getSpritesTheme,
-  getStrategy,
-  getSubjectsPlacementAlgorithm,
+  getParamsStep4,
 } from "./params.js";
-
-export const names = {
-  //~ "food": $fx.getParam("food_string"),
-  "food": "food",
-  "strategies": {
-    //~ "dove": $fx.getParam("dove_string"),
-    "dove": "dove",
-    //~ "hawk": $fx.getParam("hawk_string"),
-    "hawk": "hawk",
-  },
-};
-
-//~ getParamsStep1(names, "static");
-//~ getParamsStep2(names);
-//~ getParamsStep3("static");
-$fx.params(getParamsStep1(names, "static"));
-export const strategiesNames = Object.keys(names["strategies"]);
-export const graphColors = {
-  "population": {
-    [names["food"]]: $fx.getParam("food_color").hex.rgb,
-    [names["strategies"]["dove"]]: $fx.getParam("dove_color").hex.rgb,
-    [names["strategies"]["hawk"]]: $fx.getParam("hawk_color").hex.rgb,
-  },
-  "genetic": $fx.getParam("population_color").hex.rgb,
-  "age": $fx.getParam("age_color").hex.rgb,
-  "generation": $fx.getParam("gen_color").hex.rgb,
-};
-//~ $fx.params($fx.getDefinitions().concat(getParamsStep2(names)));
-
-export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
-export const ruleset = getRuleset($fx.getParam("ruleset"));
-//~ $fx.params($fx.getDefinitions().concat(getParamsStep3(
-  //~ $fx.getParam("ruleset"))));
-
-export const strategy = getStrategy($fx.getParam("strategy"));
-
-export const growthRate = $fx.getParam("growth_rate");
-export const gameOverGenetic = $fx.getParam("game_over_genetic");
-export const gameOverPopulation = $fx.getParam("game_over_population");
-export const gameOverStrategy = $fx.getParam("game_over_strategy");
-export const initialFoodRate = $fx.getParam("starting_food");
-export const lessFoods = $fx.getParam("less_food_chance");
-export const maxAge = $fx.getParam("max_age");
-export const moreDoves = $fx.getParam("more_dove_chance");
-export const moreFoods = $fx.getParam("more_food_chance");
-export const moreHawks = $fx.getParam("more_hawk_chance");
-export const moreSubjects = $fx.getParam("more_random_chance");
-export const startingDoves = $fx.getParam("starting_doves");
-export const startingHawks = $fx.getParam("starting_hawks");
-export const startingSubjects = $fx.getParam("starting_subjects");
-export const findFoodAlgorithm = 
-  getFindFoodAlgorithm($fx.getParam("food_find"));
-export const foodsPlacementAlgorithm = 
-  getFoodsPlacementAlgorithm($fx.getParam("foods_placement"));
-export const subjectsPlacementAlgorithm = 
-  getSubjectsPlacementAlgorithm($fx.getParam("subjects_placement"));
-
-import { getPhaserGame } from "./game.js";
 
 import {
   createCharts,
 } from "./charts.js";
 
-const phaserGame = getPhaserGame(
-  findFoodAlgorithm,
-  foodsPlacementAlgorithm,
-  gameOverGenetic,
-  gameOverPopulation,
-  gameOverStrategy,
-  graphColors,
-  growthRate,
-  initialFoodRate,
-  maxAge,
-  lessFoods,
-  moreDoves,
-  moreFoods,
-  moreHawks,
-  moreSubjects,
-  name,
-  names,
-  ruleset,
-  spritesTheme,
-  startingSubjects,
-  startingHawks,
-  startingDoves,
-  strategiesNames,
-  strategy,
-  subjectsPlacementAlgorithm,
-  version,
-  createCharts,
-);
+import {
+  getPhaserGame,
+} from "./game.js";
 
+import {
+  getGeneticData,
+} from "./genes.js";
+
+import {
+  graphsCanvas,
+  graphsDivs,
+} from "./html.js";
+
+import {
+  alphabetArray,
+  fxArray,
+  properAlphabet,
+} from "./util.js";
+
+const names = {
+  "food": "food",
+  "strategies": {
+    "dove": "dove",
+    "hawk": "hawk",
+  },
+};
+const strategiesNames = Object.keys(names["strategies"]);
+
+var charts = {};
+var datasets = [];
+var datasetsHistory = [];
+var gData = {};
+var foods;
+var foodsCircle;
+var iteration = 0;
+var subjects;
+var subjectsCircle;
+
+$fx.params(getParamsStep1(names, "static"));
 $fx.features({
   "Starting random individuals": $fx.getParam("starting_subjects"),
   "Starting hawks": $fx.getParam("starting_hawks"),
@@ -153,14 +100,65 @@ $fx.features({
   "Sprites theme": $fx.getParam("sprites_theme"),
 });
 
-//~ import {
-  //~ charts,
-  //~ phaserGame,
-//~ } from "./game.js";
+const graphColors = {
+  "population": {
+    [names["food"]]: $fx.getParam("food_color").hex.rgb,
+    [names["strategies"]["dove"]]: $fx.getParam("dove_color").hex.rgb,
+    [names["strategies"]["hawk"]]: $fx.getParam("hawk_color").hex.rgb,
+  },
+  "genetic": $fx.getParam("population_color").hex.rgb,
+  "age": $fx.getParam("age_color").hex.rgb,
+  "generation": $fx.getParam("gen_color").hex.rgb,
+};
+const params = getParamsStep4({
+  "spritesTheme": $fx.getParam("sprites_theme"),
+  "ruleset": $fx.getParam("ruleset"),
+  "strategy": $fx.getParam("strategy"),
+  "growthRate": $fx.getParam("growth_rate"),
+  "gameOverGenetic": $fx.getParam("game_over_genetic"),
+  "gameOverPopulation": $fx.getParam("game_over_population"),
+  "gameOverStrategy": $fx.getParam("game_over_strategy"),
+  "initialFoodRate": $fx.getParam("starting_food"),
+  "lessFoods": $fx.getParam("less_food_chance"),
+  "maxAge": $fx.getParam("max_age"),
+  "moreDoves": $fx.getParam("more_dove_chance"),
+  "moreFoods": $fx.getParam("more_food_chance"),
+  "moreHawks": $fx.getParam("more_hawk_chance"),
+  "moreSubjects": $fx.getParam("more_random_chance"),
+  "startingDoves": $fx.getParam("starting_doves"),
+  "startingHawks": $fx.getParam("starting_hawks"),
+  "startingSubjects": $fx.getParam("starting_subjects"),
+  "findFoodAlgorithm": $fx.getParam("food_find"),
+  "foodsPlacementAlgorithm": $fx.getParam("foods_placement"),
+  "subjectsPlacementAlgorithm": $fx.getParam("subjects_placement"),
+});
 
-import {
-  graphsDivs,
-} from "./html.js";
+const phaserGame = getPhaserGame(
+  params,
+  graphColors,
+  name,
+  names,
+  strategiesNames,
+  version,
+  createCharts,
+  charts,
+  math,
+  Phaser,
+  fxArray,
+  graphsCanvas,
+  alphabetArray,
+  Chart,
+  gData,
+  iteration,
+  foods,
+  foodsCircle,
+  subjects,
+  subjectsCircle,
+  datasets,
+  datasetsHistory,
+  getGeneticData,
+  properAlphabet,
+);
 
 window.addEventListener("resize", () => {
   for (const v of Object.values(charts)) {v.resize();}

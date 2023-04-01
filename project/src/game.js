@@ -21,90 +21,35 @@
  * 
  */
 
-import { create as mcreate, all as mall } from "mathjs";
-const math = mcreate(mall, {});
-import Phaser from "phaser";
-
-//~ import {
-  //~ createCharts,
-//~ } from "./charts.js";
-
-export var foods;
-export var foodsCircle;
-export var subjects;
-export var subjectsCircle;
-export var charts = {};
-
-import {
-  graphsCanvas,
-} from "./html.js";
-
-//~ import {
-  //~ findFoodAlgorithm,
-  //~ foodsPlacementAlgorithm,
-  //~ gameOverGenetic,
-  //~ gameOverPopulation,
-  //~ gameOverStrategy,
-  //~ graphColors,
-  //~ growthRate,
-  //~ initialFoodRate,
-  //~ maxAge,
-  //~ lessFoods,
-  //~ moreDoves,
-  //~ moreFoods,
-  //~ moreHawks,
-  //~ moreSubjects,
-  //~ name,
-  //~ names,
-  //~ ruleset,
-  //~ spritesTheme,
-  //~ startingSubjects,
-  //~ startingHawks,
-  //~ startingDoves,
-  //~ strategiesNames,
-  //~ strategy,
-  //~ subjectsPlacementAlgorithm,
-  //~ version,
-//~ } from "./index.js";
-
 import {
   loop as updateWrapper,
 } from "./loop.js";
 
-import {
-  fxArray,
-} from "./util.js";
-
-let data;
-let datasets;
-
 export const getPhaserGame = function(
-  findFoodAlgorithm,
-  foodsPlacementAlgorithm,
-  gameOverGenetic,
-  gameOverPopulation,
-  gameOverStrategy,
+  params,
   graphColors,
-  growthRate,
-  initialFoodRate,
-  maxAge,
-  lessFoods,
-  moreDoves,
-  moreFoods,
-  moreHawks,
-  moreSubjects,
   name,
   names,
-  ruleset,
-  spritesTheme,
-  startingSubjects,
-  startingHawks,
-  startingDoves,
   strategiesNames,
-  strategy,
-  subjectsPlacementAlgorithm,
   version,
   createCharts,
+  charts,
+  math,
+  Phaser,
+  fxArray,
+  graphsCanvas,
+  alphabetArray,
+  Chart,
+  gData,
+  iteration,
+  foods,
+  foodsCircle,
+  subjects,
+  subjectsCircle,
+  datasets,
+  datasetsHistory,
+  getGeneticData,
+  properAlphabet,
 ) {
   class HawkDoveScene extends Phaser.Scene {
     constructor () {
@@ -112,30 +57,37 @@ export const getPhaserGame = function(
     }
     preload () {
       this.load.path = "./assets/";
-      for (let i = 0; i < spritesTheme.length; i++) {
-        if (spritesTheme[i]["type"] == "svg") {
-          this.load.svg(spritesTheme[i]["key"], spritesTheme[i]["file"],
-            {"scale": spritesTheme[i]["scale"]});
-        } else if (spritesTheme[i]["type"] == "image") {
-          this.load.image(spritesTheme[i]["key"], spritesTheme[i]["file"]);
+      for (let i = 0; i < params["spritesTheme"].length; i++) {
+        if (params["spritesTheme"][i]["type"] == "svg") {
+          this.load.svg(
+            params["spritesTheme"][i]["key"],
+            params["spritesTheme"][i]["file"],
+            {"scale": params["spritesTheme"][i]["scale"]},
+          );
+        } else if (params["spritesTheme"][i]["type"] == "image") {
+          this.load.image(
+            params["spritesTheme"][i]["key"],
+            params["spritesTheme"][i]["file"],
+          );
         }
       }
     }
     create () {
       subjects = new Phaser.GameObjects.Group(this);
-      for (let i = 0; i < startingSubjects; i++) {
+      for (let i = 0; i < params["startingSubjects"]; i++) {
         createNew(names["strategies"][strategiesNames[
           math.floor($fx.rand() * strategiesNames.length)]]);
       }
-      for (let i = 0; i < startingDoves; i++) {
+      for (let i = 0; i < params["startingDoves"]; i++) {
         createNew(names["strategies"]["dove"]);
       }
-      for (let i = 0; i < startingHawks; i++) {
+      for (let i = 0; i < params["startingHawks"]; i++) {
         createNew(names["strategies"]["hawk"]);
       }
       foods = this.add.group({
         "key": names["food"],
-        "repeat": ((subjects.getChildren().length * initialFoodRate) / 1e2) - 1,
+        "repeat": ((subjects.getChildren().length * params["initialFoodRate"]) 
+          / 1e2) - 1,
       });
       for (let i = 0; i < foods.getChildren().length; i++) {
         foods.getChildren()[i].setData({
@@ -166,36 +118,48 @@ export const getPhaserGame = function(
         names,
         graphColors,
         strategiesNames,
+        Chart,
+        graphsCanvas,
+        datasets,
+        datasetsHistory,
       );
+      
+      getGeneticData(gData, properAlphabet);
+      
     }
     // FIXME: Use imported update function from another module instead
     update () {
-      updateWrapper(
+      iteration = updateWrapper(
         this,
         subjects,
         foods,
         subjectsCircle,
         foodsCircle,
-        findFoodAlgorithm,
-        foodsPlacementAlgorithm,
-        gameOverGenetic,
-        gameOverPopulation,
-        gameOverStrategy,
-        growthRate,
-        lessFoods,
-        maxAge,
-        moreDoves,
-        moreFoods,
-        moreHawks,
-        moreSubjects,
+        params["findFoodAlgorithm"],
+        params["foodsPlacementAlgorithm"],
+        params["gameOverGenetic"],
+        params["gameOverPopulation"],
+        params["gameOverStrategy"],
+        params["growthRate"],
+        params["lessFoods"],
+        params["maxAge"],
+        params["moreDoves"],
+        params["moreFoods"],
+        params["moreHawks"],
+        params["moreSubjects"],
         name,
         names,
-        ruleset,
+        params["ruleset"],
         strategiesNames,
-        strategy,
-        subjectsPlacementAlgorithm,
+        params["strategy"],
+        params["subjectsPlacementAlgorithm"],
         version,
         charts,
+        alphabetArray,
+        fxArray,
+        math,
+        gData,
+        iteration,
       );
     }
   }

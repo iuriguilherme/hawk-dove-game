@@ -21,13 +21,6 @@
  * 
  */
 
-import { create as mcreate, all as mall } from "mathjs";
-const math = mcreate(mall, {});
-
-import {
-  alphabetArray,
-} from "./util.js";
-
 export function endGame(
   scene,
   cause,
@@ -41,6 +34,8 @@ export function endGame(
   updateSimpleBarChart,
   gData,
   strategiesNames,
+  alphabetArray,
+  math,
 ) {
   let geneticData = getNestedData("gene", alphabetArray);
   let populationData = getStrategyData();

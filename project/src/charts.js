@@ -21,20 +21,15 @@
  * 
  */
 
-import Chart from "chart.js/auto";
-
-import {
-  graphsCanvas,
-} from "./html.js";
-
-let datasets = [];
-let datasetsHistory = [];
-
 export function createCharts(
   charts,
   names,
   graphColors,
   strategiesNames,
+  Chart,
+  graphsCanvas,
+  datasets,
+  datasetsHistory,
 ) {
   datasets.push({
     "label": "total",

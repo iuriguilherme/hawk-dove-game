@@ -21,8 +21,6 @@
  * 
  */
 
-import Phaser from "phaser";
-
 export const getSubjectsPlacementAlgorithmMap = function() {
   return {
     "circle": subjectsPlacementAlgorithm1,
@@ -46,6 +44,7 @@ function subjectsPlacementAlgorithm1(
   foods,
   subjectsCircle,
   foodsCircle,
+  Phaser,
 ) {
   Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
 }
@@ -59,6 +58,7 @@ function subjectsPlacementAlgorithm2(
   foods,
   subjectsCircle,
   foodsCircle,
+  Phaser,
 ) {
   Phaser.Actions.RandomCircle(subjects.getChildren(), subjectsCircle);
 }
@@ -73,6 +73,7 @@ function foodsPlacementAlgorithm1(
   foods,
   subjectsCircle,
   foodsCircle,
+  Phaser,
 ) {
   Phaser.Actions.PlaceOnCircle(foods.getChildren(), foodsCircle);
 }
@@ -86,6 +87,7 @@ function foodsPlacementAlgorithm2(
   foods,
   subjectsCircle,
   foodsCircle,
+  Phaser,
 ) {
   Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
 }

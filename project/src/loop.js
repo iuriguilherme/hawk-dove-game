@@ -21,23 +21,9 @@
  * 
  */
 
-import { create, all } from "mathjs";
-const math = create(all, {});
-
 import {
   endGame,
 } from "./gameOver.js";
-
-import {
-  gData,
-} from "./genes.js";
-
-import {
-  alphabetArray,
-  fxArray,
-} from "./util.js";
-
-export var iteration = 0;
 
 let chartData;
 let gameOver = false;
@@ -68,6 +54,11 @@ export const loop = function(
   subjectsPlacementAlgorithm,
   version,
   charts,
+  alphabetArray,
+  fxArray,
+  math,
+  gData,
+  iteration,
 ) {
   $fx.preview();
   
@@ -197,9 +188,11 @@ export const loop = function(
             updateSimpleBarChart,
             gData,
             strategiesNames,
+            alphabetArray,
+            math,
           );
           gameOver = true;
-          return;
+          return iteration;
         }
       }
     }
@@ -209,8 +202,7 @@ export const loop = function(
     findFoodAlgorithm(
       subjects,
       foods,
-      subjectsCircle,
-      foodsCircle,
+      math,
     );
     strategy(subjects, foods, names, name, version);
     ruleset(subjects, foods, names, name, version);
@@ -271,9 +263,11 @@ export const loop = function(
           updateSimpleBarChart,
           gData,
           strategiesNames,
+          alphabetArray,
+          math,
         );
         gameOver = true;
-        return;
+        return iteration;
       }
     }
     
@@ -295,9 +289,11 @@ export const loop = function(
           updateSimpleBarChart,
           gData,
           strategiesNames,
+          alphabetArray,
+          math,
         );
         gameOver = true;
-        return;
+        return iteration;
       }
     }
     
@@ -332,6 +328,7 @@ export const loop = function(
       foods,
       subjectsCircle,
       foodsCircle,
+      Phaser,
     );
       
     if ($fx.rand() < moreFoods * 1e-2) {
@@ -356,9 +353,9 @@ export const loop = function(
       foods,
       subjectsCircle,
       foodsCircle,
+      Phaser,
     );
     
-  } else {
-    return;
   }
+  return iteration;
 }
