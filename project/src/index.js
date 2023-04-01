@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.14.1  
+ * @version 0.15.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 export const name = "hawk-dove-game";
-export const version = "0.14.1";
+export const version = "0.15.0";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -40,15 +40,17 @@ import {
   getSubjectsPlacementAlgorithm,
 } from "./params.js";
 
-$fx.params(getParamsStep1());
-
 export const names = {
-  "food": $fx.getParam("food_string"),
+  //~ "food": $fx.getParam("food_string"),
+  "food": "food",
   "strategies": {
-    "dove": $fx.getParam("dove_string"),
-    "hawk": $fx.getParam("hawk_string"),
+    //~ "dove": $fx.getParam("dove_string"),
+    "dove": "dove",
+    //~ "hawk": $fx.getParam("hawk_string"),
+    "hawk": "hawk",
   },
 };
+$fx.params(getParamsStep1(names));
 export const strategiesNames = Object.keys(names["strategies"]);
 export const graphColors = {
   "population": {
@@ -60,12 +62,12 @@ export const graphColors = {
   "age": $fx.getParam("age_color").hex.rgb,
   "generation": $fx.getParam("gen_color").hex.rgb,
 };
-$fx.params($fx.getDefinitions().concat(getParamsStep2(names)));
+//~ $fx.params($fx.getDefinitions().concat(getParamsStep2(names)));
 
 export const spritesTheme = getSpritesTheme($fx.getParam("sprites_theme"));
 export const ruleset = getRuleset($fx.getParam("ruleset"));
-$fx.params($fx.getDefinitions().concat(getParamsStep3(
-  $fx.getParam("ruleset"))));
+//~ $fx.params($fx.getDefinitions().concat(getParamsStep3(
+  //~ $fx.getParam("ruleset"))));
 
 export const strategy = getStrategy($fx.getParam("strategy"));
 

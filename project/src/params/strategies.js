@@ -28,6 +28,13 @@ import { strategy4 } from "./strategies/strategy4.js";
 export const getStrategiesMap = function(ruleset) {
   console.log(ruleset);
   switch (ruleset) {
+    case "static":
+      return {
+        "Hereditary": strategy1,
+        "Doves": strategy2,
+        "Hawks": strategy3,
+        "Nash equilibrium": strategy4,
+      };
     case "Classic Hawks & Doves":
       return {
         "Hereditary": strategy1,

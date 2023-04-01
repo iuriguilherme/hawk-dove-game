@@ -73,7 +73,8 @@ export function getParamsStep3(ruleset) {
       "type": "select",
       "default": "Hereditary",
       "options": {
-        "options": Object.keys(strategiesMap),
+        //~ "options": Object.keys(strategiesMap),
+        "options": ["Hereditary", "Doves", "Hawks", "Nash equilibrium"],
       },
     },
   ];
@@ -96,13 +97,18 @@ export function getParamsStep2(names) {
       "type": "select",
       "default": "Classic Hawks & Doves",
       "options": {
-        "options": Object.keys(rulesetMap),
+        //~ "options": Object.keys(rulesetMap),
+        "options": [
+          "Classic Hawks & Doves",
+          "Primer's Hawks & Doves",
+          "Primer's modified Hawks & Doves",
+        ],
       },
     },
   ];
 }
 
-export function getParamsStep1() {
+export function getParamsStep1(names) {
   return [
     {
       "id": "starting_subjects",
@@ -309,7 +315,8 @@ export function getParamsStep1() {
       "type": "select",
       "default": "random",
       "options": {
-        "options": Object.keys(findFoodAlgorithmMap),
+        //~ "options": Object.keys(findFoodAlgorithmMap),
+        "options": ["random", "closest", "farthest"],
       },
     },
     {
@@ -318,7 +325,8 @@ export function getParamsStep1() {
       "type": "select",
       "default": "circle",
       "options": {
-        "options": Object.keys(subjectsPlacementAlgorithmMap),
+        //~ "options": Object.keys(subjectsPlacementAlgorithmMap),
+        "options": ["random", "circle"],
       },
     },
     {
@@ -327,8 +335,9 @@ export function getParamsStep1() {
       "type": "select",
       "default": "circle",
       "options": {
-        "options": Object.keys(foodsPlacementAlgorithmMap),
+        //~ "options": Object.keys(foodsPlacementAlgorithmMap),
+        "options": ["random", "circle"],
       },
     },
-  ];
+  ].concat(getParamsStep2(names)).concat(getParamsStep3("static"));
 }
