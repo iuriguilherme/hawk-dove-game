@@ -44,7 +44,7 @@ Release log
 ### Pre-alpha
 
 Release tag: 
-[0.14.1](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.14.1)  
+[0.16.0](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.16.0)  
 
 * Working simulation of hawk-dove game;  
 * fx(params) and fx(features);  
