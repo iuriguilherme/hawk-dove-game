@@ -25,9 +25,9 @@ import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
 import Phaser from "phaser";
 
-import {
-  createCharts,
-} from "./charts.js";
+//~ import {
+  //~ createCharts,
+//~ } from "./charts.js";
 
 export var foods;
 export var foodsCircle;
@@ -39,7 +39,46 @@ import {
   graphsCanvas,
 } from "./html.js";
 
+//~ import {
+  //~ findFoodAlgorithm,
+  //~ foodsPlacementAlgorithm,
+  //~ gameOverGenetic,
+  //~ gameOverPopulation,
+  //~ gameOverStrategy,
+  //~ graphColors,
+  //~ growthRate,
+  //~ initialFoodRate,
+  //~ maxAge,
+  //~ lessFoods,
+  //~ moreDoves,
+  //~ moreFoods,
+  //~ moreHawks,
+  //~ moreSubjects,
+  //~ name,
+  //~ names,
+  //~ ruleset,
+  //~ spritesTheme,
+  //~ startingSubjects,
+  //~ startingHawks,
+  //~ startingDoves,
+  //~ strategiesNames,
+  //~ strategy,
+  //~ subjectsPlacementAlgorithm,
+  //~ version,
+//~ } from "./index.js";
+
 import {
+  loop as updateWrapper,
+} from "./loop.js";
+
+import {
+  fxArray,
+} from "./util.js";
+
+let data;
+let datasets;
+
+export const getPhaserGame = function(
   findFoodAlgorithm,
   foodsPlacementAlgorithm,
   gameOverGenetic,
@@ -65,150 +104,141 @@ import {
   strategy,
   subjectsPlacementAlgorithm,
   version,
-} from "./index.js";
-
-import {
-  loop as updateWrapper,
-} from "./loop.js";
-
-import {
-  fxArray,
-} from "./util.js";
-
-let data;
-let datasets;
-
-class HawkDoveScene extends Phaser.Scene {
-  constructor () {
-    super();
-  }
-  preload () {
-    this.load.path = "./assets/";
-    for (let i = 0; i < spritesTheme.length; i++) {
-      if (spritesTheme[i]["type"] == "svg") {
-        this.load.svg(spritesTheme[i]["key"], spritesTheme[i]["file"],
-          {"scale": spritesTheme[i]["scale"]});
-      } else if (spritesTheme[i]["type"] == "image") {
-        this.load.image(spritesTheme[i]["key"], spritesTheme[i]["file"]);
+  createCharts,
+) {
+  class HawkDoveScene extends Phaser.Scene {
+    constructor () {
+      super();
+    }
+    preload () {
+      this.load.path = "./assets/";
+      for (let i = 0; i < spritesTheme.length; i++) {
+        if (spritesTheme[i]["type"] == "svg") {
+          this.load.svg(spritesTheme[i]["key"], spritesTheme[i]["file"],
+            {"scale": spritesTheme[i]["scale"]});
+        } else if (spritesTheme[i]["type"] == "image") {
+          this.load.image(spritesTheme[i]["key"], spritesTheme[i]["file"]);
+        }
       }
     }
-  }
-  create () {
-    subjects = new Phaser.GameObjects.Group(this);
-    for (let i = 0; i < startingSubjects; i++) {
-      createNew(names["strategies"][strategiesNames[
-        math.floor($fx.rand() * strategiesNames.length)]]);
-    }
-    for (let i = 0; i < startingDoves; i++) {
-      createNew(names["strategies"]["dove"]);
-    }
-    for (let i = 0; i < startingHawks; i++) {
-      createNew(names["strategies"]["hawk"]);
-    }
-    foods = this.add.group({
-      "key": names["food"],
-      "repeat": ((subjects.getChildren().length * initialFoodRate) / 1e2) - 1,
-    });
-    for (let i = 0; i < foods.getChildren().length; i++) {
-      foods.getChildren()[i].setData({
-        "leftBusy": -1,
-        "rightBusy": -1,
+    create () {
+      subjects = new Phaser.GameObjects.Group(this);
+      for (let i = 0; i < startingSubjects; i++) {
+        createNew(names["strategies"][strategiesNames[
+          math.floor($fx.rand() * strategiesNames.length)]]);
+      }
+      for (let i = 0; i < startingDoves; i++) {
+        createNew(names["strategies"]["dove"]);
+      }
+      for (let i = 0; i < startingHawks; i++) {
+        createNew(names["strategies"]["hawk"]);
+      }
+      foods = this.add.group({
+        "key": names["food"],
+        "repeat": ((subjects.getChildren().length * initialFoodRate) / 1e2) - 1,
       });
+      for (let i = 0; i < foods.getChildren().length; i++) {
+        foods.getChildren()[i].setData({
+          "leftBusy": -1,
+          "rightBusy": -1,
+        });
+      }
+      //~ console.log(`[${name} v${version}] created`,
+        //~ `${subjects.getChildren().length} subjects and`,
+        //~ `${foods.getChildren().length} foods.`);
+      
+      subjectsCircle = new Phaser.Geom.Circle(
+        this.cameras.main.centerX,
+        this.cameras.main.centerY,
+        (this.cameras.main.height / 3),
+      );
+      foodsCircle = new Phaser.Geom.Circle(
+        this.cameras.main.centerX,
+        this.cameras.main.centerY,
+        (this.cameras.main.height / 4.5),
+      );
+      
+      Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
+      Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
+      
+      createCharts(
+        charts,
+        names,
+        graphColors,
+        strategiesNames,
+      );
     }
-    //~ console.log(`[${name} v${version}] created`,
-      //~ `${subjects.getChildren().length} subjects and`,
-      //~ `${foods.getChildren().length} foods.`);
-    
-    subjectsCircle = new Phaser.Geom.Circle(
-      this.cameras.main.centerX,
-      this.cameras.main.centerY,
-      (this.cameras.main.height / 3),
-    );
-    foodsCircle = new Phaser.Geom.Circle(
-      this.cameras.main.centerX,
-      this.cameras.main.centerY,
-      (this.cameras.main.height / 4.5),
-    );
-    
-    Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
-    Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
-    
-    createCharts(
-      charts,
-      names,
-      graphColors,
-      strategiesNames,
-    );
+    // FIXME: Use imported update function from another module instead
+    update () {
+      updateWrapper(
+        this,
+        subjects,
+        foods,
+        subjectsCircle,
+        foodsCircle,
+        findFoodAlgorithm,
+        foodsPlacementAlgorithm,
+        gameOverGenetic,
+        gameOverPopulation,
+        gameOverStrategy,
+        growthRate,
+        lessFoods,
+        maxAge,
+        moreDoves,
+        moreFoods,
+        moreHawks,
+        moreSubjects,
+        name,
+        names,
+        ruleset,
+        strategiesNames,
+        strategy,
+        subjectsPlacementAlgorithm,
+        version,
+        charts,
+      );
+    }
   }
-  // FIXME: Use imported update function from another module instead
-  update () {
-    updateWrapper(
-      this,
-      subjects,
-      foods,
-      subjectsCircle,
-      foodsCircle,
-      findFoodAlgorithm,
-      foodsPlacementAlgorithm,
-      gameOverGenetic,
-      gameOverPopulation,
-      gameOverStrategy,
-      growthRate,
-      lessFoods,
-      maxAge,
-      moreDoves,
-      moreFoods,
-      moreHawks,
-      moreSubjects,
-      name,
-      names,
-      ruleset,
-      strategiesNames,
-      strategy,
-      subjectsPlacementAlgorithm,
-      version,
-      charts,
-    );
+  
+  function createNew(key) {
+    let children = subjects.create(0, 0, key);
+    children.setData({
+      "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
+      "strategy": key,
+      "waiting": true,
+      "eating": false,
+      "fleeing": false,
+      "dead": false,
+      "strong": false,
+      "age": 0,
+      "generation": 0,
+    });
+    //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
   }
-}
-
-function createNew(key) {
-  let children = subjects.create(0, 0, key);
-  children.setData({
-    "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
-    "strategy": key,
-    "waiting": true,
-    "eating": false,
-    "fleeing": false,
-    "dead": false,
-    "strong": false,
-    "age": 0,
-    "generation": 0,
-  });
-  //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
-}
-
-let graphsMaxWidth = 0;
-let graphsMaxHeight = 0;
-for (let i = 0; i < graphsCanvas.length; i++) {
-  graphsMaxWidth = math.max(graphsMaxWidth, graphsCanvas[i].offsetWidth);
-  graphsMaxHeight = math.max(graphsMaxHeight, graphsCanvas[i].offsetHeight);
-}
-
-const config = {
-  "type": Phaser.CANVAS,
-  "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
-  "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
-  //~ "width": window.innerWidth - (window.innerWidth / 60),
-  //~ "height": window.innerHeight - (window.innerHeight / 60),
-  "backgroundColor": "#e8e8e8",
-  "canvas": gameCanvas,
-  "parent": "game",
-  "scale": {
-    "mode": Phaser.Scale.NONE,
-    "zoom": Phaser.Scale.MAX_ZOOM
-  },
-  "scene": HawkDoveScene,
+  
+  let graphsMaxWidth = 0;
+  let graphsMaxHeight = 0;
+  for (let i = 0; i < graphsCanvas.length; i++) {
+    graphsMaxWidth = math.max(graphsMaxWidth, graphsCanvas[i].offsetWidth);
+    graphsMaxHeight = math.max(graphsMaxHeight, graphsCanvas[i].offsetHeight);
+  }
+  
+  const config = {
+    "type": Phaser.CANVAS,
+    "width": window.innerWidth - graphsMaxWidth - (window.innerWidth / 60),
+    "height": window.innerHeight - graphsMaxHeight - (window.innerHeight / 60),
+    //~ "width": window.innerWidth - (window.innerWidth / 60),
+    //~ "height": window.innerHeight - (window.innerHeight / 60),
+    "backgroundColor": "#e8e8e8",
+    "canvas": gameCanvas,
+    "parent": "game",
+    "scale": {
+      "mode": Phaser.Scale.NONE,
+      "zoom": Phaser.Scale.MAX_ZOOM
+    },
+    "scene": HawkDoveScene,
+  };
+  
+  return new Phaser.Game(config);
 };
-
-export const phaserGame = new Phaser.Game(config);
+//~ export const phaserGame = new Phaser.Game(config);

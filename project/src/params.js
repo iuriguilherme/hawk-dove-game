@@ -27,18 +27,22 @@
  * algorithms, and infinite here for example.
  */
 
-import { findFoodAlgorithmMap } from "./params/findFood.js";
+import { getFindFoodAlgorithmMap } from "./params/findFood.js";
 import {
-  foodsPlacementAlgorithmMap,
-  subjectsPlacementAlgorithmMap,
+  getFoodsPlacementAlgorithmMap,
+  getSubjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
-import { rulesetMap } from "./params/rulesets.js";
+import { getRulesetMap } from "./params/rulesets.js";
 
 import { getSpritesThemeMap } from "./params/sprites.js";
 import { getStrategiesMap } from "./params/strategies.js";
 
+const findFoodAlgorithmMap = getFindFoodAlgorithmMap();
+const foodsPlacementAlgorithmMap = getFoodsPlacementAlgorithmMap();
+const rulesetMap = getRulesetMap();
 let spritesThemeMap;
 let strategiesMap;
+const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
 
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
@@ -73,8 +77,8 @@ export function getParamsStep3(ruleset) {
       "type": "select",
       "default": "Hereditary",
       "options": {
-        //~ "options": Object.keys(strategiesMap),
-        "options": ["Hereditary", "Doves", "Hawks", "Nash equilibrium"],
+        "options": Object.keys(strategiesMap),
+        //~ "options": ["Hereditary", "Doves", "Hawks", "Nash equilibrium"],
       },
     },
   ];
@@ -88,22 +92,22 @@ export function getParamsStep2(names) {
       "name": "Sprites theme",
       "type": "select",
       "options": {
-        //~ "options": Object.keys(spritesThemeMap),
-        "options": [
-          "Boys, Girls & Hearths",
-          "Devils, Angels & Hearths",
-          "Gimps, Lyxes & Files",
-          "Eagles, Doves & Apples",
-          "Spiders, Ants & Leaves",
-          "Hornet, Butterfly & Flowers",
-          "Crow, Hummingbird & Blackberries",
-          "Octopuses, Whales & Blowfishes",
-          "Bears, Beavers & Acorns",
-          "Goats, Elephants & Kiwis",
-          "Owls, Penguins & Grapes",
-          "Windows, Debian & Files",
-          "Proprietary, Kopimi & Code",
-        ],
+        "options": Object.keys(spritesThemeMap),
+        //~ "options": [
+          //~ "Boys, Girls & Hearths",
+          //~ "Devils, Angels & Hearths",
+          //~ "Gimps, Lyxes & Files",
+          //~ "Eagles, Doves & Apples",
+          //~ "Spiders, Ants & Leaves",
+          //~ "Hornet, Butterfly & Flowers",
+          //~ "Crow, Hummingbird & Blackberries",
+          //~ "Octopuses, Whales & Blowfishes",
+          //~ "Bears, Beavers & Acorns",
+          //~ "Goats, Elephants & Kiwis",
+          //~ "Owls, Penguins & Grapes",
+          //~ "Windows, Debian & Files",
+          //~ "Proprietary, Kopimi & Code",
+        //~ ],
       },
     },
     {
@@ -112,18 +116,18 @@ export function getParamsStep2(names) {
       "type": "select",
       "default": "Classic Hawks & Doves",
       "options": {
-        //~ "options": Object.keys(rulesetMap),
-        "options": [
-          "Classic Hawks & Doves",
-          "Primer's Hawks & Doves",
-          "Primer's modified Hawks & Doves",
-        ],
+        "options": Object.keys(rulesetMap),
+        //~ "options": [
+          //~ "Classic Hawks & Doves",
+          //~ "Primer's Hawks & Doves",
+          //~ "Primer's modified Hawks & Doves",
+        //~ ],
       },
     },
   ];
 }
 
-export function getParamsStep1(names) {
+export function getParamsStep1(names, ruleset) {
   return [
     {
       "id": "starting_subjects",
@@ -330,8 +334,8 @@ export function getParamsStep1(names) {
       "type": "select",
       "default": "random",
       "options": {
-        //~ "options": Object.keys(findFoodAlgorithmMap),
-        "options": ["random", "closest", "farthest"],
+        "options": Object.keys(findFoodAlgorithmMap),
+        //~ "options": ["random", "closest", "farthest"],
       },
     },
     {
@@ -340,8 +344,8 @@ export function getParamsStep1(names) {
       "type": "select",
       "default": "circle",
       "options": {
-        //~ "options": Object.keys(subjectsPlacementAlgorithmMap),
-        "options": ["random", "circle"],
+        "options": Object.keys(subjectsPlacementAlgorithmMap),
+        //~ "options": ["random", "circle"],
       },
     },
     {
@@ -350,9 +354,9 @@ export function getParamsStep1(names) {
       "type": "select",
       "default": "circle",
       "options": {
-        //~ "options": Object.keys(foodsPlacementAlgorithmMap),
-        "options": ["random", "circle"],
+        "options": Object.keys(foodsPlacementAlgorithmMap),
+        //~ "options": ["random", "circle"],
       },
     },
-  ].concat(getParamsStep2(names)).concat(getParamsStep3("static"));
+  ].concat(getParamsStep2(names)).concat(getParamsStep3(ruleset));
 }

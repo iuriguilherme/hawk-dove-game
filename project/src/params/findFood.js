@@ -24,11 +24,13 @@
 import { create, all } from "mathjs";
 const math = create(all, {});
 
-export const findFoodAlgorithmMap = {
-  "random": findFoodAlgorithm1,
-  "closest": findFoodAlgorithm2,
-  "farthest": findFoodAlgorithm3,
-};
+export const getFindFoodAlgorithmMap = function() {
+  return {
+    "random": findFoodAlgorithm1,
+    "closest": findFoodAlgorithm2,
+    "farthest": findFoodAlgorithm3,
+  };
+}
 
 const minDistance = 20;
 

@@ -23,15 +23,19 @@
 
 import Phaser from "phaser";
 
-export const subjectsPlacementAlgorithmMap = {
-  "circle": subjectsPlacementAlgorithm1,
-  "random": subjectsPlacementAlgorithm2,
-};
+export const getSubjectsPlacementAlgorithmMap = function() {
+  return {
+    "circle": subjectsPlacementAlgorithm1,
+    "random": subjectsPlacementAlgorithm2,
+  };
+}
 
-export const foodsPlacementAlgorithmMap = {
-  "circle": foodsPlacementAlgorithm1,
-  "random": foodsPlacementAlgorithm2,
-};
+export const getFoodsPlacementAlgorithmMap = function() {
+  return {
+    "circle": foodsPlacementAlgorithm1,
+    "random": foodsPlacementAlgorithm2,
+  };
+}
 
 /*
  * @description Subject placement method 1:

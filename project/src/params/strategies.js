@@ -26,7 +26,7 @@ import { strategy3 } from "./strategies/strategy3.js";
 import { strategy4 } from "./strategies/strategy4.js";
 
 export const getStrategiesMap = function(ruleset) {
-  console.log(ruleset);
+  //~ console.log(ruleset);
   switch (ruleset) {
     case "static":
       return {

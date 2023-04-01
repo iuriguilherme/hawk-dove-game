@@ -26,9 +26,11 @@ import { ruleset2 } from "./rulesets/ruleset2.js";
 import { ruleset3 } from "./rulesets/ruleset3.js";
 //~ import { ruleset4 } from "./rulesets/ruleset4.js";
 
-export const rulesetMap = {
-  "Classic Hawks & Doves": ruleset1,
-  "Primer's Hawks & Doves": ruleset2,
-  "Primer's modified Hawks & Doves": ruleset3,
-  //~ "Primer's Youtube comments": ruleset4,
-};
+export const getRulesetMap = function() {
+  return {
+    "Classic Hawks & Doves": ruleset1,
+    "Primer's Hawks & Doves": ruleset2,
+    "Primer's modified Hawks & Doves": ruleset3,
+    //~ "Primer's Youtube comments": ruleset4,
+  };
+}
