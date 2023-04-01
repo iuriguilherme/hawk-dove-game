@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.15.0  
+ * @version 0.15.1  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,8 +22,286 @@
  * 
  */
 
+$fx.params([
+  {
+    "id": "starting_subjects",
+    "name": "Starting random individuals",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 58,
+      "step": 1,
+    },
+  },
+  {
+    "id": "starting_hawks",
+    "name": "Starting hawks",
+    "type": "number",
+    "default": 29,
+    "options": {
+      "min": 0,
+      "max": 58,
+      "step": 1,
+    },
+  },
+  {
+    "id": "starting_doves",
+    "name": "Starting doves",
+    "type": "number",
+    "default": 29,
+    "options": {
+      "min": 0,
+      "max": 58,
+      "step": 1,
+    },
+  },
+  {
+    "id": "growth_rate",
+    "name": "Reproduction multiplier",
+    "type": "number",
+    "default": 1,
+    "options": {
+      "min": 0,
+      "max": 3,
+      "step": 1,
+    },
+  },
+  {
+    "id": "max_age",
+    "name": "Longevity (zero is infinite)",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 10000,
+      "step": 100,
+    },
+  },
+  {
+    "id": "starting_food",
+    "name": "Starting food (relative to population)",
+    "type": "number",
+    "default": 100,
+    "options": {
+      "min": 0,
+      "max": 200,
+      "step": 1,
+    },
+  },
+  {
+    "id": "less_food_chance",
+    "name": "Chance to destroy one food",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+    },
+  },
+  {
+    "id": "more_food_chance",
+    "name": "Chance to create new food",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+    },
+  },
+  {
+    "id": "more_dove_chance",
+    "name": "Chance to spawn new dove",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+    },
+  },
+  {
+    "id": "more_hawk_chance",
+    "name": "Chance to spawn new hawk",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+    },
+  },
+  {
+    "id": "more_random_chance",
+    "name": "Chance to spawn new random individual",
+    "type": "number",
+    "default": 0,
+    "options": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+    },
+  },
+  {
+    id: "food_color",
+    name: "Food graph color",
+    type: "color",
+  },
+  {
+    id: "dove_color",
+    name: "Dove graph color",
+    type: "color",
+  },
+  {
+    id: "hawk_color",
+    name: "Hawk graph color",
+    type: "color",
+  },
+  {
+    id: "age_color",
+    name: "Age graph color",
+    type: "color",
+  },
+  {
+    id: "gen_color",
+    name: "Generation graph color",
+    type: "color",
+  },
+  {
+    id: "population_color",
+    name: "Population graph color",
+    type: "color",
+  },
+  {
+    "id": "hawk_string",
+    "name": "Hawk name",
+    "type": "string",
+    "default": "hawk",
+    "options": {
+      "minLength": 1,
+      "maxLength": 16,
+    },
+  },
+  {
+    "id": "dove_string",
+    "name": "Dove name",
+    "type": "string",
+    "default": "dove",
+    "options": {
+      "minLength": 1,
+      "maxLength": 16,
+    },
+  },
+  {
+    "id": "food_string",
+    "name": "Food label",
+    "type": "string",
+    "default": "food",
+    "options": {
+      "minLength": 1,
+      "maxLength": 16,
+    },
+  },
+  {
+    "id": "game_over_population",
+    "name": "Population erradication causes game over?",
+    "type": "boolean",
+    "default": false,
+  },
+  {
+    "id": "game_over_strategy",
+    "name": "Strategy erradication causes game over?",
+    "type": "boolean",
+    "default": false,
+  },
+  {
+    "id": "game_over_genetic",
+    "name": "Single gene in gene pool causes game over?",
+    "type": "boolean",
+    "default": false,
+  },
+  {
+    "id": "food_find",
+    "name": "Food finding algorithm",
+    "type": "select",
+    "default": "random",
+    "options": {
+      //~ "options": Object.keys(findFoodAlgorithmMap),
+      "options": ["random", "closest", "farthest"],
+    },
+  },
+  {
+    "id": "subjects_placement",
+    "name": "Subject placement algorithm",
+    "type": "select",
+    "default": "circle",
+    "options": {
+      //~ "options": Object.keys(subjectsPlacementAlgorithmMap),
+      "options": ["random", "circle"],
+    },
+  },
+  {
+    "id": "foods_placement",
+    "name": "Food placement algorithm",
+    "type": "select",
+    "default": "circle",
+    "options": {
+      //~ "options": Object.keys(foodsPlacementAlgorithmMap),
+      "options": ["random", "circle"],
+    },
+  },
+  {
+    "id": "sprites_theme",
+    "name": "Sprites theme",
+    "type": "select",
+    "options": {
+      "options": [
+        "Boys, Girls & Hearths",
+        "Devils, Angels & Hearths",
+        "Gimps, Lyxes & Files",
+        "Eagles, Doves & Apples",
+        "Spiders, Ants & Leaves",
+        "Hornet, Butterfly & Flowers",
+        "Crow, Hummingbird & Blackberries",
+        "Octopuses, Whales & Blowfishes",
+        "Bears, Beavers & Acorns",
+        "Goats, Elephants & Kiwis",
+        "Owls, Penguins & Grapes",
+        "Windows, Debian & Files",
+        "Proprietary, Kopimi & Code",
+      ],
+    }
+  },
+  {
+    "id": "ruleset",
+    "name": "Ruleset (submit to change available strategies)",
+    "type": "select",
+    "default": "Classic Hawks & Doves",
+    "options": {
+      //~ "options": Object.keys(rulesetMap),
+      "options": [
+        "Classic Hawks & Doves",
+        "Primer's Hawks & Doves",
+        "Primer's modified Hawks & Doves",
+      ],
+    },
+  },
+  {
+    "id": "strategy",
+    "name": "Strategy (select and submit ruleset to refresh)",
+    "type": "select",
+    "default": "Hereditary",
+    "options": {
+      //~ "options": Object.keys(strategiesMap),
+      "options": ["Hereditary", "Doves", "Hawks", "Nash equilibrium"],
+    },
+  },
+]);
+
 export const name = "hawk-dove-game";
-export const version = "0.15.0";
+export const version = "0.15.1";
 
 import { create as mcreate, all as mall } from "mathjs";
 const math = mcreate(mall, {});
@@ -50,7 +328,10 @@ export const names = {
     "hawk": "hawk",
   },
 };
-$fx.params(getParamsStep1(names));
+getParamsStep1(names);
+getParamsStep2(names);
+getParamsStep3("static");
+//~ $fx.params(getParamsStep1(names));
 export const strategiesNames = Object.keys(names["strategies"]);
 export const graphColors = {
   "population": {

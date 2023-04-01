@@ -88,8 +88,23 @@ export function getParamsStep2(names) {
       "name": "Sprites theme",
       "type": "select",
       "options": {
-        "options": Object.keys(spritesThemeMap),
-      }
+        //~ "options": Object.keys(spritesThemeMap),
+        "options": [
+          "Boys, Girls & Hearths",
+          "Devils, Angels & Hearths",
+          "Gimps, Lyxes & Files",
+          "Eagles, Doves & Apples",
+          "Spiders, Ants & Leaves",
+          "Hornet, Butterfly & Flowers",
+          "Crow, Hummingbird & Blackberries",
+          "Octopuses, Whales & Blowfishes",
+          "Bears, Beavers & Acorns",
+          "Goats, Elephants & Kiwis",
+          "Owls, Penguins & Grapes",
+          "Windows, Debian & Files",
+          "Proprietary, Kopimi & Code",
+        ],
+      },
     },
     {
       "id": "ruleset",

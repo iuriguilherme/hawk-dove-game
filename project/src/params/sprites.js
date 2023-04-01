@@ -281,7 +281,7 @@ export const getSpritesThemeMap = function(names) {
         "type": "svg",
         "file": "text-x-python.svg",
         "scale": "0.6",
-      },      
+      },
     ],
   };
 }
