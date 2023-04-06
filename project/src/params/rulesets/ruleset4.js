@@ -121,3 +121,7 @@
 export function ruleset4(subjects, foods, names, name, version) {
   console.log("Not implemented");
 }
+
+export function payoffMatrix4() {
+  return [[[], []], [[], []]];
+}

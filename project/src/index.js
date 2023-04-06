@@ -5,7 +5,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.16.0";
+const version = "0.17.0";
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
@@ -113,6 +113,7 @@ const graphColors = {
 const params = getParamsStep4({
   "spritesTheme": $fx.getParam("sprites_theme"),
   "ruleset": $fx.getParam("ruleset"),
+  "payoffMatrix": $fx.getParam("ruleset"),
   "strategy": $fx.getParam("strategy"),
   "growthRate": $fx.getParam("growth_rate"),
   "gameOverGenetic": $fx.getParam("game_over_genetic"),

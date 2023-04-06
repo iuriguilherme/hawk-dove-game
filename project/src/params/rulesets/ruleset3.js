@@ -122,3 +122,7 @@ export function ruleset3(subjects, foods, names, name, version) {
     }
   }
 }
+
+export function payoffMatrix3() {
+  return [[[], []], [[], []]];
+}

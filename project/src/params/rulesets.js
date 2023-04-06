@@ -21,10 +21,10 @@
  * 
  */
 
-import { ruleset1 } from "./rulesets/ruleset1.js";
-import { ruleset2 } from "./rulesets/ruleset2.js";
-import { ruleset3 } from "./rulesets/ruleset3.js";
-//~ import { ruleset4 } from "./rulesets/ruleset4.js";
+import { ruleset1, payoffMatrix1 } from "./rulesets/ruleset1.js";
+import { ruleset2, payoffMatrix2 } from "./rulesets/ruleset2.js";
+import { ruleset3, payoffMatrix3 } from "./rulesets/ruleset3.js";
+//~ import { ruleset4, payoffMatrix4 } from "./rulesets/ruleset4.js";
 
 export const getRulesetMap = function() {
   return {
@@ -32,5 +32,14 @@ export const getRulesetMap = function() {
     "Primer's Hawks & Doves": ruleset2,
     "Primer's modified Hawks & Doves": ruleset3,
     //~ "Primer's Youtube comments": ruleset4,
+  };
+}
+
+export const getPayoffMatrixMap = function() {
+  return {
+    "Classic Hawks & Doves": payoffMatrix1,
+    "Primer's Hawks & Doves": payoffMatrix2,
+    "Primer's modified Hawks & Doves": payoffMatrix3,
+    //~ "Primer's Youtube comments": payoffMatrix4,
   };
 }

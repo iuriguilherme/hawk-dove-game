@@ -32,7 +32,7 @@ let c;
  * dove strategy) for completeness;
  * Everyone chooses to be a Hawk.
  */
-export function strategy3(subjects, foods, names, name, version) {
+export function strategy3(subjects, foods, names, name, version, payoffMatrix) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {

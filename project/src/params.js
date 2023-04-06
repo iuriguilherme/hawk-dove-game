@@ -26,13 +26,14 @@ import {
   getFoodsPlacementAlgorithmMap,
   getSubjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
-import { getRulesetMap } from "./params/rulesets.js";
+import { getRulesetMap, getPayoffMatrixMap } from "./params/rulesets.js";
 import { getSpritesThemeMap } from "./params/sprites.js";
 import { getStrategiesMap } from "./params/strategies.js";
 
 const findFoodAlgorithmMap = getFindFoodAlgorithmMap();
 const foodsPlacementAlgorithmMap = getFoodsPlacementAlgorithmMap();
 const rulesetMap = getRulesetMap();
+const payoffMatrixMap = getPayoffMatrixMap();
 let spritesThemeMap;
 let strategiesMap;
 const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
@@ -43,6 +44,10 @@ export function getFindFoodAlgorithm(key) {
 
 export function getRuleset(key) {
   return rulesetMap[key];
+}
+
+export function getPayoffMatrix(key) {
+  return payoffMatrixMap[key];
 }
 
 export function getFoodsPlacementAlgorithm(key) {
@@ -65,6 +70,7 @@ export function getParamsStep4(params) {
   return {
     "spritesTheme": getSpritesTheme(params["spritesTheme"]),
     "ruleset": getRuleset(params["ruleset"]),
+    "payoffMatrix": getPayoffMatrix(params["ruleset"]),
     "strategy": getStrategy(params["strategy"]),
     "growthRate": params["growthRate"],
     "gameOverGenetic": params["gameOverGenetic"],

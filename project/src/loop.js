@@ -59,9 +59,8 @@ export const loop = function(
   math,
   gData,
   iteration,
+  payoffMatrix,
 ) {
-  $fx.preview();
-  
   function createNew(key) {
     let children = subjects.create(0, 0, key);
     children.setData({
@@ -204,7 +203,7 @@ export const loop = function(
       foods,
       math,
     );
-    strategy(subjects, foods, names, name, version);
+    strategy(subjects, foods, names, name, version, payoffMatrix);
     ruleset(subjects, foods, names, name, version);
     
     let toDestroy = [];
@@ -357,5 +356,6 @@ export const loop = function(
     );
     
   }
+  $fx.preview();
   return iteration;
 }

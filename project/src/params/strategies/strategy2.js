@@ -32,7 +32,7 @@ let c;
  * as described on Primer Youtube channel;
  * Everyone chooses to be a Dove.
  */
-export function strategy2(subjects, foods, names, name, version) {
+export function strategy2(subjects, foods, names, name, version, payoffMatrix) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {

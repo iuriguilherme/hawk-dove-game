@@ -31,7 +31,7 @@
  * it just assumes Primer's Hawk & Dove ruleset, and therefore the Nash 
  * equilibrium means to play the opposite of the opponent.
  */
-export function strategy4(subjects, foods, names, name, version) {
+export function strategy4(subjects, foods, names, name, version, payoffMatrix) {
   let s = subjects.getChildren();
   let f = foods.getChildren();
   for (let i = 0; i < f.length; i++) {

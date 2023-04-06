@@ -113,17 +113,6 @@ export const getPhaserGame = function(
       Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
       Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
       
-      createCharts(
-        charts,
-        names,
-        graphColors,
-        strategiesNames,
-        Chart,
-        graphsCanvas,
-        datasets,
-        datasetsHistory,
-      );
-      
       getGeneticData(gData, properAlphabet);
       
     }
@@ -160,6 +149,7 @@ export const getPhaserGame = function(
         math,
         gData,
         iteration,
+        params["payoffMatrix"],
       );
     }
   }
@@ -179,6 +169,17 @@ export const getPhaserGame = function(
     });
     //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
   }
+  
+  createCharts(
+    charts,
+    names,
+    graphColors,
+    strategiesNames,
+    Chart,
+    graphsCanvas,
+    datasets,
+    datasetsHistory,
+  );
   
   let graphsMaxWidth = 0;
   let graphsMaxHeight = 0;

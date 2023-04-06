@@ -126,3 +126,7 @@ export function ruleset2(subjects, foods, names, name, version) {
     }
   }
 }
+
+export function payoffMatrix2() {
+  return [[[], []], [[], []]];
+}
