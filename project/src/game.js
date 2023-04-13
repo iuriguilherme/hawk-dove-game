@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -50,6 +50,8 @@ export const getPhaserGame = function(
   datasetsHistory,
   getGeneticData,
   properAlphabet,
+  geneticCripple,
+  geneticHandicap,
 ) {
   class HawkDoveScene extends Phaser.Scene {
     constructor () {
@@ -113,7 +115,13 @@ export const getPhaserGame = function(
       Phaser.Actions.PlaceOnCircle(subjects.getChildren(), subjectsCircle);
       Phaser.Actions.RandomCircle(foods.getChildren(), foodsCircle);
       
-      getGeneticData(gData, properAlphabet);
+      getGeneticData({
+        "gData": gData,
+        "properAlphabet": properAlphabet,
+        "geneticCripple": geneticCripple,
+        "geneticHandicap": geneticHandicap,
+        "math": math,
+      });
       
     }
     // FIXME: Use imported update function from another module instead

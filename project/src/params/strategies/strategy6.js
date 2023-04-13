@@ -1,5 +1,5 @@
 /**
- * @file strategy3.js Strategy: Pure hawk for Hawk Dove Game  
+ * @file strategy6.js Opposite strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,28 +22,30 @@
  */
 
 /*
- * @description Strategy - Hawks:
- * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
- * https://youtu.be/YNMkADpvO4w?t=51s
+ * @description opposite strategy:
  * 
- * This is the opposite of the "pure dove" strategy (everyone only chooses the 
- * dove strategy) for completeness;
- * Everyone chooses to be a Hawk.
+ * Choose the opposite of what the other subject chosen.
  */
-export function strategy3(kwargs) {
+export function strategy6(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let c;
+  let c, strategy;
   for (let i = 0; i < f.length; i++) {
-    if (f[i].getData("leftBusy") > -1) {
-      c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
-      c.setTexture(kwargs["names"]["strategies"]["hawk"]);
-    }
-    if (f[i].getData("rightBusy") > -1) {
+    if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
-      c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+      switch (s[f[i].getData("leftBusy")].getData("strategy")) {
+        case "dove":
+          strategy = "hawk";
+          break;
+        case "hawk":
+          strategy = "dove";
+          break;
+        default:
+          strategy = "dove";
+          break;
+      }
+      c.setData({"strategy": kwargs["names"]["strategies"][strategy]});
+      c.setTexture(kwargs["names"]["strategies"][strategy]);
     }
   }
 }

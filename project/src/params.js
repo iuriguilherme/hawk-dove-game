@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -94,9 +94,19 @@ export function getParamsStep4(params) {
   };
 }
 
-function getParamsStep3(ruleset) {
+export function getParamsStep1(names, ruleset) {
   strategiesMap = getStrategiesMap(ruleset);
+  spritesThemeMap = getSpritesThemeMap(names);
   return [
+    {
+      "id": "ruleset",
+      "name": "Ruleset",
+      "type": "select",
+      "default": "Classic Hawks & Doves",
+      "options": {
+        "options": Object.keys(rulesetMap),
+      },
+    },
     {
       "id": "strategy",
       "name": "Strategy",
@@ -106,12 +116,6 @@ function getParamsStep3(ruleset) {
         "options": Object.keys(strategiesMap),
       },
     },
-  ];
-}
-
-function getParamsStep2(names) {
-  spritesThemeMap = getSpritesThemeMap(names);
-  return [
     {
       "id": "sprites_theme",
       "name": "Sprites theme",
@@ -122,24 +126,55 @@ function getParamsStep2(names) {
       },
     },
     {
-      "id": "ruleset",
-      "name": "Ruleset",
+      "id": "food_find",
+      "name": "Food finding algorithm",
       "type": "select",
-      "default": "Classic Hawks & Doves",
+      "default": "random",
       "options": {
-        "options": Object.keys(rulesetMap),
+        "options": Object.keys(findFoodAlgorithmMap),
       },
     },
-  ];
-}
-
-export function getParamsStep1(names, ruleset) {
-  return [
+    {
+      "id": "subjects_placement",
+      "name": "Subject placement algorithm",
+      "type": "select",
+      "default": "circle",
+      "options": {
+        "options": Object.keys(subjectsPlacementAlgorithmMap),
+      },
+    },
+    {
+      "id": "foods_placement",
+      "name": "Food placement algorithm",
+      "type": "select",
+      "default": "circle",
+      "options": {
+        "options": Object.keys(foodsPlacementAlgorithmMap),
+      },
+    },
+    {
+      "id": "game_over_population",
+      "name": "Population erradication causes game over?",
+      "type": "boolean",
+      "default": true,
+    },
+    {
+      "id": "game_over_strategy",
+      "name": "Strategy erradication causes game over?",
+      "type": "boolean",
+      "default": true,
+    },
+    {
+      "id": "game_over_genetic",
+      "name": "Single gene in gene pool causes game over?",
+      "type": "boolean",
+      "default": true,
+    },
     {
       "id": "starting_subjects",
       "name": "Starting random individuals",
       "type": "number",
-      "default": 0,
+      "default": 58,
       "options": {
         "min": 0,
         "max": 58,
@@ -150,7 +185,7 @@ export function getParamsStep1(names, ruleset) {
       "id": "starting_hawks",
       "name": "Starting hawks",
       "type": "number",
-      "default": 29,
+      "default": 0,
       "options": {
         "min": 0,
         "max": 58,
@@ -161,7 +196,7 @@ export function getParamsStep1(names, ruleset) {
       "id": "starting_doves",
       "name": "Starting doves",
       "type": "number",
-      "default": 29,
+      "default": 0,
       "options": {
         "min": 0,
         "max": 58,
@@ -183,16 +218,16 @@ export function getParamsStep1(names, ruleset) {
       "id": "max_age",
       "name": "Longevity (zero is infinite)",
       "type": "number",
-      "default": 0,
+      "default": 1e3,
       "options": {
         "min": 0,
-        "max": 10000,
-        "step": 100,
+        "max": 1e3,
+        "step": 1e1,
       },
     },
     {
       "id": "starting_food",
-      "name": "Starting food (relative to population)",
+      "name": "Starting food % (relative to population)",
       "type": "number",
       "default": 100,
       "options": {
@@ -203,9 +238,9 @@ export function getParamsStep1(names, ruleset) {
     },
     {
       "id": "less_food_chance",
-      "name": "Chance to destroy one food",
+      "name": "Chance % to destroy one food",
       "type": "number",
-      "default": 0,
+      "default": 1,
       "options": {
         "min": 0,
         "max": 100,
@@ -214,45 +249,45 @@ export function getParamsStep1(names, ruleset) {
     },
     {
       "id": "more_food_chance",
-      "name": "Chance to create new food",
+      "name": "Chance % to create new food",
       "type": "number",
-      "default": 0,
+      "default": 1,
       "options": {
         "min": 0,
-        "max": 100,
+        "max": 1e2,
         "step": 1,
       },
     },
     {
       "id": "more_dove_chance",
-      "name": "Chance to spawn new dove",
+      "name": "Chance % to spawn new dove",
       "type": "number",
       "default": 0,
       "options": {
         "min": 0,
-        "max": 100,
+        "max": 1e2,
         "step": 1,
       },
     },
     {
       "id": "more_hawk_chance",
-      "name": "Chance to spawn new hawk",
+      "name": "Chance % to spawn new hawk",
       "type": "number",
       "default": 0,
       "options": {
         "min": 0,
-        "max": 100,
+        "max": 1e2,
         "step": 1,
       },
     },
     {
       "id": "more_random_chance",
-      "name": "Chance to spawn new random individual",
+      "name": "Chance % to spawn new random individual",
       "type": "number",
-      "default": 0,
+      "default": 1,
       "options": {
         "min": 0,
-        "max": 100,
+        "max": 1e2,
         "step": 1,
       },
     },
@@ -283,53 +318,8 @@ export function getParamsStep1(names, ruleset) {
     },
     {
       id: "population_color",
-      name: "Population graph color",
+      name: "Genetic population graph color",
       type: "color",
     },
-    {
-      "id": "game_over_population",
-      "name": "Population erradication causes game over?",
-      "type": "boolean",
-      "default": false,
-    },
-    {
-      "id": "game_over_strategy",
-      "name": "Strategy erradication causes game over?",
-      "type": "boolean",
-      "default": false,
-    },
-    {
-      "id": "game_over_genetic",
-      "name": "Single gene in gene pool causes game over?",
-      "type": "boolean",
-      "default": false,
-    },
-    {
-      "id": "food_find",
-      "name": "Food finding algorithm",
-      "type": "select",
-      "default": "random",
-      "options": {
-        "options": Object.keys(findFoodAlgorithmMap),
-      },
-    },
-    {
-      "id": "subjects_placement",
-      "name": "Subject placement algorithm",
-      "type": "select",
-      "default": "circle",
-      "options": {
-        "options": Object.keys(subjectsPlacementAlgorithmMap),
-      },
-    },
-    {
-      "id": "foods_placement",
-      "name": "Food placement algorithm",
-      "type": "select",
-      "default": "circle",
-      "options": {
-        "options": Object.keys(foodsPlacementAlgorithmMap),
-      },
-    },
-  ].concat(getParamsStep2(names)).concat(getParamsStep3(ruleset));
+  ];
 }

@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -24,13 +24,23 @@
 import { strategy2 } from "./strategies/strategy2.js";
 import { strategy3 } from "./strategies/strategy3.js";
 import { strategy4 } from "./strategies/strategy4.js";
+import { strategy5 } from "./strategies/strategy5.js";
+import { strategy6 } from "./strategies/strategy6.js";
+import { strategy7 } from "./strategies/strategy7.js";
+import { strategy8 } from "./strategies/strategy8.js";
+import { strategy9 } from "./strategies/strategy9.js";
 
 export const getStrategiesMap = function(ruleset) {
   return {
-    "Hereditary": strategy1,
-    "Doves": strategy2,
-    "Hawks": strategy3,
-    "Nash equilibrium": strategy4,
+    "Hereditary (no strategy)": strategy1,
+    "Always Dove": strategy2,
+    "Always Hawk": strategy3,
+    "Nash equilibrium (WIP)": strategy4,
+    "Best payoff": strategy5,
+    "Pure opposites": strategy6,
+    "Pure random": strategy7,
+    "Pure genetic": strategy8,
+    "Genetics + Best payoff": strategy9,
   };
 }
 
@@ -38,4 +48,4 @@ export const getStrategiesMap = function(ruleset) {
  * Subjects will remain with the strategies they were born with, therefore no
  * logic is required
  */
-function strategy1() {}
+function strategy1(kwargs) {}

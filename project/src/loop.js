@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -198,12 +198,17 @@ export const loop = function(
     
     iteration++;
     
-    findFoodAlgorithm(
-      subjects,
-      foods,
-      math,
-    );
-    strategy(subjects, foods, names, name, version, payoffMatrix);
+    findFoodAlgorithm(subjects, foods, math);
+    strategy({
+      "subjects": subjects,
+      "foods": foods,
+      "names": names,
+      "name": name,
+      "version": version,
+      "payoffMatrix": payoffMatrix,
+      "math": math,
+      "gData": gData,
+    });
     ruleset(subjects, foods, names, name, version);
     
     let toDestroy = [];
@@ -332,13 +337,15 @@ export const loop = function(
       
     if ($fx.rand() < moreFoods * 1e-2) {
       foods.create(0, 0, names["food"]);
-      //~ console.log(`[${name} v${version}]: Creating one food (${f.length})`);
+      //~ console.log(
+        //~ `[${name} v${version}]: Creating one food (${f.length})`);
     }
     if ($fx.rand() < lessFoods * 1e-2) {
       try {
         foods.getChildren()[0].destroy();
       } catch {}
-      //~ console.log(`[${name} v${version}]: Destroying one food (${f.length})`);
+      //~ console.log(
+        //~ `[${name} v${version}]: Destroying one food (${f.length})`);
     }
     for (let i = 0; i < f.length; i++) {
       f[i].setData({

@@ -1,5 +1,5 @@
 /**
- * @file strategy3.js Strategy: Pure hawk for Hawk Dove Game  
+ * @file strategy8.js Genetic strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,28 +22,33 @@
  */
 
 /*
- * @description Strategy - Hawks:
- * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
- * https://youtu.be/YNMkADpvO4w?t=51s
+ * @description genetic strategy:
  * 
- * This is the opposite of the "pure dove" strategy (everyone only chooses the 
- * dove strategy) for completeness;
- * Everyone chooses to be a Hawk.
+ * Strategy is chosen through genetic weights.
  */
-export function strategy3(kwargs) {
+export function strategy8(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let c;
+  let c, strategy;
   for (let i = 0; i < f.length; i++) {
-    if (f[i].getData("leftBusy") > -1) {
-      c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
-      c.setTexture(kwargs["names"]["strategies"]["hawk"]);
-    }
-    if (f[i].getData("rightBusy") > -1) {
+    if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
-      c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+      let doveTendency = kwargs["gData"][c.getData("gene")]["doveTendency"];
+      let hawkTendency = kwargs["gData"][c.getData("gene")]["hawkTendency"];
+      let strategies = [doveTendency, hawkTendency];
+      switch (kwargs["math"].max(strategies)) {
+        case doveTendency:
+          strategy = "dove";
+          break;
+        case hawkTendency:
+          strategy = "hawk";
+          break;
+        default:
+          strategy = "dove";
+          break;
+      }
+      c.setData({"strategy": kwargs["names"]["strategies"][strategy]});
+      c.setTexture(kwargs["names"]["strategies"][strategy]);
     }
   }
 }

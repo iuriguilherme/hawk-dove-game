@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -21,24 +21,66 @@
  * 
  */
 
-//~ import {
-  //~ properAlphabet,
-//~ } from "./util.js";
-
-//~ export var gData = {};
-
-export const getGeneticData = function(gData, properAlphabet) {
-  for (let i = 0; i < properAlphabet.length; i++) {
-    let weight = Array.from(fxhashTrunc).filter(
-      n => n == properAlphabet[i]).length;
-    gData[properAlphabet[i]] = {
-      "S": $fx.rand() * weight,
-      "P": $fx.rand() * weight,
-      "E": $fx.rand() * weight,
-      "C": $fx.rand() * weight,
-      "I": $fx.rand() * weight,
-      "A": $fx.rand() * weight,
-      "L": $fx.rand() * weight,
+export const getGeneticData = function(kwargs) {
+  let geneticParams;
+  for (let i = 0; i < kwargs["properAlphabet"].length; i++) {
+    kwargs["gData"][kwargs["properAlphabet"][i]] = {};
+    let l = [
+      "doveTendency",
+      "hawkTendency",
+    ];
+    geneticParams = {
+      /*
+       * This weight is a PRNG for each gene
+       */
+      "randomWeight": {
+        "value": $fx.rand(),
+        "length": 1,
+      },
+      /*
+       * This weight is based on repeated numbers from the alphabet
+       */
+      "hashWeight": {
+        "value": Array.from(fxhashTrunc).filter(
+          n => n == kwargs["properAlphabet"][i]).length,
+        "length": fxhashTrunc.length,
+      },
+      /*
+       * This weight is based on the position of the current number in the 
+       * base58 alphabet
+       */
+      "alphabetWeight": {
+        "value": kwargs["properAlphabet"].indexOf(kwargs["properAlphabet"][i]),
+        "length": kwargs["properAlphabet"].length,
+      },
+      /*
+       * These two weights come from a random gene chosen by $fx.random PRNG
+       */
+      "crippleWeight": {"value": 0.5, "length": 1},
+      "handicapWeight": {"value": 0.5, "length": 1},
     };
+    switch (kwargs["properAlphabet"][i]) {
+      case kwargs["geneticCripple"]:
+        geneticParams["crippleWeight"]["value"] = 0.0;
+        break;
+      case kwargs["geneticHandicap"]:
+        geneticParams["handicapWeight"]["value"] = 1.0;
+        break;
+      default:
+        break;
+    }
+    for (let v in l) {
+      kwargs["gData"][kwargs["properAlphabet"][i]][l[v]] = geneticFormula(
+        geneticParams, kwargs["math"]);
+    }
   }
+}
+
+function geneticFormula(geneticParams, math) {
+  let values = [];
+  for (let k in geneticParams) {
+    values.push(($fx.rand() * geneticParams[k]["value"]) /
+      geneticParams[k]["length"]);
+  }
+  return math.mean(values);
 }

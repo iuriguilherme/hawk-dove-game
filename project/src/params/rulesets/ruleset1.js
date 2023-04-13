@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -36,8 +36,9 @@
  *  once.
  */
 export function ruleset1(subjects, foods, names, name, version) {
-  let s = subjects.getChildren();
   let f = foods.getChildren();
+  let s = subjects.getChildren();
+  let p = payoffMatrix1();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
@@ -50,7 +51,7 @@ export function ruleset1(subjects, foods, names, name, version) {
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
             names["strategies"]["hawk"]) {
             //~ console.log("left and right two hawks. will fight...");
-            if ($fx.rand() > 0.5) {
+            if ($fx.rand() > p["survival"]["hawk"]["hawk"]) {
               //~ console.log("left hawk wins");
               s[f[i].getData("rightBusy")].setData({
                 "dead": true,
@@ -125,5 +126,30 @@ export function ruleset1(subjects, foods, names, name, version) {
 }
 
 export function payoffMatrix1() {
-  return [[[], []], [[], []]];
+  return {
+    "survival": {
+      "dove": {
+        "dove": 1.0,
+        "hawk": 1.0,
+        "alone": 1.0,
+      },
+      "hawk": {
+        "dove": 1.0,
+        "hawk": 0.5,
+        "alone": 1.0,
+      },
+    },
+    "reproduction": {
+      "dove": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 1.0,
+      },
+      "hawk": {
+        "dove": 1.0,
+        "hawk": 0.5,
+        "alone": 1.0,
+      },
+    },
+  };
 }

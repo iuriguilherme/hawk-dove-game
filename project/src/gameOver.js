@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -163,7 +163,7 @@ export function endGame(
     scene.add.text(
       15,
       30 * (strategiesNames.length + 8),
-      `genetic attributes for \#${geneWinner}:\n\t${attrs}`,
+      `genetic attributes for \#${geneWinner}:\n\n\t${attrs}`,
       {
         "fontSize": "2em",
         "fill": "#121212",

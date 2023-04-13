@@ -123,5 +123,30 @@ export function ruleset4(subjects, foods, names, name, version) {
 }
 
 export function payoffMatrix4() {
-  return [[[], []], [[], []]];
+  return {
+    "survival": {
+      "dove": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 0.0,
+      },
+      "hawk": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 0.0,
+      },
+    },
+    "reproduction": {
+      "dove": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 0.0,
+      },
+      "hawk": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 0.0,
+      },
+    },
+  };
 }

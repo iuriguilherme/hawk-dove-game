@@ -1,10 +1,10 @@
 /**
- * @file strategy3.js Nash equilibirum strategy for Hawk Dove Game  
+ * @file strategy4.js Nash equilibirum strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -31,23 +31,22 @@
  * it just assumes Primer's Hawk & Dove ruleset, and therefore the Nash 
  * equilibrium means to play the opposite of the opponent.
  */
-export function strategy4(subjects, foods, names, name, version, payoffMatrix) {
-  let s = subjects.getChildren();
+export function strategy4(kwargs) {
   let f = foods.getChildren();
+  let s = subjects.getChildren();
+  let p = payoffMatrix();
+  let c;
   for (let i = 0; i < f.length; i++) {
-    if (f[i].getData("leftBusy") > -1) {
-      if (f[i].getData("rightBusy") > -1) {
-        if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["dove"]) {
-          s[f[i].getData("rightBusy")].setData({
-            "strategy": names["strategies"]["hawk"],
-          });
-        } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["hawk"]) {
-          s[f[i].getData("rightBusy")].setData({
-            "strategy": names["strategies"]["dove"],
-          });
-        }
+    if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
+      c = s[f[i].getData("rightBusy")];
+      if (s[f[i].getData("leftBusy")].getData("strategy") == 
+        kwargs["names"]["strategies"]["dove"]) {
+        c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
+        c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+      } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
+        kwargs["names"]["strategies"]["hawk"]) {
+        c.setData({"strategy": kwargs["names"]["strategies"]["dove"]});
+        c.setTexture(kwargs["names"]["strategies"]["dove"]);
       }
     }
   }

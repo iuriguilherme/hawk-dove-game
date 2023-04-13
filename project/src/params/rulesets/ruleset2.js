@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -40,8 +40,9 @@
  *  reproduction, because they'll eat all the food alone;
  */
 export function ruleset2(subjects, foods, names, name, version) {
-  let s = subjects.getChildren();
   let f = foods.getChildren();
+  let s = subjects.getChildren();
+  let p = payoffMatrix2();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
@@ -66,11 +67,11 @@ export function ruleset2(subjects, foods, names, name, version) {
             names["strategies"]["dove"]) {
             //~ console.log("right is dove, hawk and dove");
             s[f[i].getData("leftBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
+            if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("leftBusy")].setData({"strong": true});
             }
             s[f[i].getData("rightBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
+            if ($fx.rand() < p["survival"]["dove"]["hawk"]) {
               s[f[i].getData("rightBusy")].setData({
                 "fleeing": false,
                 "dead": true,
@@ -86,11 +87,11 @@ export function ruleset2(subjects, foods, names, name, version) {
             names["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
+            if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("rightBusy")].setData({"strong": true});
             }
             s[f[i].getData("leftBusy")].setData({"eating": false});
-            if ($fx.rand() > 0.5) {
+            if ($fx.rand() < p["survival"]["dove"]["hawk"]) {
               s[f[i].getData("leftBusy")].setData({
                 "fleeing": false,
                 "dead": true,
@@ -128,5 +129,30 @@ export function ruleset2(subjects, foods, names, name, version) {
 }
 
 export function payoffMatrix2() {
-  return [[[], []], [[], []]];
+  return {
+    "survival": {
+      "dove": {
+        "dove": 1.0,
+        "hawk": 0.5,
+        "alone": 1.0,
+      },
+      "hawk": {
+        "dove": 1.0,
+        "hawk": 0.0,
+        "alone": 1.0,
+      },
+    },
+    "reproduction": {
+      "dove": {
+        "dove": 0.0,
+        "hawk": 0.0,
+        "alone": 1.0,
+      },
+      "hawk": {
+        "dove": 0.5,
+        "hawk": 0.0,
+        "alone": 1.0,
+      },
+    },
+  };
 }

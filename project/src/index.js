@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.16.0  
+ * @version 0.18.0  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,11 +23,13 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.17.0";
+const version = "0.18.0";
+
+const seed = $fx.rand() * 1e8;
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";
-const math = mcreate(mall, {});
+const math = mcreate(mall, {"randomSeed": seed});
 import Phaser from "phaser";
 
 import {
@@ -67,6 +69,11 @@ const names = {
 };
 const strategiesNames = Object.keys(names["strategies"]);
 
+const geneticHandicap = properAlphabet[math.floor(
+  $fx.rand() * properAlphabet.length)];
+const geneticCripple = properAlphabet[math.floor(
+  $fx.rand() * properAlphabet.length)];
+
 var charts = {};
 var datasets = [];
 var datasetsHistory = [];
@@ -79,26 +86,73 @@ var subjectsCircle;
 
 $fx.params(getParamsStep1(names, "static"));
 $fx.features({
-  "Starting random individuals": $fx.getParam("starting_subjects"),
-  "Starting hawks": $fx.getParam("starting_hawks"),
-  "Starting doves": $fx.getParam("starting_doves"),
-  "Reproduction multiplier": $fx.getParam("growth_rate"),
-  "Longevity": $fx.getParam("max_age"),
-  "Starting food rate": $fx.getParam("starting_food") + "%",
-  "Food destruction chance": $fx.getParam("less_food_chance") + "%",
-  "Food creation chance": $fx.getParam("more_food_chance") + "%",
-  "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
-  "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
-  "Game over by genetic end": $fx.getParam("game_over_genetic"),
-  "Game over by population end": $fx.getParam("game_over_population"),
-  "Game over by strategy end": $fx.getParam("game_over_strategy"),
-  "Food finding algorithm": $fx.getParam("food_find"),
-  "Food placement algorithm": $fx.getParam("foods_placement"),
-  "Subject placement algorithm": $fx.getParam("subjects_placement"),
+  "Genetic cripple": geneticCripple,
+  "Genetic handicap": geneticHandicap,
   "Ruleset": $fx.getParam("ruleset"),
   "Strategy": $fx.getParam("strategy"),
   "Sprites theme": $fx.getParam("sprites_theme"),
+  //~ "Food finding algorithm": $fx.getParam("food_find"),
+  //~ "Food placement algorithm": $fx.getParam("foods_placement"),
+  //~ "Subject placement algorithm": $fx.getParam("subjects_placement"),
+  //~ "Starting random individuals": $fx.getParam("starting_subjects"),
+  //~ "Game over by population end": $fx.getParam("game_over_population"),
+  //~ "Game over by strategy end": $fx.getParam("game_over_strategy"),
+  //~ "Game over by genetic end": $fx.getParam("game_over_genetic"),
+  //~ "Starting hawks": $fx.getParam("starting_hawks"),
+  //~ "Starting doves": $fx.getParam("starting_doves"),
+  //~ "Reproduction multiplier": $fx.getParam("growth_rate"),
+  //~ "Longevity": $fx.getParam("max_age"),
+  //~ "Starting food rate": $fx.getParam("starting_food") + "%",
+  //~ "Food destruction chance": $fx.getParam("less_food_chance") + "%",
+  //~ "Food creation chance": $fx.getParam("more_food_chance") + "%",
+  //~ "Dove creation chance": $fx.getParam("more_dove_chance") + "%",
+  //~ "Hawk creation chance": $fx.getParam("more_hawk_chance") + "%",
 });
+
+console.log([
+  `[${name} v${version}]`,
+  `fx(hash): ${fxhashTrunc}`,
+  `fx(params) Current ruleset: ${$fx.getParam("ruleset")}`,
+  `fx(params) Strategy: ${$fx.getParam("strategy")}`,
+  `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}`,
+  `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}`,
+  `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}`,
+  [
+    `fx(params) Subject placing algorithm:`,
+    `${$fx.getParam("subjects_placement")}`,
+  ].join(),
+  [
+    `fx(params) Game over by population end:`,
+    `${$fx.getParam("game_over_population")}`,
+  ].join(),
+  [
+    `fx(params) Game over by strategy end:`,
+    `${$fx.getParam("game_over_strategy")}`,
+  ].join(),
+  [
+    `fx(params) Game over by genetic end:`,
+    `${$fx.getParam("game_over_genetic")}`,
+  ].join(),
+  [
+    `fx(params) Starting random individuals:`,
+    `${$fx.getParam("starting_subjects")}`,
+  ].join(),
+  `fx(params) Starting hawks: ${$fx.getParam("starting_hawks")}`,
+  `fx(params) Starting doves: ${$fx.getParam("starting_doves")}`,
+  `fx(params) Reproduction multiplier: ${$fx.getParam("growth_rate")}`,
+  `fx(params) Longevity: ${$fx.getParam("max_age")}`,
+  `fx(params) Starting food rate: ${$fx.getParam("starting_food")}%`,
+  `fx(params) Chance of less food: ${$fx.getParam("less_food_chance")}%`,
+  `fx(params) Chance of new food: ${$fx.getParam("more_food_chance")}%`,
+  [
+    `fx(params) Chance of new random individual:`,
+    `${$fx.getParam("more_random_chance")}%`,
+  ].join(),
+  `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%`,
+  `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%`,
+  `fx(features) Genetic cripple: ${geneticCripple}`,
+  `fx(features) Genetic handicap: ${geneticHandicap}`,
+].join("\n"));
 
 const graphColors = {
   "population": {
@@ -159,6 +213,8 @@ const phaserGame = getPhaserGame(
   datasetsHistory,
   getGeneticData,
   properAlphabet,
+  geneticCripple,
+  geneticHandicap,
 );
 
 window.addEventListener("resize", () => {
@@ -187,35 +243,5 @@ window.addEventListener("resize", () => {
 });
 
 document.body.style.background = "#e8e8e8";
-
-console.log(
-  `[${name} v${version}]:\nfx(hash): ${fxhashTrunc}\n`,
-  `fx(params) Starting random individuals:`,
-  `${$fx.getParam("starting_subjects")}\n`,
-  `fx(params) Starting hawks: ${$fx.getParam("starting_hawks")}\n`,
-  `fx(params) Starting doves: ${$fx.getParam("starting_doves")}\n`,
-  `fx(params) Reproduction multiplier: ${$fx.getParam("growth_rate")}\n`,
-  `fx(params) Longevity: ${$fx.getParam("max_age")}\n`,
-  `fx(params) Starting food rate: ${$fx.getParam("starting_food")}%\n`,
-  `fx(params) Chance of less food: ${$fx.getParam("less_food_chance")}%\n`,
-  `fx(params) Chance of new food: ${$fx.getParam("more_food_chance")}%\n`,
-  `fx(params) Chance of new random individual:`,
-  `${$fx.getParam("more_random_chance")}%\n`,
-  `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%\n`,
-  `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%\n`,
-  `fx(params) Game over by genetic end:`,
-  `${$fx.getParam("game_over_genetic")}\n`,
-  `fx(params) Game over by population end:`,
-  `${$fx.getParam("game_over_population")}\n`,
-  `fx(params) Game over by strategy end:`,
-  `${$fx.getParam("game_over_strategy")}\n`,
-  `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}\n`,
-  `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}\n`,
-  `fx(params) Subject placing algorithm:`,
-  `${$fx.getParam("subjects_placement")}\n`,
-  `fx(params) Current ruleset: ${$fx.getParam("ruleset")}\n`,
-  `fx(params) Strategy: ${$fx.getParam("strategy")}\n`,
-  `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}\n`,
-);
 
 console.log(`[${name} v${version}] fully loaded and working properly!`);

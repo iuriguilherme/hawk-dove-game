@@ -4,7 +4,7 @@
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
- *    https://github.com/iuriguilherme/fxhash4  
+ *    https://github.com/iuriguilherme/hawk-dove-game  
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
@@ -21,8 +21,6 @@
  * 
  */
 
-let c;
-
 /*
  * @description Strategy - Doves:
  * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
@@ -32,19 +30,20 @@ let c;
  * as described on Primer Youtube channel;
  * Everyone chooses to be a Dove.
  */
-export function strategy2(subjects, foods, names, name, version, payoffMatrix) {
-  let s = subjects.getChildren();
-  let f = foods.getChildren();
+export function strategy2(kwargs) {
+  let f = kwargs["foods"].getChildren();
+  let s = kwargs["subjects"].getChildren();
+  let c;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": names["strategies"]["dove"]});
-      c.setTexture(names["strategies"]["dove"]);
+      c.setData({"strategy": kwargs["names"]["strategies"]["dove"]});
+      c.setTexture(kwargs["names"]["strategies"]["dove"]);
     }
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": names["strategies"]["dove"]});
-      c.setTexture(names["strategies"]["dove"]);
+      c.setData({"strategy": kwargs["names"]["strategies"]["dove"]});
+      c.setTexture(kwargs["names"]["strategies"]["dove"]);
     }
   }
 }
