@@ -123,6 +123,8 @@ export const getPhaserGame = function(
         "math": math,
       });
       
+      this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+      this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     }
     // FIXME: Use imported update function from another module instead
     update () {

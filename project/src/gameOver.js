@@ -36,16 +36,20 @@ export function endGame(
   strategiesNames,
   alphabetArray,
   math,
+  charts,
+  chartData,
 ) {
-  let geneticData = getNestedData("gene", alphabetArray);
-  let populationData = getStrategyData();
+  let geneticData = getNestedData("gene", alphabetArray, subjects);
+  let populationData = getStrategyData(foods, subjects, names, strategiesNames);
   let s = subjects.getChildren();
   let f = foods.getChildren();
   
-  updateNestedBarChart("genetic", "gene", alphabetArray);
-  updatePopulationChart("population");
-  updateSimpleBarChart("age");
-  updateSimpleBarChart("generation");
+  updateNestedBarChart("genetic", "gene", alphabetArray, charts, chartData,
+    subjects);
+  updatePopulationChart("population", charts, chartData, foods, subjects,
+    names, strategiesNames);
+  updateSimpleBarChart("age", charts, chartData, subjects, math);
+  updateSimpleBarChart("generation", charts, chartData, subjects, math);
   
   scene.add.text(
     15,
