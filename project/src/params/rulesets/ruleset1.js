@@ -8,8 +8,8 @@
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
- * Free Software Foundation, either version 3 of the License, or (at your 
- * option) any later version.  
+ * Free Software Foundation, either kwargs["version"] 3 of the License, or (at your 
+ * option) any later kwargs["version"].  
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT 
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
@@ -35,10 +35,10 @@
  * If a bird is alone in it's group (only one hawk or dove), it reproduces 
  *  once.
  */
-export function ruleset1(subjects, foods, names, name, version) {
-  let f = foods.getChildren();
-  let s = subjects.getChildren();
-  let p = payoffMatrix1();
+export function ruleset1(kwargs) {
+  let f = kwargs["foods"].getChildren();
+  let s = kwargs["subjects"].getChildren();
+  let p = rulesetPayoffMatrix1();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
@@ -46,10 +46,10 @@ export function ruleset1(subjects, foods, names, name, version) {
       if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["hawk"]) {
+          kwargs["names"]["strategies"]["hawk"]) {
           //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             //~ console.log("left and right two hawks. will fight...");
             if ($fx.rand() > p["survival"]["hawk"]["hawk"]) {
               //~ console.log("left hawk wins");
@@ -86,7 +86,7 @@ export function ruleset1(subjects, foods, names, name, version) {
         } else {
           //~ console.log("left is dove");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("leftBusy")].setData({
               "fleeing": true,
@@ -114,8 +114,8 @@ export function ruleset1(subjects, foods, names, name, version) {
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")}`,
-      //~ `died of hunger`);
+    //~ console.log(`[${kwargs["name"]} v${kwargs["version"]}]: One`, 
+      //~ `${s[i].getData("strategy")} died of hunger`);
     if (s[i].getData("eating") === true) {
       s[i].setData({
         "dead": true,
@@ -125,7 +125,7 @@ export function ruleset1(subjects, foods, names, name, version) {
   }
 }
 
-export function payoffMatrix1() {
+export function rulesetPayoffMatrix1() {
   return {
     "survival": {
       "dove": {

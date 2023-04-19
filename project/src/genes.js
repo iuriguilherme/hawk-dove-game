@@ -26,8 +26,16 @@ export const getGeneticData = function(kwargs) {
   for (let i = 0; i < kwargs["properAlphabet"].length; i++) {
     kwargs["gData"][kwargs["properAlphabet"][i]] = {};
     let l = [
-      "doveTendency",
-      "hawkTendency",
+      "strategyDoveTendency",
+      "strategyHawkTendency",
+      "ASRFightTendency",
+      "ASRFlightTendency",
+      "ASRFreezeTendency",
+      "ASRFawnTendency",
+      "ASRFloodTendency",
+      "ASRFatigueFlopTendency",
+      "abilityChooseStrategy",
+      "abilityChooseASR",
     ];
     geneticParams = {
       /*

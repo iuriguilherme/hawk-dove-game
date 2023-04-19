@@ -59,7 +59,10 @@ export const loop = function(
   math,
   gData,
   iteration,
-  payoffMatrix,
+  rulesetPayoffMatrix,
+  asr,
+  asrPayoffMatrix,
+  asrTreshold,
 ) {
   
   if (!gameOver) {
@@ -115,11 +118,32 @@ export const loop = function(
       "names": names,
       "name": name,
       "version": version,
-      "payoffMatrix": payoffMatrix,
+      "rulesetPayoffMatrix": rulesetPayoffMatrix,
+      "math": math,
+      "gData": gData,
+      "asrPayoffMatrix": asrPayoffMatrix,
+    });
+    asr({
+      "subjects": subjects,
+      "foods": foods,
+      "names": names,
+      "name": name,
+      "version": version,
+      "rulesetPayoffMatrix": rulesetPayoffMatrix,
+      "math": math,
+      "gData": gData,
+      "asrPayoffMatrix": asrPayoffMatrix,
+      "asrTreshold": asrTreshold,
+    });
+    ruleset({
+      "subjects": subjects,
+      "foods": foods,
+      "names": names,
+      "name": name,
+      "version": version,
       "math": math,
       "gData": gData,
     });
-    ruleset(subjects, foods, names, name, version);
     
     let toDestroy = [];
     let toReproduce = [];
@@ -293,9 +317,12 @@ export const loop = function(
 
 function createNew(key, subjects, fxArray, names, strategiesNames, math) {
   let children = subjects.create(0, 0, key);
+  let asrArray = Object.keys(names["asr"]);
   children.setData({
     "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
     "strategy": key,
+    "asr": asrArray[math.floor($fx.rand() * asrArray.length)],
+    "state": "waiting",
     "waiting": true,
     "eating": false,
     "fleeing": false,

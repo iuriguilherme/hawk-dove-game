@@ -26,14 +26,17 @@ import {
   getFoodsPlacementAlgorithmMap,
   getSubjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
-import { getRulesetMap, getPayoffMatrixMap } from "./params/rulesets.js";
+import { getRulesetMap, getRulesetPayoffMatrixMap } from "./params/rulesets.js";
+import { getAsrMap, getAsrPayoffMatrixMap } from "./params/asrs.js";
 import { getSpritesThemeMap } from "./params/sprites.js";
 import { getStrategiesMap } from "./params/strategies.js";
 
 const findFoodAlgorithmMap = getFindFoodAlgorithmMap();
 const foodsPlacementAlgorithmMap = getFoodsPlacementAlgorithmMap();
 const rulesetMap = getRulesetMap();
-const payoffMatrixMap = getPayoffMatrixMap();
+const rulesetPayoffMatrixMap = getRulesetPayoffMatrixMap();
+const asrMap = getAsrMap();
+const asrPayoffMatrixMap = getAsrPayoffMatrixMap();
 let spritesThemeMap;
 let strategiesMap;
 const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
@@ -46,8 +49,16 @@ export function getRuleset(key) {
   return rulesetMap[key];
 }
 
-export function getPayoffMatrix(key) {
-  return payoffMatrixMap[key];
+export function getRulesetPayoffMatrix(key) {
+  return rulesetPayoffMatrixMap[key];
+}
+
+export function getAsr(key) {
+  return asrMap[key];
+}
+
+export function getAsrPayoffMatrix(key) {
+  return asrPayoffMatrixMap[key];
 }
 
 export function getFoodsPlacementAlgorithm(key) {
@@ -70,7 +81,9 @@ export function getParamsStep4(params) {
   return {
     "spritesTheme": getSpritesTheme(params["spritesTheme"]),
     "ruleset": getRuleset(params["ruleset"]),
-    "payoffMatrix": getPayoffMatrix(params["ruleset"]),
+    "rulesetPayoffMatrix": getRulesetPayoffMatrix(params["ruleset"]),
+    "asr": getAsr(params["asr"]),
+    "asrPayoffMatrix": getAsrPayoffMatrix(params["asr"]),
     "strategy": getStrategy(params["strategy"]),
     "growthRate": params["growthRate"],
     "gameOverGenetic": params["gameOverGenetic"],
@@ -100,11 +113,20 @@ export function getParamsStep1(names, ruleset) {
   return [
     {
       "id": "ruleset",
-      "name": "Ruleset",
+      "name": "Hawk-dove ruleset",
       "type": "select",
       "default": "Classic Hawks & Doves",
       "options": {
         "options": Object.keys(rulesetMap),
+      },
+    },
+    {
+      "id": "asr",
+      "name": "ASR variant",
+      "type": "select",
+      "default": "Cannon's Fight or Flight Response",
+      "options": {
+        "options": Object.keys(asrMap),
       },
     },
     {
@@ -201,6 +223,17 @@ export function getParamsStep1(names, ruleset) {
         "min": 0,
         "max": 58,
         "step": 1,
+      },
+    },
+    {
+      "id": "ars_treshold",
+      "name": "Treshold to choose ARS (1 = disabled, 0 = always)",
+      "type": "number",
+      "default": 0.1,
+      "options": {
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.1,
       },
     },
     {

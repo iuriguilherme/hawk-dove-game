@@ -30,7 +30,7 @@
 export function strategy5(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let p = kwargs["payoffMatrix"]();
+  let p = kwargs["rulesetPayoffMatrix"]();
   let c, strategy;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {

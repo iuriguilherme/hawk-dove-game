@@ -34,7 +34,7 @@
 export function strategy4(kwargs) {
   let f = foods.getChildren();
   let s = subjects.getChildren();
-  let p = payoffMatrix();
+  let p = rulesetPayoffMatrix();
   let c;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {

@@ -8,8 +8,8 @@
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
- * Free Software Foundation, either version 3 of the License, or (at your 
- * option) any later version.  
+ * Free Software Foundation, either kwargs["version"] 3 of the License, or (at your 
+ * option) any later kwargs["version"].  
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT 
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
@@ -42,17 +42,17 @@
  * If a Hawk or a Dove finds a food alone, they have 100% of chance of 
  *  reproduction, because they'll eat all the food alone;
  */
-export function ruleset3(subjects, foods, names, name, version) {
-  let f = foods.getChildren();
-  let s = subjects.getChildren();
-  let p = payoffMatrix3();
+export function ruleset3(kwargs) {
+  let f = kwargs["foods"].getChildren();
+  let s = kwargs["subjects"].getChildren();
+  let p = rulesetPayoffMatrix3();
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       if (f[i].getData("rightBusy") > -1) {
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["hawk"]) {
+          kwargs["names"]["strategies"]["hawk"]) {
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             s[f[i].getData("rightBusy")].setData({"eating": false});
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() < p["survival"]["hawk"]["hawk"]) {
@@ -62,7 +62,7 @@ export function ruleset3(subjects, foods, names, name, version) {
               s[f[i].getData("leftBusy")].setData({"dead": true});
             }
           } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["dove"]) {
+            kwargs["names"]["strategies"]["dove"]) {
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("leftBusy")].setData({"strong": true});
@@ -79,9 +79,9 @@ export function ruleset3(subjects, foods, names, name, version) {
           }
         } else
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["dove"]) {
+          kwargs["names"]["strategies"]["dove"]) {
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("rightBusy")].setData({"strong": true});
@@ -97,7 +97,7 @@ export function ruleset3(subjects, foods, names, name, version) {
             }
           } else
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["dove"]) {
+            kwargs["names"]["strategies"]["dove"]) {
             s[f[i].getData("leftBusy")].setData({"eating": false});
             s[f[i].getData("rightBusy")].setData({"eating": false});
           }
@@ -113,8 +113,8 @@ export function ruleset3(subjects, foods, names, name, version) {
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")}`,
-      //~ `died of`);
+    //~ console.log(`[${kwargs["name"]} v${kwargs["version"]}]: One`,
+      //~ `${s[i].getData("strategy")} died of`);
     if (s[i].getData("eating") === true) {
       s[i].setData({
         "dead": true,
@@ -124,7 +124,7 @@ export function ruleset3(subjects, foods, names, name, version) {
   }
 }
 
-export function payoffMatrix3() {
+export function rulesetPayoffMatrix3() {
   return {
     "survival": {
       "dove": {

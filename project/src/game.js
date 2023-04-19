@@ -78,13 +78,16 @@ export const getPhaserGame = function(
       subjects = new Phaser.GameObjects.Group(this);
       for (let i = 0; i < params["startingSubjects"]; i++) {
         createNew(names["strategies"][strategiesNames[
-          math.floor($fx.rand() * strategiesNames.length)]]);
+            math.floor($fx.rand() * strategiesNames.length)]], fxArray, 
+          Object.keys(names["asr"]), subjects, math);
       }
       for (let i = 0; i < params["startingDoves"]; i++) {
-        createNew(names["strategies"]["dove"]);
+        createNew(names["strategies"]["dove"], fxArray,
+          Object.keys(names["asr"]), subjects, math);
       }
       for (let i = 0; i < params["startingHawks"]; i++) {
-        createNew(names["strategies"]["hawk"]);
+        createNew(names["strategies"]["hawk"], fxArray,
+          Object.keys(names["asr"]), subjects, math);
       }
       foods = this.add.group({
         "key": names["food"],
@@ -159,25 +162,12 @@ export const getPhaserGame = function(
         math,
         gData,
         iteration,
-        params["payoffMatrix"],
+        params["rulesetPayoffMatrix"],
+        params["asr"],
+        params["asrPayoffMatrix"],
+        params["asrTreshold"],
       );
     }
-  }
-  
-  function createNew(key) {
-    let children = subjects.create(0, 0, key);
-    children.setData({
-      "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
-      "strategy": key,
-      "waiting": true,
-      "eating": false,
-      "fleeing": false,
-      "dead": false,
-      "strong": false,
-      "age": 0,
-      "generation": 0,
-    });
-    //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
   }
   
   createCharts(
@@ -217,3 +207,21 @@ export const getPhaserGame = function(
   return new Phaser.Game(config);
 };
 //~ export const phaserGame = new Phaser.Game(config);
+
+function createNew(key, fxArray, asrArray, subjects, math) {
+  let children = subjects.create(0, 0, key);
+  children.setData({
+    "gene": fxArray[math.floor($fx.rand() * fxArray.length)],
+    "strategy": key,
+    "asr": asrArray[math.floor($fx.rand() * asrArray.length)],
+    "state": "waiting",
+    "waiting": true,
+    "eating": false,
+    "fleeing": false,
+    "dead": false,
+    "strong": false,
+    "age": 0,
+    "generation": 0,
+  });
+  //~ console.log(`[${name} v${version}]: Creating a new ${key}`);
+}

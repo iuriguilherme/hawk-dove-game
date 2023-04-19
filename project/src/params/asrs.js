@@ -1,5 +1,5 @@
 /**
- * @file rulesets.js Rulesets for Hawk Dove Game  
+ * @file asrs.js Flight or Flight Response for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -21,25 +21,32 @@
  * 
  */
 
-import { ruleset1, rulesetPayoffMatrix1 } from "./rulesets/ruleset1.js";
-import { ruleset2, rulesetPayoffMatrix2 } from "./rulesets/ruleset2.js";
-import { ruleset3, rulesetPayoffMatrix3 } from "./rulesets/ruleset3.js";
-//~ import { ruleset4, rulesetPayoffMatrix4 } from "./rulesets/ruleset4.js";
+/**
+ * https://en.wikipedia.org/wiki/Fight-or-flight_response
+ * https://en.wikipedia.org/wiki/Post-traumatic_stress_disorder
+ * https://en.wikipedia.org/wiki/Acute_stress_disorder
+ * https://neuroclastic.com/the-6fs-of-trauma-responses/
+ */
 
-export const getRulesetMap = function() {
+import { asr1, asrPayoffMatrix1 } from "./asrs/asr1.js";
+import { asr2, asrPayoffMatrix2 } from "./asrs/asr2.js";
+import { asr3, asrPayoffMatrix3 } from "./asrs/asr3.js";
+import { asr4, asrPayoffMatrix4 } from "./asrs/asr4.js";
+
+export const getAsrMap = function() {
   return {
-    "Classic Hawks & Doves": ruleset1,
-    "Primer's Hawks & Doves": ruleset2,
-    "Primer's modified Hawks & Doves": ruleset3,
-    //~ "Primer's Youtube comments": ruleset4,
+    "Cannon's Fight or Flight Response": asr1,
+    "Porges' 3F": asr2,
+    "Walker's 4F": asr3,
+    "Reisinger's 6F": asr4,
   };
 }
 
-export const getRulesetPayoffMatrixMap = function() {
+export const getAsrPayoffMatrixMap = function() {
   return {
-    "Classic Hawks & Doves": rulesetPayoffMatrix1,
-    "Primer's Hawks & Doves": rulesetPayoffMatrix2,
-    "Primer's modified Hawks & Doves": rulesetPayoffMatrix3,
-    //~ "Primer's Youtube comments": rulesetPayoffMatrix4,
+    "Fight or Flight Response": asrPayoffMatrix1,
+    "Porges' 3F": asrPayoffMatrix2,
+    "Walker's 4F": asrPayoffMatrix3,
+    "Reisinger's 6F": asrPayoffMatrix4,
   };
 }

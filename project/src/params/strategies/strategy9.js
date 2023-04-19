@@ -31,7 +31,7 @@
 export function strategy9(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let p = kwargs["payoffMatrix"]();
+  let p = kwargs["rulesetPayoffMatrix"]();
   let c, strategy;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
@@ -41,8 +41,10 @@ export function strategy9(kwargs) {
         p["reproduction"]["dove"][leftStrategy];
       let hawkPayoff = p["survival"]["hawk"][leftStrategy] + 
         p["reproduction"]["hawk"][leftStrategy];
-      let doveTendency = kwargs["gData"][c.getData("gene")]["doveTendency"];
-      let hawkTendency = kwargs["gData"][c.getData("gene")]["hawkTendency"];
+      let doveTendency = kwargs["gData"][c.getData("gene")][
+        "strategyDoveTendency"];
+      let hawkTendency = kwargs["gData"][c.getData("gene")][
+        "strategyHawkTendency"];
       let strategies = [doveTendency, hawkTendency];
       let doveWeight = 0;
       let hawkWeight = 0;

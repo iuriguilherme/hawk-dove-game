@@ -8,8 +8,8 @@
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
- * Free Software Foundation, either version 3 of the License, or (at your 
- * option) any later version.  
+ * Free Software Foundation, either kwargs["version"] 3 of the License, or (at your 
+ * option) any later kwargs["version"].  
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT 
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
@@ -39,10 +39,10 @@
  * If a Hawk or a Dove finds a food alone, they have 100% of chance of 
  *  reproduction, because they'll eat all the food alone;
  */
-export function ruleset2(subjects, foods, names, name, version) {
-  let f = foods.getChildren();
-  let s = subjects.getChildren();
-  let p = payoffMatrix2();
+export function ruleset2(kwargs) {
+  let f = kwargs["foods"].getChildren();
+  let s = kwargs["subjects"].getChildren();
+  let p = rulesetPayoffMatrix2();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
@@ -50,10 +50,10 @@ export function ruleset2(subjects, foods, names, name, version) {
       if (f[i].getData("rightBusy") > -1) {
         //~ console.log("right populated");
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["hawk"]) {
+          kwargs["names"]["strategies"]["hawk"]) {
           //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             //~ console.log("left and right two hawks. both die...");
             s[f[i].getData("rightBusy")].setData({
               "dead": true,
@@ -64,7 +64,7 @@ export function ruleset2(subjects, foods, names, name, version) {
               "eating": false,
             });
           } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["dove"]) {
+            kwargs["names"]["strategies"]["dove"]) {
             //~ console.log("right is dove, hawk and dove");
             s[f[i].getData("leftBusy")].setData({"eating": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
@@ -81,10 +81,10 @@ export function ruleset2(subjects, foods, names, name, version) {
             }
           }
         } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
-          names["strategies"]["dove"]) {
+          kwargs["names"]["strategies"]["dove"]) {
           //~ console.log("left is dove");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["hawk"]) {
+            kwargs["names"]["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"eating": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
@@ -100,7 +100,7 @@ export function ruleset2(subjects, foods, names, name, version) {
               s[f[i].getData("leftBusy")].setData({"fleeing": true});
             }
           } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
-            names["strategies"]["dove"]) {
+            kwargs["names"]["strategies"]["dove"]) {
             //~ console.log("right is dove, dove and dove");
             s[f[i].getData("leftBusy")].setData({"eating": false});
             s[f[i].getData("rightBusy")].setData({"eating": false});
@@ -117,8 +117,8 @@ export function ruleset2(subjects, foods, names, name, version) {
     }
   }
   for (let i = 0; i < s.length; i++) {
-    //~ console.log(`[${name} v${version}]: One ${s[i].getData("strategy")}`,
-      //~ `died of`);
+    //~ console.log(`[${kwargs["name"]} v${kwargs["version"]}]: One`,
+      //~ `${s[i].getData("strategy")} died of`);
     if (s[i].getData("eating") === true) {
       s[i].setData({
         "dead": true,
@@ -128,7 +128,7 @@ export function ruleset2(subjects, foods, names, name, version) {
   }
 }
 
-export function payoffMatrix2() {
+export function rulesetPayoffMatrix2() {
   return {
     "survival": {
       "dove": {
