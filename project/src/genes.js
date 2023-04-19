@@ -36,6 +36,8 @@ export const getGeneticData = function(kwargs) {
       "ASRFatigueFlopTendency",
       "abilityChooseStrategy",
       "abilityChooseASR",
+      "chanceSurvivalMultiplier",
+      "chanceReproductionMultiplier",
     ];
     geneticParams = {
       /*
@@ -78,6 +80,12 @@ export const getGeneticData = function(kwargs) {
         break;
     }
     for (let v in l) {
+      kwargs["gData"][kwargs["properAlphabet"][i]][l[v]] = $fx.rand();
+    }
+    for (let v in [
+      "chanceSurvivalMultiplier",
+      "chanceReproductionMultiplier",
+    ]) {
       kwargs["gData"][kwargs["properAlphabet"][i]][l[v]] = geneticFormula(
         geneticParams, kwargs["math"]);
     }

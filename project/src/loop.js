@@ -170,6 +170,7 @@ export const loop = function(
         let parent = toReproduce[i];
         let children = subjects.create(0, 0, parent.getData("strategy"));
         children.setData({
+          "state": "waiting",
           "waiting": true,
           "eating": false,
           "fleeing": false,
@@ -242,6 +243,7 @@ export const loop = function(
     for (let i = 0; i < s.length; i++) {
       let toReset = s[i];
       toReset.setData({
+        "state": "waiting",
         "waiting": true,
         "eating": false,
         "fleeing": false,

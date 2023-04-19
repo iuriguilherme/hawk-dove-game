@@ -93,25 +93,25 @@ export function asrPayoffMatrix1() {
     "survival": {
       "fight": {
         "fight": 0.5,
-        "flight": 0.5,
-        "alone": 0.5,
+        "flight": 1.0,
+        "alone": 1.0,
       },
       "flight": {
-        "fight": 0.5,
-        "flight": 0.5,
-        "alone": 0.5,
+        "fight": 1.0,
+        "flight": 1.0,
+        "alone": 1.0,
       },
     },
     "reproduction": {
       "fight": {
-        "fight": 0.5,
-        "flight": 0.5,
-        "alone": 0.5,
+        "fight": 0.0,
+        "flight": 1.0,
+        "alone": 1.0,
       },
       "flight": {
-        "fight": 0.5,
-        "flight": 0.5,
-        "alone": 0.5,
+        "fight": 0.0,
+        "flight": 0.0,
+        "alone": 1.0,
       },
     },
   };
