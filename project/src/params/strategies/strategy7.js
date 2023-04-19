@@ -35,7 +35,12 @@ export function strategy7(kwargs) {
       c = s[f[i].getData("rightBusy")];
       let strategy = kwargs["math"].pickRandom(Object.values(
         kwargs["names"]["strategies"]));
-      c.setData({"strategy": strategy});
+      c.setData({
+        "strategy": strategy,
+        "state": "responding",
+        "eating": false,
+        "responding": true,
+      });
       c.setTexture(strategy);
     }
   }

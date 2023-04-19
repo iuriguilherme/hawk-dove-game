@@ -37,12 +37,22 @@ export function strategy3(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       c = s[f[i].getData("leftBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
+      c.setData({
+        "strategy": kwargs["names"]["strategies"]["hawk"],
+        "state": "responding",
+        "eating": false,
+        "responding": true,
+      });
       c.setTexture(kwargs["names"]["strategies"]["hawk"]);
     }
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
+      c.setData({
+        "strategy": kwargs["names"]["strategies"]["hawk"],
+        "state": "responding",
+        "eating": false,
+        "responding": true,
+      });
       c.setTexture(kwargs["names"]["strategies"]["hawk"]);
     }
   }

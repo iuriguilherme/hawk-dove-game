@@ -217,9 +217,9 @@ function createNew(key, fxArray, asrArray, subjects, math) {
     "state": "waiting",
     "waiting": true,
     "eating": false,
-    "fleeing": false,
-    "dead": false,
-    "strong": false,
+    "responding": false,
+    "dying": false,
+    "reproducing": false,
     "age": 0,
     "generation": 0,
   });

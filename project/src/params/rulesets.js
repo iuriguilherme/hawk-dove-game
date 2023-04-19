@@ -25,6 +25,7 @@ import { ruleset1, rulesetPayoffMatrix1 } from "./rulesets/ruleset1.js";
 import { ruleset2, rulesetPayoffMatrix2 } from "./rulesets/ruleset2.js";
 import { ruleset3, rulesetPayoffMatrix3 } from "./rulesets/ruleset3.js";
 //~ import { ruleset4, rulesetPayoffMatrix4 } from "./rulesets/ruleset4.js";
+import { ruleset5 } from "./rulesets/ruleset5.js";
 
 export const getRulesetMap = function() {
   return {
@@ -32,6 +33,7 @@ export const getRulesetMap = function() {
     "Primer's Hawks & Doves": ruleset2,
     "Primer's modified Hawks & Doves": ruleset3,
     //~ "Primer's Youtube comments": ruleset4,
+    "ARS for Hawks & Doves": ruleset5,
   };
 }
 
@@ -41,5 +43,6 @@ export const getRulesetPayoffMatrixMap = function() {
     "Primer's Hawks & Doves": rulesetPayoffMatrix2,
     "Primer's modified Hawks & Doves": rulesetPayoffMatrix3,
     //~ "Primer's Youtube comments": rulesetPayoffMatrix4,
+    "ARS for Hawks & Doves": rulesetPayoffMatrix1,
   };
 }

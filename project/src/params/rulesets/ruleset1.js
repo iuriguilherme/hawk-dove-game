@@ -8,8 +8,8 @@
  * 
  * This program is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Affero General Public License as published by the 
- * Free Software Foundation, either kwargs["version"] 3 of the License, or (at your 
- * option) any later kwargs["version"].  
+ * Free Software Foundation, either version 3 of the License, or (at your 
+ * option) any later version.  
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT 
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
@@ -21,7 +21,7 @@
  * 
  */
 
-/*
+/**
  * @description Classic ruleset:
  * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
  * 
@@ -38,7 +38,7 @@
 export function ruleset1(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let p = rulesetPayoffMatrix1();
+  let p = kwargs["rulesetPayoffMatrix"]();
   for (let i = 0; i < f.length; i++) {
     //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
@@ -54,59 +54,68 @@ export function ruleset1(kwargs) {
             if ($fx.rand() > p["survival"]["hawk"]["hawk"]) {
               //~ console.log("left hawk wins");
               s[f[i].getData("rightBusy")].setData({
-                "dead": true,
-                "eating": false,
+                "state": "dying",
+                "responding": false,
+                "dying": true,
               });
               s[f[i].getData("leftBusy")].setData({
-                "strong": true,
-                "eating": false,
+                "state": "reproducing",
+                "responding": false,
+                "reproducing": true,
               });
             } else {
               //~ console.log("right hawk wins");
               s[f[i].getData("leftBusy")].setData({
-                "dead": true,
-                "eating": false,
+                "state": "dying",
+                "responding": false,
+                "dying": true,
               });
               s[f[i].getData("rightBusy")].setData({
-                "strong": true,
-                "eating": false,
+                "state": "reproducing",
+                "responding": false,
+                "reproducing": true,
               });
             }
           } else {
             //~ console.log("right is dove, hawk and dove");
             s[f[i].getData("leftBusy")].setData({
-              "strong": true,
-              "eating": false,
+              "state": "reproducing",
+              "responding": false,
+              "reproducing": true,
             });
-            s[f[i].getData("rightBusy")].setData({
-              "fleeing": true,
-              "eating": false,
-            });
+            s[f[i].getData("rightBusy")].setData({"responding": false});
           }
         } else {
           //~ console.log("left is dove");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
             kwargs["names"]["strategies"]["hawk"]) {
             //~ console.log("right is hawk, dove and hawk");
-            s[f[i].getData("leftBusy")].setData({
-              "fleeing": true,
-              "eating": false,
-            });
+            s[f[i].getData("leftBusy")].setData({"responding": false});
             s[f[i].getData("rightBusy")].setData({
-              "strong": true,
-              "eating": false,
+              "state": "reproducing",
+              "responding": false,
+              "reproducing": true,
             });
           } else {
             //~ console.log("right is dove, dove and dove");
-            s[f[i].getData("leftBusy")].setData({"eating": false});
-            s[f[i].getData("rightBusy")].setData({"eating": false});
+            s[f[i].getData("leftBusy")].setData({
+              "state": "waiting",
+              "responding": false,
+              "waiting": true,
+            });
+            s[f[i].getData("rightBusy")].setData({
+              "state": "waiting",
+              "responding": false,
+              "waiting": true,
+            });
           }
         }
       } else {
         //~ console.log("no one on right, bird is alone");
         s[f[i].getData("leftBusy")].setData({
-          "strong": true,
-          "eating": false,
+          "state": "reproducing",
+          "responding": false,
+          "reproducing": true,
         });
       }
     } else {
@@ -116,10 +125,11 @@ export function ruleset1(kwargs) {
   for (let i = 0; i < s.length; i++) {
     //~ console.log(`[${kwargs["name"]} v${kwargs["version"]}]: One`, 
       //~ `${s[i].getData("strategy")} died of hunger`);
-    if (s[i].getData("eating") === true) {
+    if (s[i].getData("state") == "responding") {
       s[i].setData({
-        "dead": true,
-        "eating": false,
+        "state": "dying",
+        "responding": false,
+        "dying": true,
       });
     }
   }

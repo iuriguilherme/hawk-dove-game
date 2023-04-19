@@ -143,6 +143,8 @@ export const loop = function(
       "version": version,
       "math": math,
       "gData": gData,
+      "asrPayoffMatrix": asrPayoffMatrix,
+      "rulesetPayoffMatrix": rulesetPayoffMatrix,
     });
     
     let toDestroy = [];
@@ -153,12 +155,12 @@ export const loop = function(
         if (toCheck.getData("age") > maxAge) {
           //~ console.log(`[${name} v${version}]: One`,
             //~ `${toCheck.getData("strategy")} died of old age`);
-          toCheck.setData({"dead": true});
+          toCheck.setData({"state": "dying", "dying": true});
         }
       }
-      if (toCheck.getData("dead")) {
+      if (toCheck.getData("state") == "dying") {
         toDestroy.push(toCheck);
-      } else if (toCheck.getData("strong")) {
+      } else if (toCheck.getData("state") == "reproducing") {
         toReproduce.push(toCheck);
       }
     }
@@ -173,11 +175,12 @@ export const loop = function(
           "state": "waiting",
           "waiting": true,
           "eating": false,
-          "fleeing": false,
-          "dead": false,
-          "strong": false,
+          "responding": false,
+          "dying": false,
+          "reproducing": false,
           "gene": parent.getData("gene"),
           "strategy": parent.getData("strategy"),
+          "ars": parent.getData("ars"),
           "age": 0,
           "generation": parent.getData("generation") + 1,
         });
@@ -246,9 +249,9 @@ export const loop = function(
         "state": "waiting",
         "waiting": true,
         "eating": false,
-        "fleeing": false,
-        "dead": false,
-        "strong": false,
+        "responding": false,
+        "dying": false,
+        "reproducing": false,
         "age": toReset.getData("age") + 1,
       });
       toReset.setTexture(toReset.getData("strategy"));
@@ -327,9 +330,9 @@ function createNew(key, subjects, fxArray, names, strategiesNames, math) {
     "state": "waiting",
     "waiting": true,
     "eating": false,
-    "fleeing": false,
-    "dead": false,
-    "strong": false,
+    "responding": false,
+    "dying": false,
+    "reproducing": false,
     "age": 0,
     "generation": 0,
   });

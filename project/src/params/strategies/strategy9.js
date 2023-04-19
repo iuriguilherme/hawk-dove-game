@@ -78,7 +78,12 @@ export function strategy9(kwargs) {
         default:
           break;
       }
-      c.setData({"strategy": kwargs["names"]["strategies"][strategy]});
+      c.setData({
+        "strategy": kwargs["names"]["strategies"][strategy],
+        "state": "responding",
+        "eating": false,
+        "responding": true,
+      });
       c.setTexture(kwargs["names"]["strategies"][strategy]);
     }
   }

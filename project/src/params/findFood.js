@@ -69,14 +69,21 @@ function findFoodAlgorithmMain(selection, subjects, foods, math) {
     while (s[i].getData("waiting")) {
       if (distances[i].length == 0) {
         s[i].setData({
-          "dead": true,
+          "state": "dying",
           "waiting": false,
+          "dying": true,
         });
         continue;
       }
       let metrics = {
+        /**
+         * TODO: Use already seeded math.randomInt.
+         * I just don't remember if it's length or length + 1
+         */
         "random": distances[i].indexOf(distances[i][math.floor($fx.rand() * 
           distances[i].length)]),
+        //~ "random": distances[i].indexOf(distances[i][math.randomInt(
+          //~ distances[i].length)]),
         "closest": distances[i].indexOf(math.min(distances[i])),
         "farthest": distances[i].indexOf(math.max(distances[i])),
       };
@@ -94,13 +101,13 @@ function findFoodAlgorithmMain(selection, subjects, foods, math) {
           s[i].x = currentFood.x + minDistance;
           s[i].y = currentFood.y - minDistance;
           currentFood.setData({"rightBusy": i});
-          s[i].setData({"waiting": false, "eating": true});
+          s[i].setData({"state": "eating", "waiting": false, "eating": true});
         }
       } else {
         s[i].x = currentFood.x - minDistance;
         s[i].y = currentFood.y - minDistance;
         currentFood.setData({"leftBusy": i});
-        s[i].setData({"waiting": false, "eating": true});
+        s[i].setData({"state": "eating", "waiting": false, "eating": true});
       }
     }
   }

@@ -41,11 +41,21 @@ export function strategy4(kwargs) {
       c = s[f[i].getData("rightBusy")];
       if (s[f[i].getData("leftBusy")].getData("strategy") == 
         kwargs["names"]["strategies"]["dove"]) {
-        c.setData({"strategy": kwargs["names"]["strategies"]["hawk"]});
+        c.setData({
+          "strategy": kwargs["names"]["strategies"]["hawk"],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
         c.setTexture(kwargs["names"]["strategies"]["hawk"]);
       } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
         kwargs["names"]["strategies"]["hawk"]) {
-        c.setData({"strategy": kwargs["names"]["strategies"]["dove"]});
+        c.setData({
+          "strategy": kwargs["names"]["strategies"]["dove"],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
         c.setTexture(kwargs["names"]["strategies"]["dove"]);
       }
     }
