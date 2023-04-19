@@ -26,39 +26,55 @@ import {
   getFoodsPlacementAlgorithmMap,
   getSubjectsPlacementAlgorithmMap,
 } from "./params/placement.js";
-import { getRulesetMap, getRulesetPayoffMatrixMap } from "./params/rulesets.js";
-import { getAsrMap, getAsrPayoffMatrixMap } from "./params/asrs.js";
+import {
+  getHadRulesetMap,
+  getHadPayoffMatrixMap,
+  getHadStrategiesMap,
+} from "./params/hawksanddoves.js";
+import {
+  getAsrRulesetMap,
+  getAsrPayoffMatrixMap,
+  getAsrStrategiesMap,
+} from "./params/asrs.js";
 import { getSpritesThemeMap } from "./params/sprites.js";
-import { getStrategiesMap } from "./params/strategies.js";
 
 const findFoodAlgorithmMap = getFindFoodAlgorithmMap();
 const foodsPlacementAlgorithmMap = getFoodsPlacementAlgorithmMap();
-const rulesetMap = getRulesetMap();
-const rulesetPayoffMatrixMap = getRulesetPayoffMatrixMap();
-const asrMap = getAsrMap();
+const hadRulesetMap = getHadRulesetMap();
+const hadPayoffMatrixMap = getHadPayoffMatrixMap();
+const asrRulesetMap = getAsrRulesetMap();
 const asrPayoffMatrixMap = getAsrPayoffMatrixMap();
 let spritesThemeMap;
-let strategiesMap;
+let hadStrategiesMap;
+let asrStrategiesMap;
 const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
 
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
 }
 
-export function getRuleset(key) {
-  return rulesetMap[key];
+export function getHadRuleset(key) {
+  return hadRulesetMap[key];
 }
 
-export function getRulesetPayoffMatrix(key) {
-  return rulesetPayoffMatrixMap[key];
+export function getHadPayoffMatrix(key) {
+  return hadPayoffMatrixMap[key];
 }
 
-export function getAsr(key) {
-  return asrMap[key];
+export function getHadStrategy(key) {
+  return hadStrategiesMap[key];
+}
+
+export function getAsrRuleset(key) {
+  return asrRulesetMap[key];
 }
 
 export function getAsrPayoffMatrix(key) {
   return asrPayoffMatrixMap[key];
+}
+
+export function getAsrStrategy(key) {
+  return asrStrategiesMap[key];
 }
 
 export function getFoodsPlacementAlgorithm(key) {
@@ -69,10 +85,6 @@ export function getSubjectsPlacementAlgorithm(key) {
   return subjectsPlacementAlgorithmMap[key];
 }
 
-export function getStrategy(key) {
-  return strategiesMap[key];
-}
-
 export function getSpritesTheme(key) {
   return spritesThemeMap[key];
 }
@@ -80,11 +92,12 @@ export function getSpritesTheme(key) {
 export function getParamsStep4(params) {
   return {
     "spritesTheme": getSpritesTheme(params["spritesTheme"]),
-    "ruleset": getRuleset(params["ruleset"]),
-    "rulesetPayoffMatrix": getRulesetPayoffMatrix(params["ruleset"]),
-    "asr": getAsr(params["asr"]),
-    "asrPayoffMatrix": getAsrPayoffMatrix(params["asr"]),
-    "strategy": getStrategy(params["strategy"]),
+    "had_ruleset": getHadRuleset(params["had_ruleset"]),
+    "rulesetPayoffMatrix": getHadPayoffMatrix(params["had_ruleset"]),
+    "had_strategy": getHadStrategy(params["had_strategy"]),
+    "asr_ruleset": getAsrRuleset(params["asr_ruleset"]),
+    "asrPayoffMatrix": getAsrPayoffMatrix(params["asr_ruleset"]),
+    "asr_strategy": getAsrStrategy(params["asr_strategy"]),
     "growthRate": params["growthRate"],
     "gameOverGenetic": params["gameOverGenetic"],
     "gameOverPopulation": params["gameOverPopulation"],
@@ -108,34 +121,48 @@ export function getParamsStep4(params) {
 }
 
 export function getParamsStep1(names, ruleset) {
-  strategiesMap = getStrategiesMap(ruleset);
+  hadStrategiesMap = getHadStrategiesMap(ruleset);
+  asrStrategiesMap = getAsrStrategiesMap(ruleset);
   spritesThemeMap = getSpritesThemeMap(names);
   return [
     {
-      "id": "ruleset",
+      "id": "had_ruleset",
       "name": "Hawk-dove ruleset",
       "type": "select",
-      "default": "Classic Hawks & Doves",
+      //~ "default": "Classic Hawks & Doves",
+      "default": "ASR for Hawks & Doves",
       "options": {
-        "options": Object.keys(rulesetMap),
+        "options": Object.keys(hadRulesetMap),
       },
     },
     {
-      "id": "asr",
+      "id": "had_strategy",
+      "name": "Hawk-dove strategy",
+      "type": "select",
+      //~ "default": "Hereditary (no strategy)",
+      "default": "Genetics + Best payoff",
+      "options": {
+        "options": Object.keys(hadStrategiesMap),
+      },
+    },
+    {
+      "id": "asr_ruleset",
       "name": "ASR variant",
       "type": "select",
-      "default": "Cannon's Fight or Flight Response",
+      //~ "default": "Walter Bradford Cannon's fight or flight response",
+      "default": "Curtis Reisinger's 6F",
       "options": {
-        "options": Object.keys(asrMap),
+        "options": Object.keys(asrRulesetMap),
       },
     },
     {
-      "id": "strategy",
-      "name": "Strategy",
+      "id": "asr_strategy",
+      "name": "ASR strategy",
       "type": "select",
-      "default": "Hereditary",
+      //~ "default": "Hereditary (no strategy)",
+      "default": "Genetics + Best payoff",
       "options": {
-        "options": Object.keys(strategiesMap),
+        "options": Object.keys(asrStrategiesMap),
       },
     },
     {

@@ -48,7 +48,7 @@ export function strategy3(kwargs) {
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
+        "abilityChooseHADStrategy"]) {
         c.setData({
           "strategy": kwargs["names"]["strategies"]["hawk"],
           "state": "responding",

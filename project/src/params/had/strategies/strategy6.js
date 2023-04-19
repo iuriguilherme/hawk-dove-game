@@ -1,5 +1,5 @@
 /**
- * @file strategy8.js Genetic strategy for Hawk Dove Game  
+ * @file strategy6.js Opposite strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,11 +22,11 @@
  */
 
 /*
- * @description genetic strategy:
+ * @description opposite strategy:
  * 
- * Strategy is chosen through genetic weights.
+ * Choose the opposite of what the other subject chosen.
  */
-export function strategy8(kwargs) {
+export function strategy6(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let c, strategy;
@@ -34,18 +34,13 @@ export function strategy8(kwargs) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
-        let doveTendency = kwargs["gData"][c.getData("gene")][
-          "strategyDoveTendency"];
-        let hawkTendency = kwargs["gData"][c.getData("gene")][
-          "strategyHawkTendency"];
-        let strategies = [doveTendency, hawkTendency];
-        switch (kwargs["math"].max(strategies)) {
-          case doveTendency:
-            strategy = "dove";
-            break;
-          case hawkTendency:
+        "abilityChooseHADStrategy"]) {
+        switch (s[f[i].getData("leftBusy")].getData("strategy")) {
+          case "dove":
             strategy = "hawk";
+            break;
+          case "hawk":
+            strategy = "dove";
             break;
           default:
             strategy = "dove";

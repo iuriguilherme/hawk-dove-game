@@ -28,25 +28,35 @@
  * https://neuroclastic.com/the-6fs-of-trauma-responses/
  */
 
-import { asr1, asrPayoffMatrix1 } from "./asrs/asr1.js";
-import { asr2, asrPayoffMatrix2 } from "./asrs/asr2.js";
-import { asr3, asrPayoffMatrix3 } from "./asrs/asr3.js";
-import { asr4, asrPayoffMatrix4 } from "./asrs/asr4.js";
+import { asrRuleset1, asrPayoffMatrix1 } from "./asrs/rulesets/asrRuleset1.js";
+import { asrRuleset2, asrPayoffMatrix2 } from "./asrs/rulesets/asrRuleset2.js";
+import { asrRuleset3, asrPayoffMatrix3 } from "./asrs/rulesets/asrRuleset3.js";
+import { asrRuleset4, asrPayoffMatrix4 } from "./asrs/rulesets/asrRuleset4.js";
 
-export const getAsrMap = function() {
+export const getAsrRulesetMap = function() {
   return {
-    "Cannon's Fight or Flight Response": asr1,
-    "Porges' 3F": asr2,
-    "Walker's 4F": asr3,
-    "Reisinger's 6F": asr4,
+    "Walter Bradford Cannon's fight or flight response": asrRuleset1,
+    "Stephen Porges' polyvagal theory": asrRuleset2,
+    "Pete Walker's complex PTSD": asrRuleset3,
+    "Curtis Reisinger's 6F": asrRuleset4,
   };
 }
 
 export const getAsrPayoffMatrixMap = function() {
   return {
-    "Cannon's Fight or Flight Response": asrPayoffMatrix1,
-    "Porges' 3F": asrPayoffMatrix2,
-    "Walker's 4F": asrPayoffMatrix3,
-    "Reisinger's 6F": asrPayoffMatrix4,
+    "Walter Bradford Cannon's fight or flight response": asrPayoffMatrix1,
+    "Stephen Porges' polyvagal theory": asrPayoffMatrix2,
+    "Pete Walker's complex PTSD": asrPayoffMatrix3,
+    "Curtis Reisinger's 6F": asrPayoffMatrix4,
   };
 }
+
+export const getAsrStrategiesMap = function() {
+  return {
+    "Hereditary (no strategy)": asrStrategy1,
+    "Genetics + Best payoff": asrStrategy1,
+  }
+}
+
+// FIXME placeholder
+function asrStrategy1(kwargs) {}

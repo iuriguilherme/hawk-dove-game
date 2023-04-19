@@ -1,5 +1,5 @@
 /**
- * @file asr3.js Fight or Flight Response for Hawk Dove Game  
+ * @file asrRuleset3.js Pete Walker's complex PTSD for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -21,8 +21,8 @@
  * 
  */
 
-/*
- * @description Pete Walker's Complex PTSD:
+/**
+ * @description Pete Walker's complex PTSD:
  * http://www.pete-walker.com/fourFs_TraumaTypologyComplexPTSD.htm
  * 
  * Response Type; Definition; May present as…; Mislabeled as…
@@ -38,7 +38,7 @@
  *  danger.; People-pleasing, fear to express self, flattery, “yes” person, 
  *  exploitable, fear of fitting in; Codependent Disorder  
  */
-export function asr3(kwargs) {
+export function asrRuleset3(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
@@ -46,7 +46,7 @@ export function asr3(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASR"]) {
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASRStrategy"]) {
         let leftAsr = s[f[i].getData("leftBusy")].getData("asr");
         let fightPayoff = p["survival"]["fight"][leftAsr] + 
           p["reproduction"]["fight"][leftAsr];

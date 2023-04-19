@@ -1,5 +1,6 @@
 /**
- * @file asr1.js Fight or Flight Response for Hawk Dove Game  
+ * @file asrRuleset1.js Walter Bradford Cannon's Fight or Flight Response for 
+ *  Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,7 +23,7 @@
  */
 
 /*
- * @description Cannon's Fight or Flight Response:
+ * @description Walter Bradford Cannon's fight or flight response:
  * https://en.wikipedia.org/wiki/Fight-or-flight_response
  * https://en.wikipedia.org/wiki/Special:BookSources/978-0393002058
  * 
@@ -30,7 +31,7 @@
  * response) is a physiological reaction that occurs in response to a perceived 
  * harmful event, attack, or threat to survival.  
  */
-export function asr1(kwargs) {
+export function asrRuleset1(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
@@ -38,7 +39,7 @@ export function asr1(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASR"]) {
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASRStrategy"]) {
         let leftAsr = s[f[i].getData("leftBusy")].getData("asr");
         let fightPayoff = p["survival"]["fight"][leftAsr] + 
           p["reproduction"]["fight"][leftAsr];

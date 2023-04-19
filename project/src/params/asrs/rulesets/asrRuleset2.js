@@ -1,5 +1,6 @@
 /**
- * @file asr2.js Fight or Flight Response for Hawk Dove Game  
+ * @file asrRuleset2.js Stephen Porges' polyvagal theory for Hawk Dove 
+ *  Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,7 +23,7 @@
  */
 
 /*
- * @description Stephen Porges' Fight / Flight / Freeze:
+ * @description Stephen Porges' polyvagal theory:
  * https://en.wikipedia.org/wiki/Polyvagal_theory
  * 
  * Response Type: Definition
@@ -30,7 +31,7 @@
  * Flight: Fleeing the perceived threat
  * Freeze: Immobilizing in light of the perceived threat
  */
-export function asr2(kwargs) {
+export function asrRuleset2(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
@@ -38,7 +39,7 @@ export function asr2(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASR"]) {
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASRStrategy"]) {
         let leftAsr = s[f[i].getData("leftBusy")].getData("asr");
         let fightPayoff = p["survival"]["fight"][leftAsr] + 
           p["reproduction"]["fight"][leftAsr];

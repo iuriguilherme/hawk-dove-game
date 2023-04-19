@@ -36,17 +36,6 @@ export function ruleset5(kwargs) {
       ) {
         s[f[i].getData("leftBusy")].setData({"responding": false});
         s[f[i].getData("rightBusy")].setData({"responding": false});
-        //~ console.log(
-          //~ "DEBUG",
-          //~ s[f[i].getData("leftBusy")].getData("asr"),
-          //~ s[f[i].getData("rightBusy")].getData("asr"),
-          //~ a["survival"],
-          //~ a["survival"][
-            //~ s[f[i].getData("leftBusy")].getData("asr")
-          //~ ][
-            //~ s[f[i].getData("rightBusy")].getData("asr")
-          //~ ]
-        //~ );
         if ($fx.rand() > a["survival"][
           s[f[i].getData("leftBusy")].getData("asr")][
           s[f[i].getData("rightBusy")].getData("asr")]) {

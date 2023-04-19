@@ -134,32 +134,3 @@ export function ruleset1(kwargs) {
     }
   }
 }
-
-export function rulesetPayoffMatrix1() {
-  return {
-    "survival": {
-      "dove": {
-        "dove": 1.0,
-        "hawk": 1.0,
-        "alone": 1.0,
-      },
-      "hawk": {
-        "dove": 1.0,
-        "hawk": 0.5,
-        "alone": 1.0,
-      },
-    },
-    "reproduction": {
-      "dove": {
-        "dove": 0.0,
-        "hawk": 0.0,
-        "alone": 1.0,
-      },
-      "hawk": {
-        "dove": 1.0,
-        "hawk": 0.5,
-        "alone": 1.0,
-      },
-    },
-  };
-}

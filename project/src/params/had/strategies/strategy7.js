@@ -1,5 +1,5 @@
 /**
- * @file strategy2.js Strategy: Pure dove for Hawk Dove Game  
+ * @file strategy7.js Random strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,41 +22,29 @@
  */
 
 /*
- * @description Strategy - Doves:
- * https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html
- * https://youtu.be/YNMkADpvO4w?t=51s
+ * @description random strategy:
  * 
- * This is the "pure dove" strategy (everyone only chooses the dove strategy) 
- * as described on Primer Youtube channel;
- * Everyone chooses to be a Dove.
+ * Choose a random strategy.
  */
-export function strategy2(kwargs) {
+export function strategy7(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let c;
   for (let i = 0; i < f.length; i++) {
-    if (f[i].getData("leftBusy") > -1) {
-      c = s[f[i].getData("leftBusy")];
+    if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
+      c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
+        "abilityChooseHADStrategy"]) {
+        let strategy = kwargs["math"].pickRandom(Object.values(
+          kwargs["names"]["strategies"]));
         c.setData({
-          "strategy": kwargs["names"]["strategies"]["dove"],
+          "strategy": strategy,
           "state": "responding",
           "eating": false,
           "responding": true,
         });
-        c.setTexture(kwargs["names"]["strategies"]["dove"]);
+        c.setTexture(strategy);
       }
-    }
-    if (f[i].getData("rightBusy") > -1) {
-      c = s[f[i].getData("rightBusy")];
-      c.setData({
-        "strategy": kwargs["names"]["strategies"]["dove"],
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(kwargs["names"]["strategies"]["dove"]);
     }
   }
 }

@@ -1,5 +1,5 @@
 /**
- * @file strategy5.js Best payoff strategy for Hawk Dove Game  
+ * @file strategy9.js Genetic + best payoff strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,12 +22,13 @@
  */
 
 /*
- * @description best payoff strategy:
+ * @description genetic + best payoff strategy:
  * 
  * Best payoff strategy means that each individual will attempt to use the 
  * strategy with the best payoff.
+ * Genetic weights are applied.
  */
-export function strategy5(kwargs) {
+export function strategy9(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["rulesetPayoffMatrix"]();
@@ -36,25 +37,47 @@ export function strategy5(kwargs) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
+        "abilityChooseHADStrategy"]) {
         let leftStrategy = s[f[i].getData("leftBusy")].getData("strategy");
-        /*
-         * TODO: Learn better javascript to do like python list comprehensions
-         * in case there's more strategies
-         */
         let dovePayoff = p["survival"]["dove"][leftStrategy] + 
           p["reproduction"]["dove"][leftStrategy];
         let hawkPayoff = p["survival"]["hawk"][leftStrategy] + 
           p["reproduction"]["hawk"][leftStrategy];
+        let doveTendency = kwargs["gData"][c.getData("gene")][
+          "HADDoveTendency"];
+        let hawkTendency = kwargs["gData"][c.getData("gene")][
+          "HADHawkTendency"];
+        let strategies = [doveTendency, hawkTendency];
+        let doveWeight = 0;
+        let hawkWeight = 0;
+        switch (kwargs["math"].max(strategies)) {
+          case doveTendency:
+            doveWeight++;
+            break;
+          case hawkTendency:
+            hawkWeight++;
+            break;
+          default:
+            break;
+        }
         switch (kwargs["math"].max(dovePayoff, hawkPayoff)) {
           case dovePayoff:
-            strategy = "dove";
+            doveWeight++;
             break;
           case hawkPayoff:
+            hawkWeight++;
+            break;
+          default:
+            break;
+        }
+        switch (kwargs["math"].max(doveWeight, hawkWeight)) {
+          case doveWeight:
+            strategy = "dove";
+            break;
+          case hawkWeight:
             strategy = "hawk";
             break;
           default:
-            strategy = "dove";
             break;
         }
         c.setData({

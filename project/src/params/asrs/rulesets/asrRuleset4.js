@@ -1,5 +1,5 @@
 /**
- * @file asr4.js Fight or Flight Response for Hawk Dove Game  
+ * @file asrRuleset4.js Curtis Reisinger's 6F for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,7 +22,7 @@
  */
 
 /*
- * @description Resigner's 6F:
+ * @description Curtis Reisinger's 6F:
  * https://neuroclastic.com/the-6fs-of-trauma-responses/
  * 
  * Response Type; Definition; Other Clinical Terms Used
@@ -31,7 +31,7 @@
  * Fatigue/Flop; Feeling tired or sleepy in response to a perceived threat.; 
  *  Disassociating, numbing  
  */
-export function asr4(kwargs) {
+export function asrRuleset4(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
@@ -39,7 +39,7 @@ export function asr4(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASR"]) {
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASRStrategy"]) {
         let leftAsr = s[f[i].getData("leftBusy")].getData("asr");
         let fightPayoff = p["survival"]["fight"][leftAsr] + 
           p["reproduction"]["fight"][leftAsr];

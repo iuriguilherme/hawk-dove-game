@@ -1,5 +1,5 @@
 /**
- * @file strategy6.js Opposite strategy for Hawk Dove Game  
+ * @file strategy5.js Best payoff strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,25 +22,36 @@
  */
 
 /*
- * @description opposite strategy:
+ * @description best payoff strategy:
  * 
- * Choose the opposite of what the other subject chosen.
+ * Best payoff strategy means that each individual will attempt to use the 
+ * strategy with the best payoff.
  */
-export function strategy6(kwargs) {
+export function strategy5(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
+  let p = kwargs["rulesetPayoffMatrix"]();
   let c, strategy;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
-        switch (s[f[i].getData("leftBusy")].getData("strategy")) {
-          case "dove":
-            strategy = "hawk";
-            break;
-          case "hawk":
+        "abilityChooseHADStrategy"]) {
+        let leftStrategy = s[f[i].getData("leftBusy")].getData("strategy");
+        /*
+         * TODO: Learn better javascript to do like python list comprehensions
+         * in case there's more strategies
+         */
+        let dovePayoff = p["survival"]["dove"][leftStrategy] + 
+          p["reproduction"]["dove"][leftStrategy];
+        let hawkPayoff = p["survival"]["hawk"][leftStrategy] + 
+          p["reproduction"]["hawk"][leftStrategy];
+        switch (kwargs["math"].max(dovePayoff, hawkPayoff)) {
+          case dovePayoff:
             strategy = "dove";
+            break;
+          case hawkPayoff:
+            strategy = "hawk";
             break;
           default:
             strategy = "dove";

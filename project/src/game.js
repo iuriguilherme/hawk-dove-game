@@ -151,9 +151,9 @@ export const getPhaserGame = function(
         params["moreSubjects"],
         name,
         names,
-        params["ruleset"],
+        params["had_ruleset"],
         strategiesNames,
-        params["strategy"],
+        params["had_strategy"],
         params["subjectsPlacementAlgorithm"],
         version,
         charts,
@@ -163,7 +163,7 @@ export const getPhaserGame = function(
         gData,
         iteration,
         params["rulesetPayoffMatrix"],
-        params["asr"],
+        params["asr_ruleset"],
         params["asrPayoffMatrix"],
       );
     }

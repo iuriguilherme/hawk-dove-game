@@ -40,7 +40,7 @@ export function strategy4(kwargs) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
-        "abilityChooseStrategy"]) {
+        "abilityChooseHADStrategy"]) {
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
           kwargs["names"]["strategies"]["dove"]) {
           c.setData({

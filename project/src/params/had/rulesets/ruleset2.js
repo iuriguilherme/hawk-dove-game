@@ -1,5 +1,5 @@
 /**
- * @file ruleset3.js Primer's modified Hawks & Doves ruleset for Hawk Dove Game  
+ * @file ruleset2.js Primer's Hawks & Doves ruleset for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -22,11 +22,8 @@
  */
 
 /**
- * @description Primer's modified Hawks & Doves payoff:
- * https://youtu.be/YNMkADpvO4w?t=629s
- * 
- * This ruleset is the same as ruleset2 but hawk vs hawk has 25% chance of 
- *  survival instead of 0%.
+ * @description Primer's Hawk and Doves ruleset:
+ * https://youtu.be/YNMkADpvO4w?t=89s
  * 
  * Youtube channel Primer defines that eating 100% of the food is needed for 
  *  reproduction and 50% is needed for survival. If a bird gets 25% of the 
@@ -35,40 +32,42 @@
  * If a Hawk and a Dove meet, the Dove will have 50% chance of survival, while 
  *  the Hawk will have 100% chance of survival and 50% chance of reproduction,
  *  because the Hawk will eat 75% of the food, and the Dove will eat 25%;
- * If two Hawks meet, both have 25% chance of survival, because they will fight,
+ * If two Hawks meet, both have 0% chance of survival, because they will fight,
  *  wasting all energy and whatever food they eat is irrelevant;
  * If two Doves meet, they both have 100% chance of survival and 0% of chance 
  *  of reproduction, because both will share the food equally;
  * If a Hawk or a Dove finds a food alone, they have 100% of chance of 
  *  reproduction, because they'll eat all the food alone;
  */
-export function ruleset3(kwargs) {
+export function ruleset2(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["rulesetPayoffMatrix"]();
   for (let i = 0; i < f.length; i++) {
+    //~ console.log(i);
     if (f[i].getData("leftBusy") > -1) {
+      //~ console.log("left populated");
       if (f[i].getData("rightBusy") > -1) {
+        //~ console.log("right populated");
         if (s[f[i].getData("leftBusy")].getData("strategy") == 
           kwargs["names"]["strategies"]["hawk"]) {
+          //~ console.log("left is hawk");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
             kwargs["names"]["strategies"]["hawk"]) {
-            s[f[i].getData("rightBusy")].setData({"responding": false});
-            s[f[i].getData("leftBusy")].setData({"responding": false});
-            if ($fx.rand() < p["survival"]["hawk"]["hawk"]) {
-              s[f[i].getData("rightBusy")].setData({
-                "state": "dying",
-                "dying": true,
-              });
-            }
-            if ($fx.rand() < p["survival"]["hawk"]["hawk"]) {
-              s[f[i].getData("leftBusy")].setData({
-                "state": "dying",
-                "dying": true,
-              });
-            }
+            //~ console.log("left and right two hawks. both die...");
+            s[f[i].getData("rightBusy")].setData({
+              "state": "dying",
+              "responding": false,
+              "dying": true,
+            });
+            s[f[i].getData("leftBusy")].setData({
+              "state": "dying",
+              "responding": false,
+              "dying": true,
+            });
           } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
             kwargs["names"]["strategies"]["dove"]) {
+            //~ console.log("right is dove, hawk and dove");
             s[f[i].getData("leftBusy")].setData({"responding": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("leftBusy")].setData({
@@ -84,15 +83,17 @@ export function ruleset3(kwargs) {
               });
             }
           }
-        } else
-        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+        } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
           kwargs["names"]["strategies"]["dove"]) {
+          //~ console.log("left is dove");
           if (s[f[i].getData("rightBusy")].getData("strategy") == 
             kwargs["names"]["strategies"]["hawk"]) {
+            //~ console.log("right is hawk, dove and hawk");
             s[f[i].getData("rightBusy")].setData({"responding": false});
             if ($fx.rand() > p["reproduction"]["hawk"]["dove"]) {
               s[f[i].getData("rightBusy")].setData({
                 "state": "reproducing",
+                "responding": false,
                 "reproducing": true,
               });
             }
@@ -103,9 +104,9 @@ export function ruleset3(kwargs) {
                 "dying": true,
               });
             }
-          } else
-          if (s[f[i].getData("rightBusy")].getData("strategy") == 
+          } else if (s[f[i].getData("rightBusy")].getData("strategy") == 
             kwargs["names"]["strategies"]["dove"]) {
+            //~ console.log("right is dove, dove and dove");
             s[f[i].getData("leftBusy")].setData({
               "state": "waiting",
               "responding": false,
@@ -134,39 +135,9 @@ export function ruleset3(kwargs) {
       //~ `${s[i].getData("strategy")} died of`);
     if (s[i].getData("state") == "responding") {
       s[i].setData({
-        "state": "dying",
         "responding": false,
         "dying": true,
       });
     }
   }
-}
-
-export function rulesetPayoffMatrix3() {
-  return {
-    "survival": {
-      "dove": {
-        "dove": 1.0,
-        "hawk": 0.5,
-        "alone": 1.0,
-      },
-      "hawk": {
-        "dove": 1.0,
-        "hawk": 0.25,
-        "alone": 1.0,
-      },
-    },
-    "reproduction": {
-      "dove": {
-        "dove": 0.0,
-        "hawk": 0.0,
-        "alone": 1.0,
-      },
-      "hawk": {
-        "dove": 0.5,
-        "hawk": 0.0,
-        "alone": 1.0,
-      },
-    },
-  };
 }
