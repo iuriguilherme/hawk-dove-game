@@ -226,17 +226,6 @@ export function getParamsStep1(names, ruleset) {
       },
     },
     {
-      "id": "ars_treshold",
-      "name": "Treshold to choose ARS (1 = disabled, 0 = always)",
-      "type": "number",
-      "default": 0.1,
-      "options": {
-        "min": 0.0,
-        "max": 1.0,
-        "step": 0.1,
-      },
-    },
-    {
       "id": "growth_rate",
       "name": "Reproduction multiplier",
       "type": "number",

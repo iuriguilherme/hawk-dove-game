@@ -44,7 +44,7 @@ export const getAsrMap = function() {
 
 export const getAsrPayoffMatrixMap = function() {
   return {
-    "Fight or Flight Response": asrPayoffMatrix1,
+    "Cannon's Fight or Flight Response": asrPayoffMatrix1,
     "Porges' 3F": asrPayoffMatrix2,
     "Walker's 4F": asrPayoffMatrix3,
     "Reisinger's 6F": asrPayoffMatrix4,

@@ -165,7 +165,6 @@ export const getPhaserGame = function(
         params["rulesetPayoffMatrix"],
         params["asr"],
         params["asrPayoffMatrix"],
-        params["asrTreshold"],
       );
     }
   }

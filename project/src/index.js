@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.19.2  
+ * @version 0.19.3  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.19.2";
+const version = "0.19.3";
 
 const seed = $fx.rand() * 1e8;
 
@@ -180,7 +180,6 @@ const params = getParamsStep4({
   "rulesetPayoffMatrix": $fx.getParam("ruleset"),
   "asr": $fx.getParam("asr"),
   "asrPayoffMatrix": $fx.getParam("asr"),
-  "asrTreshold": $fx.getParam("asr_treshold"),
   "strategy": $fx.getParam("strategy"),
   "growthRate": $fx.getParam("growth_rate"),
   "gameOverGenetic": $fx.getParam("game_over_genetic"),

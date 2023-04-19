@@ -47,13 +47,16 @@ export function strategy3(kwargs) {
     }
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      c.setData({
-        "strategy": kwargs["names"]["strategies"]["hawk"],
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        c.setData({
+          "strategy": kwargs["names"]["strategies"]["hawk"],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
+        c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+      }
     }
   }
 }

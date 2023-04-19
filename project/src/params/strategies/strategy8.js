@@ -33,29 +33,32 @@ export function strategy8(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      let doveTendency = kwargs["gData"][c.getData("gene")][
-        "strategyDoveTendency"];
-      let hawkTendency = kwargs["gData"][c.getData("gene")][
-        "strategyHawkTendency"];
-      let strategies = [doveTendency, hawkTendency];
-      switch (kwargs["math"].max(strategies)) {
-        case doveTendency:
-          strategy = "dove";
-          break;
-        case hawkTendency:
-          strategy = "hawk";
-          break;
-        default:
-          strategy = "dove";
-          break;
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        let doveTendency = kwargs["gData"][c.getData("gene")][
+          "strategyDoveTendency"];
+        let hawkTendency = kwargs["gData"][c.getData("gene")][
+          "strategyHawkTendency"];
+        let strategies = [doveTendency, hawkTendency];
+        switch (kwargs["math"].max(strategies)) {
+          case doveTendency:
+            strategy = "dove";
+            break;
+          case hawkTendency:
+            strategy = "hawk";
+            break;
+          default:
+            strategy = "dove";
+            break;
+        }
+        c.setData({
+          "strategy": kwargs["names"]["strategies"][strategy],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
+        c.setTexture(kwargs["names"]["strategies"][strategy]);
       }
-      c.setData({
-        "strategy": kwargs["names"]["strategies"][strategy],
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(kwargs["names"]["strategies"][strategy]);
     }
   }
 }

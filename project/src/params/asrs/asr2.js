@@ -33,13 +33,12 @@
 export function asr2(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
-  let p = asrPayoffMatrix2();
+  let p = kwargs["asrPayoffMatrix"]();
   let c, asr;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if (kwargs["gData"][c.getData("gene")]["abilityChooseASR"] > 
-        kwargs["arsTreshold"]) {
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")]["abilityChooseASR"]) {
         let leftAsr = s[f[i].getData("leftBusy")].getData("asr");
         let fightPayoff = p["survival"]["fight"][leftAsr] + 
           p["reproduction"]["fight"][leftAsr];

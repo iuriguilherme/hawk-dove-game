@@ -39,24 +39,27 @@ export function strategy4(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      if (s[f[i].getData("leftBusy")].getData("strategy") == 
-        kwargs["names"]["strategies"]["dove"]) {
-        c.setData({
-          "strategy": kwargs["names"]["strategies"]["hawk"],
-          "state": "responding",
-          "eating": false,
-          "responding": true,
-        });
-        c.setTexture(kwargs["names"]["strategies"]["hawk"]);
-      } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
-        kwargs["names"]["strategies"]["hawk"]) {
-        c.setData({
-          "strategy": kwargs["names"]["strategies"]["dove"],
-          "state": "responding",
-          "eating": false,
-          "responding": true,
-        });
-        c.setTexture(kwargs["names"]["strategies"]["dove"]);
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          kwargs["names"]["strategies"]["dove"]) {
+          c.setData({
+            "strategy": kwargs["names"]["strategies"]["hawk"],
+            "state": "responding",
+            "eating": false,
+            "responding": true,
+          });
+          c.setTexture(kwargs["names"]["strategies"]["hawk"]);
+        } else if (s[f[i].getData("leftBusy")].getData("strategy") == 
+          kwargs["names"]["strategies"]["hawk"]) {
+          c.setData({
+            "strategy": kwargs["names"]["strategies"]["dove"],
+            "state": "responding",
+            "eating": false,
+            "responding": true,
+          });
+          c.setTexture(kwargs["names"]["strategies"]["dove"]);
+        }
       }
     }
   }

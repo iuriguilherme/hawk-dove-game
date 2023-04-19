@@ -25,6 +25,7 @@ export function ruleset5(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["rulesetPayoffMatrix"]();
+  let a = kwargs["asrPayoffMatrix"]();
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       if (
@@ -35,71 +36,82 @@ export function ruleset5(kwargs) {
       ) {
         s[f[i].getData("leftBusy")].setData({"responding": false});
         s[f[i].getData("rightBusy")].setData({"responding": false});
+        //~ console.log(
+          //~ "DEBUG",
+          //~ s[f[i].getData("leftBusy")].getData("asr"),
+          //~ s[f[i].getData("rightBusy")].getData("asr"),
+          //~ a["survival"],
+          //~ a["survival"][
+            //~ s[f[i].getData("leftBusy")].getData("asr")
+          //~ ][
+            //~ s[f[i].getData("rightBusy")].getData("asr")
+          //~ ]
+        //~ );
         if ($fx.rand() > a["survival"][
-          s[f[i].getData("leftBusy")].getData("ars")][
-          s[f[i].getData("rightBusy")].getData("ars")]) {
+          s[f[i].getData("leftBusy")].getData("asr")][
+          s[f[i].getData("rightBusy")].getData("asr")]) {
           s[f[i].getData("leftBusy")].setData({
             "state": "dying",
             "dying": true,
           });
         }
         if ($fx.rand() > a["survival"][
-          s[f[i].getData("rightBusy")].getData("ars")][
-          s[f[i].getData("leftBusy")].getData("ars")]) {
+          s[f[i].getData("rightBusy")].getData("asr")][
+          s[f[i].getData("leftBusy")].getData("asr")]) {
           s[f[i].getData("rightBusy")].setData({
             "state": "dying",
             "dying": true,
           });
         }
         if ($fx.rand() < a["reproduction"][
-          s[f[i].getData("leftBusy")].getData("ars")][
-          s[f[i].getData("rightBusy")].getData("ars")]) {
+          s[f[i].getData("leftBusy")].getData("asr")][
+          s[f[i].getData("rightBusy")].getData("asr")]) {
           s[f[i].getData("leftBusy")].setData({
             "state": "reproducing",
             "reproducing": true,
           });
         }
         if ($fx.rand() < a["reproduction"][
-          s[f[i].getData("rightBusy")].getData("ars")][
-          s[f[i].getData("leftBusy")].getData("ars")]) {
+          s[f[i].getData("rightBusy")].getData("asr")][
+          s[f[i].getData("leftBusy")].getData("asr")]) {
           s[f[i].getData("rightBusy")].setData({
             "state": "reproducing",
             "reproducing": true,
           });
         }
-      }
-    } else {
-      if ($fx.rand() > p["reproduction"][kwargs["names"]["strategies"][
-        s[f[i].getData("leftBusy")].getData("strategy")]][
-        kwargs["names"]["strategies"][
-        s[f[i].getData("rightBusy")].getData("strategy")]]) {
+      } else {
+        if ($fx.rand() > p["reproduction"][kwargs["names"]["strategies"][
+          s[f[i].getData("leftBusy")].getData("strategy")]][
+          kwargs["names"]["strategies"][
+          s[f[i].getData("rightBusy")].getData("strategy")]]) {
+            s[f[i].getData("leftBusy")].setData({
+              "state": "reproducing",
+              "responding": false,
+              "reproducing": true,
+            });
+        } else {
           s[f[i].getData("leftBusy")].setData({
-            "state": "reproducing",
+            "state": "waiting",
             "responding": false,
-            "reproducing": true,
+            "waiting": true,
           });
-      } else {
-        s[f[i].getData("leftBusy")].setData({
-          "state": "waiting",
-          "responding": false,
-          "waiting": true,
-        });
-      }
-      if ($fx.rand() > p["reproduction"][kwargs["names"]["strategies"][
-        s[f[i].getData("rightBusy")].getData("strategy")]][
-        kwargs["names"]["strategies"][
-        s[f[i].getData("leftBusy")].getData("strategy")]]) {
+        }
+        if ($fx.rand() > p["reproduction"][kwargs["names"]["strategies"][
+          s[f[i].getData("rightBusy")].getData("strategy")]][
+          kwargs["names"]["strategies"][
+          s[f[i].getData("leftBusy")].getData("strategy")]]) {
+            s[f[i].getData("rightBusy")].setData({
+              "state": "reproducing",
+              "responding": false,
+              "reproducing": true,
+            });
+        } else {
           s[f[i].getData("rightBusy")].setData({
-            "state": "reproducing",
+            "state": "waiting",
             "responding": false,
-            "reproducing": true,
+            "waiting": true,
           });
-      } else {
-        s[f[i].getData("rightBusy")].setData({
-          "state": "waiting",
-          "responding": false,
-          "waiting": true,
-        });
+        }
       }
     }
   }

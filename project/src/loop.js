@@ -62,7 +62,6 @@ export const loop = function(
   rulesetPayoffMatrix,
   asr,
   asrPayoffMatrix,
-  asrTreshold,
 ) {
   
   if (!gameOver) {
@@ -133,7 +132,6 @@ export const loop = function(
       "math": math,
       "gData": gData,
       "asrPayoffMatrix": asrPayoffMatrix,
-      "asrTreshold": asrTreshold,
     });
     ruleset({
       "subjects": subjects,
@@ -180,7 +178,7 @@ export const loop = function(
           "reproducing": false,
           "gene": parent.getData("gene"),
           "strategy": parent.getData("strategy"),
-          "ars": parent.getData("ars"),
+          "asr": parent.getData("asr"),
           "age": 0,
           "generation": parent.getData("generation") + 1,
         });

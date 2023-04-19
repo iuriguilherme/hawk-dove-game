@@ -35,33 +35,36 @@ export function strategy5(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      let leftStrategy = s[f[i].getData("leftBusy")].getData("strategy");
-      /*
-       * TODO: Learn better javascript to do like python list comprehensions
-       * in case there's more strategies
-       */
-      let dovePayoff = p["survival"]["dove"][leftStrategy] + 
-        p["reproduction"]["dove"][leftStrategy];
-      let hawkPayoff = p["survival"]["hawk"][leftStrategy] + 
-        p["reproduction"]["hawk"][leftStrategy];
-      switch (kwargs["math"].max(dovePayoff, hawkPayoff)) {
-        case dovePayoff:
-          strategy = "dove";
-          break;
-        case hawkPayoff:
-          strategy = "hawk";
-          break;
-        default:
-          strategy = "dove";
-          break;
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        let leftStrategy = s[f[i].getData("leftBusy")].getData("strategy");
+        /*
+         * TODO: Learn better javascript to do like python list comprehensions
+         * in case there's more strategies
+         */
+        let dovePayoff = p["survival"]["dove"][leftStrategy] + 
+          p["reproduction"]["dove"][leftStrategy];
+        let hawkPayoff = p["survival"]["hawk"][leftStrategy] + 
+          p["reproduction"]["hawk"][leftStrategy];
+        switch (kwargs["math"].max(dovePayoff, hawkPayoff)) {
+          case dovePayoff:
+            strategy = "dove";
+            break;
+          case hawkPayoff:
+            strategy = "hawk";
+            break;
+          default:
+            strategy = "dove";
+            break;
+        }
+        c.setData({
+          "strategy": kwargs["names"]["strategies"][strategy],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
+        c.setTexture(kwargs["names"]["strategies"][strategy]);
       }
-      c.setData({
-        "strategy": kwargs["names"]["strategies"][strategy],
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(kwargs["names"]["strategies"][strategy]);
     }
   }
 }

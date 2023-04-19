@@ -37,13 +37,16 @@ export function strategy2(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1) {
       c = s[f[i].getData("leftBusy")];
-      c.setData({
-        "strategy": kwargs["names"]["strategies"]["dove"],
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(kwargs["names"]["strategies"]["dove"]);
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        c.setData({
+          "strategy": kwargs["names"]["strategies"]["dove"],
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
+        c.setTexture(kwargs["names"]["strategies"]["dove"]);
+      }
     }
     if (f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];

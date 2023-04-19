@@ -33,15 +33,18 @@ export function strategy7(kwargs) {
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
-      let strategy = kwargs["math"].pickRandom(Object.values(
-        kwargs["names"]["strategies"]));
-      c.setData({
-        "strategy": strategy,
-        "state": "responding",
-        "eating": false,
-        "responding": true,
-      });
-      c.setTexture(strategy);
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseStrategy"]) {
+        let strategy = kwargs["math"].pickRandom(Object.values(
+          kwargs["names"]["strategies"]));
+        c.setData({
+          "strategy": strategy,
+          "state": "responding",
+          "eating": false,
+          "responding": true,
+        });
+        c.setTexture(strategy);
+      }
     }
   }
 }

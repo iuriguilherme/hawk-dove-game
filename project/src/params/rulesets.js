@@ -33,7 +33,7 @@ export const getRulesetMap = function() {
     "Primer's Hawks & Doves": ruleset2,
     "Primer's modified Hawks & Doves": ruleset3,
     //~ "Primer's Youtube comments": ruleset4,
-    "ARS for Hawks & Doves": ruleset5,
+    "ASR for Hawks & Doves": ruleset5,
   };
 }
 
@@ -43,6 +43,6 @@ export const getRulesetPayoffMatrixMap = function() {
     "Primer's Hawks & Doves": rulesetPayoffMatrix2,
     "Primer's modified Hawks & Doves": rulesetPayoffMatrix3,
     //~ "Primer's Youtube comments": rulesetPayoffMatrix4,
-    "ARS for Hawks & Doves": rulesetPayoffMatrix1,
+    "ASR for Hawks & Doves": rulesetPayoffMatrix1,
   };
 }
