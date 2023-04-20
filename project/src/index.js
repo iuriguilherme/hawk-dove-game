@@ -179,10 +179,8 @@ const graphColors = {
 const params = getParamsStep4({
   "spritesTheme": $fx.getParam("sprites_theme"),
   "had_ruleset": $fx.getParam("had_ruleset"),
-  "had_payoff_matrix": $fx.getParam("had_ruleset"),
   "had_strategy": $fx.getParam("had_strategy"),
   "asr_ruleset": $fx.getParam("asr_ruleset"),
-  "asr_payoff_matrix": $fx.getParam("asr_ruleset"),
   "asr_strategy": $fx.getParam("asr_strategy"),
   "growthRate": $fx.getParam("growth_rate"),
   "gameOverGenetic": $fx.getParam("game_over_genetic"),

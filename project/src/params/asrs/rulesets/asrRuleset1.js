@@ -50,7 +50,7 @@ export function asrRuleset1(kwargs) {
           case "flood":
             asr = "fight";
             break;
-          case "fatigue":
+          case "fatigue-flop":
             asr = "flight";
             break;
           default:

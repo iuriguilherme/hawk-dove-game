@@ -30,14 +30,15 @@ export function asrStrategy5(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
+  let v = kwargs["asrAvailable"]();
   let c;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
       c = s[f[i].getData("rightBusy")];
       if ($fx.rand() > kwargs["gData"][c.getData("gene")][
         "abilityChooseASRStrategy"]) {
-        c.setData({"asr": kwargs["math"].pickRandom(Object.values(
-          kwargs["names"]["asr"]))});
+        c.setData({"asr": kwargs["names"]["asr"][kwargs["math"].pickRandom(
+          v)]});
       }
     }
   }

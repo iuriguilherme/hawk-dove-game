@@ -63,6 +63,7 @@ export const loop = function(
   asrRuleset,
   asrPayoffMatrix,
   asrStrategy,
+  asrAvailable,
 ) {
   
   if (!gameOver) {
@@ -144,6 +145,7 @@ export const loop = function(
       "math": math,
       "gData": gData,
       "asrPayoffMatrix": asrPayoffMatrix,
+      "asrAvailable": asrAvailable,
     });
     hadRuleset({
       "subjects": subjects,

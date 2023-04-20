@@ -166,6 +166,7 @@ export const getPhaserGame = function(
         params["asr_ruleset"],
         params["asr_payoff_matrix"],
         params["asr_strategy"],
+        params["asr_available"],
       );
     }
   }
