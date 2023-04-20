@@ -28,10 +28,20 @@
  * https://neuroclastic.com/the-6fs-of-trauma-responses/
  */
 
-import { asrRuleset1, asrPayoffMatrix1 } from "./asrs/rulesets/asrRuleset1.js";
-import { asrRuleset2, asrPayoffMatrix2 } from "./asrs/rulesets/asrRuleset2.js";
-import { asrRuleset3, asrPayoffMatrix3 } from "./asrs/rulesets/asrRuleset3.js";
-import { asrRuleset4, asrPayoffMatrix4 } from "./asrs/rulesets/asrRuleset4.js";
+import { asrRuleset1, asrAvailable1 } from "./asrs/rulesets/asrRuleset1.js";
+import { asrRuleset2, asrAvailable2 } from "./asrs/rulesets/asrRuleset2.js";
+import { asrRuleset3, asrAvailable3 } from "./asrs/rulesets/asrRuleset3.js";
+import { asrRuleset4, asrAvailable4 } from "./asrs/rulesets/asrRuleset4.js";
+
+import { asrPayoffMatrix1 } from "./asrs/matrices/asrPayoffMatrix1.js";
+import { asrPayoffMatrix2 } from "./asrs/matrices/asrPayoffMatrix2.js";
+import { asrPayoffMatrix3 } from "./asrs/matrices/asrPayoffMatrix3.js";
+import { asrPayoffMatrix4 } from "./asrs/matrices/asrPayoffMatrix4.js";
+
+import { asrStrategy2 } from "./asrs/strategies/asrStrategy2.js";
+import { asrStrategy3 } from "./asrs/strategies/asrStrategy3.js";
+import { asrStrategy4 } from "./asrs/strategies/asrStrategy4.js";
+import { asrStrategy5 } from "./asrs/strategies/asrStrategy5.js";
 
 export const getAsrRulesetMap = function() {
   return {
@@ -39,6 +49,15 @@ export const getAsrRulesetMap = function() {
     "Stephen Porges' polyvagal theory": asrRuleset2,
     "Pete Walker's complex PTSD": asrRuleset3,
     "Curtis Reisinger's 6F": asrRuleset4,
+  };
+}
+
+export const getAsrAvailableMap = function() {
+  return {
+    "Walter Bradford Cannon's fight or flight response": asrAvailable1,
+    "Stephen Porges' polyvagal theory": asrAvailable2,
+    "Pete Walker's complex PTSD": asrAvailable3,
+    "Curtis Reisinger's 6F": asrAvailable4,
   };
 }
 
@@ -54,9 +73,11 @@ export const getAsrPayoffMatrixMap = function() {
 export const getAsrStrategiesMap = function() {
   return {
     "Hereditary (no strategy)": asrStrategy1,
-    "Genetics + Best payoff": asrStrategy1,
+    "Best payoff + genetics": asrStrategy2,
+    "Best payoff": asrStrategy3,
+    "Pure genetics": asrStrategy4,
+    "Random": asrStrategy5,
   }
 }
 
-// FIXME placeholder
 function asrStrategy1(kwargs) {}

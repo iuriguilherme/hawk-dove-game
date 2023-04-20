@@ -1,6 +1,5 @@
 /**
- * @file asrRuleset2.js Stephen Porges' polyvagal theory for Hawk Dove 
- *  Game  
+ * @file asrStrategy5.js Random strategy for Hawk Dove Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,47 +22,23 @@
  */
 
 /**
- * @description Stephen Porges' polyvagal theory:
- * https://en.wikipedia.org/wiki/Polyvagal_theory
+ * @description random strategy:
  * 
- * Response Type: Definition
- * Fight: Confronting the  perceived threat
- * Flight: Fleeing the perceived threat
- * Freeze: Immobilizing in light of the perceived threat
+ * Choose a random strategy.
  */
-export function asrRuleset2(kwargs) {
+export function asrStrategy5(kwargs) {
   let f = kwargs["foods"].getChildren();
   let s = kwargs["subjects"].getChildren();
   let p = kwargs["asrPayoffMatrix"]();
-  let cs, asr;
+  let c;
   for (let i = 0; i < f.length; i++) {
     if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
-      let cs = [s[f[i].getData("leftBusy")], s[f[i].getData("rightBusy")]];
-      for (let c of cs) {
-        switch (c.getData("asr")) {
-          case "fawn":
-            asr = "fight";
-            break;
-          case "flood":
-            asr = "freeze";
-            break;
-          case "fatigue":
-            asr = "flight";
-            break;
-          default:
-            asr = c.getData("asr");
-            break;
-        }
-        c.setData({"asr": kwargs["names"]["asr"][asr]});
+      c = s[f[i].getData("rightBusy")];
+      if ($fx.rand() > kwargs["gData"][c.getData("gene")][
+        "abilityChooseASRStrategy"]) {
+        c.setData({"asr": kwargs["math"].pickRandom(Object.values(
+          kwargs["names"]["asr"]))});
       }
     }
   }
-}
-
-export function asrAvailable2() {
-  return [
-    "fight",
-    "flight",
-    "freeze",
-  ];
 }

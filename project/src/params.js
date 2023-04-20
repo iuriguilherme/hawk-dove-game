@@ -32,22 +32,24 @@ import {
   getHadStrategiesMap,
 } from "./params/hawksanddoves.js";
 import {
-  getAsrRulesetMap,
+  getAsrAvailableMap,
   getAsrPayoffMatrixMap,
+  getAsrRulesetMap,
   getAsrStrategiesMap,
 } from "./params/asrs.js";
 import { getSpritesThemeMap } from "./params/sprites.js";
 
 const findFoodAlgorithmMap = getFindFoodAlgorithmMap();
 const foodsPlacementAlgorithmMap = getFoodsPlacementAlgorithmMap();
-const hadRulesetMap = getHadRulesetMap();
-const hadPayoffMatrixMap = getHadPayoffMatrixMap();
-const asrRulesetMap = getAsrRulesetMap();
+const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
+const asrAvailableMap = getAsrAvailableMap();
 const asrPayoffMatrixMap = getAsrPayoffMatrixMap();
+const asrRulesetMap = getAsrRulesetMap();
+const hadPayoffMatrixMap = getHadPayoffMatrixMap();
+const hadRulesetMap = getHadRulesetMap();
 let spritesThemeMap;
 let hadStrategiesMap;
 let asrStrategiesMap;
-const subjectsPlacementAlgorithmMap = getSubjectsPlacementAlgorithmMap();
 
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
@@ -65,12 +67,16 @@ export function getHadStrategy(key) {
   return hadStrategiesMap[key];
 }
 
-export function getAsrRuleset(key) {
-  return asrRulesetMap[key];
+export function getAsrAvailable(key) {
+  return asrAvailableMap[key];
 }
 
 export function getAsrPayoffMatrix(key) {
   return asrPayoffMatrixMap[key];
+}
+
+export function getAsrRuleset(key) {
+  return asrRulesetMap[key];
 }
 
 export function getAsrStrategy(key) {
@@ -93,10 +99,11 @@ export function getParamsStep4(params) {
   return {
     "spritesTheme": getSpritesTheme(params["spritesTheme"]),
     "had_ruleset": getHadRuleset(params["had_ruleset"]),
-    "rulesetPayoffMatrix": getHadPayoffMatrix(params["had_ruleset"]),
+    "had_payoff_matrix": getHadPayoffMatrix(params["had_ruleset"]),
     "had_strategy": getHadStrategy(params["had_strategy"]),
     "asr_ruleset": getAsrRuleset(params["asr_ruleset"]),
-    "asrPayoffMatrix": getAsrPayoffMatrix(params["asr_ruleset"]),
+    "asr_available": getAsrAvailable(params["asr_ruleset"]),
+    "asr_payoff_matrix": getAsrPayoffMatrix(params["asr_ruleset"]),
     "asr_strategy": getAsrStrategy(params["asr_strategy"]),
     "growthRate": params["growthRate"],
     "gameOverGenetic": params["gameOverGenetic"],
@@ -140,7 +147,7 @@ export function getParamsStep1(names, ruleset) {
       "name": "Hawk-dove strategy",
       "type": "select",
       //~ "default": "Hereditary (no strategy)",
-      "default": "Genetics + Best payoff",
+      "default": "Best payoff + genetics",
       "options": {
         "options": Object.keys(hadStrategiesMap),
       },
@@ -160,7 +167,7 @@ export function getParamsStep1(names, ruleset) {
       "name": "ASR strategy",
       "type": "select",
       //~ "default": "Hereditary (no strategy)",
-      "default": "Genetics + Best payoff",
+      "default": "Best payoff + genetics",
       "options": {
         "options": Object.keys(asrStrategiesMap),
       },

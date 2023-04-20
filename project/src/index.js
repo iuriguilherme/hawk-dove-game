@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.19.4  
+ * @version 0.19.5  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.19.4";
+const version = "0.19.5";
 
 const seed = $fx.rand() * 1e8;
 
@@ -97,8 +97,9 @@ $fx.features({
   "Genetic cripple": geneticCripple,
   "Genetic handicap": geneticHandicap,
   "Hawk-dove ruleset": $fx.getParam("had_ruleset"),
-  "Acute stress response variant": $fx.getParam("asr_ruleset"),
-  "Game theory strategy": $fx.getParam("had_strategy"),
+  "Hawk-dove strategy": $fx.getParam("had_strategy"),
+  "ASR variant": $fx.getParam("asr_ruleset"),
+  "ASR strategy": $fx.getParam("asr_strategy"),
   "Sprites theme": $fx.getParam("sprites_theme"),
   //~ "Food finding algorithm": $fx.getParam("food_find"),
   //~ "Food placement algorithm": $fx.getParam("foods_placement"),
@@ -122,8 +123,9 @@ console.log([
   `[${name} v${version}]`,
   `fx(hash): ${fxhashTrunc}`,
   `fx(params) Hawk-dove ruleset: ${$fx.getParam("had_ruleset")}`,
-  `fx(params) Acute stress response variant: ${$fx.getParam("asr_ruleset")}`,
-  `fx(params) Game theory strategy: ${$fx.getParam("had_strategy")}`,
+  `fx(params) Hawk-dove strategy: ${$fx.getParam("had_strategy")}`,
+  `fx(params) ASR variant: ${$fx.getParam("asr_ruleset")}`,
+  `fx(params) ASR strategy: ${$fx.getParam("asr_strategy")}`,
   `fx(params) Sprites theme: ${$fx.getParam("sprites_theme")}`,
   `fx(params) Food finding algorithm: ${$fx.getParam("food_find")}`,
   `fx(params) Food placing algorithm: ${$fx.getParam("foods_placement")}`,
@@ -177,11 +179,11 @@ const graphColors = {
 const params = getParamsStep4({
   "spritesTheme": $fx.getParam("sprites_theme"),
   "had_ruleset": $fx.getParam("had_ruleset"),
-  "rulesetPayoffMatrix": $fx.getParam("had_ruleset"),
-  "asr_ruleset": $fx.getParam("asr_ruleset"),
-  "asr_strategy": $fx.getParam("asr_strategy"),
-  "asrPayoffMatrix": $fx.getParam("asr_ruleset"),
+  "had_payoff_matrix": $fx.getParam("had_ruleset"),
   "had_strategy": $fx.getParam("had_strategy"),
+  "asr_ruleset": $fx.getParam("asr_ruleset"),
+  "asr_payoff_matrix": $fx.getParam("asr_ruleset"),
+  "asr_strategy": $fx.getParam("asr_strategy"),
   "growthRate": $fx.getParam("growth_rate"),
   "gameOverGenetic": $fx.getParam("game_over_genetic"),
   "gameOverPopulation": $fx.getParam("game_over_population"),

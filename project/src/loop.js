@@ -48,9 +48,9 @@ export const loop = function(
   moreSubjects,
   name,
   names,
-  ruleset,
+  hadRuleset,
   strategiesNames,
-  strategy,
+  hadStrategy,
   subjectsPlacementAlgorithm,
   version,
   charts,
@@ -60,8 +60,9 @@ export const loop = function(
   gData,
   iteration,
   rulesetPayoffMatrix,
-  asr,
+  asrRuleset,
   asrPayoffMatrix,
+  asrStrategy,
 ) {
   
   if (!gameOver) {
@@ -111,7 +112,7 @@ export const loop = function(
     iteration++;
     
     findFoodAlgorithm(subjects, foods, math);
-    strategy({
+    hadStrategy({
       "subjects": subjects,
       "foods": foods,
       "names": names,
@@ -122,7 +123,7 @@ export const loop = function(
       "gData": gData,
       "asrPayoffMatrix": asrPayoffMatrix,
     });
-    asr({
+    asrRuleset({
       "subjects": subjects,
       "foods": foods,
       "names": names,
@@ -133,7 +134,18 @@ export const loop = function(
       "gData": gData,
       "asrPayoffMatrix": asrPayoffMatrix,
     });
-    ruleset({
+    asrStrategy({
+      "subjects": subjects,
+      "foods": foods,
+      "names": names,
+      "name": name,
+      "version": version,
+      "rulesetPayoffMatrix": rulesetPayoffMatrix,
+      "math": math,
+      "gData": gData,
+      "asrPayoffMatrix": asrPayoffMatrix,
+    });
+    hadRuleset({
       "subjects": subjects,
       "foods": foods,
       "names": names,

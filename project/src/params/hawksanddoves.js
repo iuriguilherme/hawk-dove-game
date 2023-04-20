@@ -67,10 +67,10 @@ export const getHadStrategiesMap = function(ruleset) {
     "Always Hawk": strategy3,
     "Nash equilibrium (WIP)": strategy4,
     "Best payoff": strategy5,
-    "Pure opposites": strategy6,
-    "Pure random": strategy7,
+    "Opposites": strategy6,
+    "Random": strategy7,
     "Pure genetic": strategy8,
-    "Genetics + Best payoff": strategy9,
+    "Best payoff + genetics": strategy9,
   };
 }
 

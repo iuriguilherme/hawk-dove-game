@@ -162,9 +162,10 @@ export const getPhaserGame = function(
         math,
         gData,
         iteration,
-        params["rulesetPayoffMatrix"],
+        params["had_payoff_matrix"],
         params["asr_ruleset"],
-        params["asrPayoffMatrix"],
+        params["asr_payoff_matrix"],
+        params["asr_strategy"],
       );
     }
   }

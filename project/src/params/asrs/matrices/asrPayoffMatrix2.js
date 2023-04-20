@@ -1,5 +1,5 @@
 /**
- * @file asrRuleset2.js Stephen Porges' polyvagal theory for Hawk Dove 
+ * @file asrPayoffMatrix2.js Stephen Porges' polyvagal theory for Hawk Dove 
  *  Game  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
@@ -31,39 +31,48 @@
  * Flight: Fleeing the perceived threat
  * Freeze: Immobilizing in light of the perceived threat
  */
-export function asrRuleset2(kwargs) {
-  let f = kwargs["foods"].getChildren();
-  let s = kwargs["subjects"].getChildren();
-  let p = kwargs["asrPayoffMatrix"]();
-  let cs, asr;
-  for (let i = 0; i < f.length; i++) {
-    if (f[i].getData("leftBusy") > -1 && f[i].getData("rightBusy") > -1) {
-      let cs = [s[f[i].getData("leftBusy")], s[f[i].getData("rightBusy")]];
-      for (let c of cs) {
-        switch (c.getData("asr")) {
-          case "fawn":
-            asr = "fight";
-            break;
-          case "flood":
-            asr = "freeze";
-            break;
-          case "fatigue":
-            asr = "flight";
-            break;
-          default:
-            asr = c.getData("asr");
-            break;
-        }
-        c.setData({"asr": kwargs["names"]["asr"][asr]});
-      }
-    }
-  }
+export function asrPayoffMatrix2() {
+  return {
+    "survival": {
+      "fight": {
+        "fight": 0.5,
+        "flight": 1.0,
+        "freeze": 1.0,
+        "alone": 1.0,
+      },
+      "flight": {
+        "fight": 1.0,
+        "flight": 1.0,
+        "freeze": 1.0,
+        "alone": 1.0,
+      },
+      "freeze": {
+        "fight": 0.0,
+        "flight": 1.0,
+        "freeze": 1.0,
+        "alone": 1.0,
+      },
+    },
+    "reproduction": {
+      "fight": {
+        "fight": 0.0,
+        "flight": 1.0,
+        "freeze": 1.0,
+        "alone": 1.0,
+      },
+      "flight": {
+        "fight": 0.0,
+        "flight": 0.0,
+        "freeze": 0.0,
+        "alone": 1.0,
+      },
+      "freeze": {
+        "fight": 0.0,
+        "flight": 1.0,
+        "freeze": 0.5,
+        "alone": 1.0,
+      },
+    },
+  };
 }
 
-export function asrAvailable2() {
-  return [
-    "fight",
-    "flight",
-    "freeze",
-  ];
-}
