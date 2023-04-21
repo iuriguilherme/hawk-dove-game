@@ -221,6 +221,12 @@ export function getParamsStep1(names, ruleset) {
       "default": true,
     },
     {
+      "id": "game_over_asr",
+      "name": "ASR erradication causes game over?",
+      "type": "boolean",
+      "default": true,
+    },
+    {
       "id": "game_over_genetic",
       "name": "Single gene in gene pool causes game over?",
       "type": "boolean",
@@ -348,21 +354,6 @@ export function getParamsStep1(names, ruleset) {
       },
     },
     {
-      id: "food_color",
-      name: "Food graph color",
-      type: "color",
-    },
-    {
-      id: "dove_color",
-      name: "Dove graph color",
-      type: "color",
-    },
-    {
-      id: "hawk_color",
-      name: "Hawk graph color",
-      type: "color",
-    },
-    {
       id: "age_color",
       name: "Age graph color",
       type: "color",
@@ -375,6 +366,51 @@ export function getParamsStep1(names, ruleset) {
     {
       id: "population_color",
       name: "Genetic population graph color",
+      type: "color",
+    },
+    {
+      id: "food_color",
+      name: "Graph color: Food",
+      type: "color",
+    },
+    {
+      id: "had_dove_color",
+      name: "Graph color: Dove",
+      type: "color",
+    },
+    {
+      id: "had_hawk_color",
+      name: "Graph color: Hawk",
+      type: "color",
+    },
+    {
+      id: "asr_fight_color",
+      name: "Graph color: ASR Fight",
+      type: "color",
+    },
+    {
+      id: "asr_flight_color",
+      name: "Graph color: ASR Flight",
+      type: "color",
+    },
+    {
+      id: "asr_freeze_color",
+      name: "Graph color: ASR Freeze",
+      type: "color",
+    },
+    {
+      id: "asr_fawn_color",
+      name: "Graph color: ASR Fawn",
+      type: "color",
+    },
+    {
+      id: "asr_flood_color",
+      name: "Graph color: ASR Flood",
+      type: "color",
+    },
+    {
+      id: "asr_fatigue_flop_color",
+      name: "Graph color: ASR Fatigue-Flop",
       type: "color",
     },
   ];

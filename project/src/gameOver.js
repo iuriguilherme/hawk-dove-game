@@ -30,7 +30,7 @@ export function endGame(
   getStrategyData,
   names,
   updateNestedBarChart,
-  updatePopulationChart,
+  updateHADPopulationChart,
   updateSimpleBarChart,
   gData,
   strategiesNames,
@@ -38,16 +38,24 @@ export function endGame(
   math,
   charts,
   chartData,
+  updateASRPopulationChart,
+  asrAvailable,
+  getASRData,
+  getStrategyASRData,
 ) {
   let geneticData = getNestedData("gene", alphabetArray, subjects);
-  let populationData = getStrategyData(foods, subjects, names, strategiesNames);
+  let populationData = getStrategyASRData(foods, subjects, names,
+    strategiesNames, asrAvailable);
   let s = subjects.getChildren();
   let f = foods.getChildren();
+  let v = asrAvailable();
   
   updateNestedBarChart("genetic", "gene", alphabetArray, charts, chartData,
     subjects);
-  updatePopulationChart("population", charts, chartData, foods, subjects,
+  updateHADPopulationChart("HADPopulation", charts, chartData, foods, subjects,
     names, strategiesNames);
+  updateASRPopulationChart("ASRPopulation", charts, chartData, subjects,
+    names, asrAvailable);
   updateSimpleBarChart("age", charts, chartData, subjects, math);
   updateSimpleBarChart("generation", charts, chartData, subjects, math);
   
@@ -65,7 +73,7 @@ export function endGame(
   for (let i = 0; i < strategiesNames.length; i++) {
     scene.add.text(
       15,
-      30 * (i + 2),
+      30 * (2 + i),
       `${names["strategies"][strategiesNames[i]]} population: ` +
         `${populationData[names["strategies"][strategiesNames[i]]]}`,
       {
@@ -76,9 +84,23 @@ export function endGame(
       }
     );
   }
+  for (let i = 0; i < v.length; i++) {
+    scene.add.text(
+      15,
+      30 * (2 + strategiesNames.length + i),
+      `${names["asr"][v[i]]} population: ` +
+        `${populationData[names["asr"][v[i]]]}`,
+      {
+        "fontSize": "2em",
+        "fill": "#121212",
+        //~ "fill": "#e8e8e8",
+        "align": "center"
+      }
+    );
+  }
   scene.add.text(
     15,
-    30 * (strategiesNames.length + 2),
+    30 * (2 + strategiesNames.length + v.length),
     `total population: ${populationData["total"]}`,
     {
       "fontSize": "2em",
@@ -89,7 +111,7 @@ export function endGame(
   );
   scene.add.text(
     15,
-    30 * (strategiesNames.length + 3),
+    30 * (3 + strategiesNames.length + v.length),
     `remaining ${names["food"]}: ${populationData[names["food"]]}`,
     {
       "fontSize": "2em",
@@ -118,7 +140,7 @@ export function endGame(
   if (geneWinner != "None") {
     scene.add.text(
       15,
-      30 * (strategiesNames.length + 4),
+      30 * (4 + strategiesNames.length + v.length),
       `highest genetic pool: \#${geneWinner} (${geneWinnerN} individuals)`,
       {
         "fontSize": "2em",
@@ -129,7 +151,7 @@ export function endGame(
     );
     scene.add.text(
       15,
-      30 * (strategiesNames.length + 5),
+      30 * (5 + strategiesNames.length + v.length),
       `highest age from all \#${geneWinner}: ${math.max(geneWinners["ages"])}`,
       {
         "fontSize": "2em",
@@ -140,7 +162,7 @@ export function endGame(
     );
     scene.add.text(
       15,
-      30 * (strategiesNames.length + 6),
+      30 * (6 + strategiesNames.length + v.length),
       `oldest generation from all \#${geneWinner}: ` + 
         `${math.min(geneWinners["gens"])}`,
       {
@@ -152,7 +174,7 @@ export function endGame(
     );
     scene.add.text(
       15,
-      30 * (strategiesNames.length + 7),
+      30 * (7 + strategiesNames.length + v.length),
       `newest generation from all \#${geneWinner}: ` + 
         `${math.max(geneWinners["gens"])}`,
       {
@@ -166,7 +188,7 @@ export function endGame(
       ([k, v]) => `${k}: ${v}`).join("\n\t");
     scene.add.text(
       15,
-      30 * (strategiesNames.length + 8),
+      30 * (8 + strategiesNames.length + v.length),
       `genetic attributes for \#${geneWinner}:\n\n\t${attrs}`,
       {
         "fontSize": "2em",

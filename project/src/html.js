@@ -21,9 +21,9 @@
  * 
  */
 
-const graphs = 5;
+const graphs = 7;
 const graphsRows = 1;
-const graphsBig = 5;
+const graphsBig = 7;
 const graphsSmall = 0;
 const containerDiv = document.createElement("div");
 const containerRow = document.createElement("div");

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.19.5  
+ * @version 0.19.6  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.19.5";
+const version = "0.19.6";
 
 const seed = $fx.rand() * 1e8;
 
@@ -84,7 +84,10 @@ const geneticCripple = properAlphabet[math.floor(
 
 var charts = {};
 var datasets = [];
-var datasetsHistory = [];
+var datasetsHADHistory = [];
+var datasetsASRHistory = [];
+var datasetsHAD = [];
+var datasetsASR = [];
 var gData = {};
 var foods;
 var foodsCircle;
@@ -138,11 +141,15 @@ console.log([
     `${$fx.getParam("game_over_population")}`,
   ].join(),
   [
-    `fx(params) Game over by strategy end:`,
+    `fx(params) Game over by strategy erradication:`,
     `${$fx.getParam("game_over_strategy")}`,
   ].join(),
   [
-    `fx(params) Game over by genetic end:`,
+    `fx(params) Game over by asr erradication:`,
+    `${$fx.getParam("game_over_asr")}`,
+  ].join(),
+  [
+    `fx(params) Game over by genetic erradication:`,
     `${$fx.getParam("game_over_genetic")}`,
   ].join(),
   [
@@ -169,8 +176,15 @@ console.log([
 const graphColors = {
   "population": {
     [names["food"]]: $fx.getParam("food_color").hex.rgb,
-    [names["strategies"]["dove"]]: $fx.getParam("dove_color").hex.rgb,
-    [names["strategies"]["hawk"]]: $fx.getParam("hawk_color").hex.rgb,
+    [names["strategies"]["dove"]]: $fx.getParam("had_dove_color").hex.rgb,
+    [names["strategies"]["hawk"]]: $fx.getParam("had_hawk_color").hex.rgb,
+    [names["asr"]["fight"]]: $fx.getParam("asr_fight_color").hex.rgb,
+    [names["asr"]["flight"]]: $fx.getParam("asr_flight_color").hex.rgb,
+    [names["asr"]["freeze"]]: $fx.getParam("asr_freeze_color").hex.rgb,
+    [names["asr"]["fawn"]]: $fx.getParam("asr_fawn_color").hex.rgb,
+    [names["asr"]["flood"]]: $fx.getParam("asr_flood_color").hex.rgb,
+    [names["asr"]["fatigue-flop"]]: $fx.getParam("asr_fatigue_flop_color"
+      ).hex.rgb,
   },
   "genetic": $fx.getParam("population_color").hex.rgb,
   "age": $fx.getParam("age_color").hex.rgb,
@@ -186,6 +200,7 @@ const params = getParamsStep4({
   "gameOverGenetic": $fx.getParam("game_over_genetic"),
   "gameOverPopulation": $fx.getParam("game_over_population"),
   "gameOverStrategy": $fx.getParam("game_over_strategy"),
+  "gameOverASR": $fx.getParam("game_over_asr"),
   "initialFoodRate": $fx.getParam("starting_food"),
   "lessFoods": $fx.getParam("less_food_chance"),
   "maxAge": $fx.getParam("max_age"),
@@ -223,11 +238,14 @@ const phaserGame = getPhaserGame(
   subjects,
   subjectsCircle,
   datasets,
-  datasetsHistory,
+  datasetsHADHistory,
   getGeneticData,
   properAlphabet,
   geneticCripple,
   geneticHandicap,
+  datasetsHAD,
+  datasetsASR,
+  datasetsASRHistory,
 );
 
 window.addEventListener("resize", () => {

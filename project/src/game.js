@@ -52,6 +52,9 @@ export const getPhaserGame = function(
   properAlphabet,
   geneticCripple,
   geneticHandicap,
+  datasetsHAD,
+  datasetsASR,
+  datasetsASRHistory,
 ) {
   class HawkDoveScene extends Phaser.Scene {
     constructor () {
@@ -167,20 +170,25 @@ export const getPhaserGame = function(
         params["asr_payoff_matrix"],
         params["asr_strategy"],
         params["asr_available"],
+        params["gameOverASR"],
       );
     }
   }
   
-  createCharts(
-    charts,
-    names,
-    graphColors,
-    strategiesNames,
-    Chart,
-    graphsCanvas,
-    datasets,
-    datasetsHistory,
-  );
+  createCharts({
+    "charts": charts,
+    "names": names,
+    "graphColors": graphColors,
+    "strategiesNames": strategiesNames,
+    "Chart": Chart,
+    "graphsCanvas": graphsCanvas,
+    "datasets": datasets,
+    "datasetsHistory": datasetsHistory,
+    "datasetsHAD": datasetsHAD,
+    "datasetsASR": datasetsASR,
+    "datasetsASRHistory": datasetsASRHistory,
+    "asrAvailable": params["asr_available"],
+  });
   
   let graphsMaxWidth = 0;
   let graphsMaxHeight = 0;

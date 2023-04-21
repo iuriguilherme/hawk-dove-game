@@ -64,6 +64,7 @@ export const loop = function(
   asrPayoffMatrix,
   asrStrategy,
   asrAvailable,
+  gameOverASR,
 ) {
   
   if (!gameOver) {
@@ -74,16 +75,20 @@ export const loop = function(
       subjects);
     updateSimpleBarChart("age", charts, chartData, subjects, math);
     updateSimpleBarChart("generation", charts, chartData, subjects, math);
-    updatePopulationChart("population", charts, chartData, foods, subjects,
-      names, strategiesNames);
-    updatePopulationMovingChart("populationHistory", charts, chartData,
+    updateHADPopulationChart("HADPopulation", charts, chartData, foods, 
+      subjects, names, strategiesNames);
+    updateASRPopulationChart("ASRPopulation", charts, chartData, subjects, 
+      names, asrAvailable);
+    updateHADPopulationMovingChart("HADPopulationHistory", charts, chartData,
       strategiesNames, foods, subjects, names, iteration);
+    updateASRPopulationMovingChart("ASRPopulationHistory", charts, chartData,
+      subjects, names, iteration, asrAvailable);
     
     chartData = getStrategyData(foods, subjects, names, strategiesNames);
-    for (let i = 0; i < strategiesNames.length; i++) {
-      if (chartData[names["strategies"][strategiesNames[i]]] < 1) {
-        let reason = `${names["strategies"][strategiesNames[i]]} ` +
-          `population reached zero at iteration ${iteration}`;
+    for (let strategy of strategiesNames) {
+      if (chartData[names["strategies"][strategy]] < 1) {
+        let reason = `${names["strategies"][strategy]} population reached ` +
+          `zero at iteration ${iteration}`;
         //~ console.log(`[${name} v${version}]: ${reason}`);
         if (gameOverStrategy) {
           endGame(
@@ -95,7 +100,7 @@ export const loop = function(
             getStrategyData,
             names,
             updateNestedBarChart,
-            updatePopulationChart,
+            updateHADPopulationChart,
             updateSimpleBarChart,
             gData,
             strategiesNames,
@@ -103,6 +108,44 @@ export const loop = function(
             math,
             charts,
             chartData,
+            updateASRPopulationChart,
+            asrAvailable,
+            getASRData,
+            getStrategyASRData,
+          );
+          gameOver = true;
+          return iteration;
+        }
+      }
+    }
+    
+    for (let asr of asrAvailable()) {
+      if (chartData[names["asr"][asr]] < 1) {
+        let reason = `${names["asr"][asr]} population reached ` +
+          `zero at iteration ${iteration}`;
+        //~ console.log(`[${name} v${version}]: ${reason}`);
+        if (gameOverASR) {
+          endGame(
+            scene,
+            reason,
+            subjects,
+            foods,
+            getNestedData,
+            getStrategyData,
+            names,
+            updateNestedBarChart,
+            updateHADPopulationChart,
+            updateSimpleBarChart,
+            gData,
+            strategiesNames,
+            alphabetArray,
+            math,
+            charts,
+            chartData,
+            updateASRPopulationChart,
+            asrAvailable,
+            getASRData,
+            getStrategyASRData,
           );
           gameOver = true;
           return iteration;
@@ -213,7 +256,7 @@ export const loop = function(
           getStrategyData,
           names,
           updateNestedBarChart,
-          updatePopulationChart,
+          updateHADPopulationChart,
           updateSimpleBarChart,
           gData,
           strategiesNames,
@@ -221,6 +264,10 @@ export const loop = function(
           math,
           charts,
           chartData,
+          updateASRPopulationChart,
+          asrAvailable,
+          getASRData,
+          getStrategyASRData,
         );
         gameOver = true;
         return iteration;
@@ -241,7 +288,7 @@ export const loop = function(
           getStrategyData,
           names,
           updateNestedBarChart,
-          updatePopulationChart,
+          updateHADPopulationChart,
           updateSimpleBarChart,
           gData,
           strategiesNames,
@@ -249,6 +296,10 @@ export const loop = function(
           math,
           charts,
           chartData,
+          updateASRPopulationChart,
+          asrAvailable,
+          getASRData,
+          getStrategyASRData,
         );
         gameOver = true;
         return iteration;
@@ -366,27 +417,87 @@ function updateNestedBarChart(chart, key, array, charts, chartData, subjects) {
   charts[chart].update('none');
 }
 
-function updatePopulationChart(key, charts, chartData, foods, subjects, names, 
-  strategiesNames) {
+function updatePopulationChart(key, charts, chartData, foods, subjects, 
+  names, strategiesNames, asrAvailable) {
+  chartData = getStrategyASRData(foods, subjects, names, strategiesNames, 
+    asrAvailable);
+  charts[key].data.datasets[0].data = [chartData["total"]];
+  charts[key].data.datasets[1].data = [chartData[names["food"]]];
+  for (let i = 0; i < strategiesNames.length; i++) {
+    charts[key].data.datasets[2 + i].data = [
+      chartData[names["strategies"][strategiesNames[i]]]];
+  }
+  let v = asrAvailable();
+  for (let i = 0; i < v.length; i++) {
+    charts[key].data.datasets[1 + strategiesNames.length + i].data.push(
+      chartData[names["asr"][v[i]]]);
+  }
+  charts[key].update('none');
+}
+
+function updateHADPopulationChart(key, charts, chartData, foods, subjects, 
+  names, strategiesNames) {
   chartData = getStrategyData(foods, subjects, names, strategiesNames);
   charts[key].data.datasets[0].data = [chartData["total"]];
   charts[key].data.datasets[1].data = [chartData[names["food"]]];
   for (let i = 0; i < strategiesNames.length; i++) {
-    charts[key].data.datasets[i + 2].data = [
+    charts[key].data.datasets[2 + i].data = [
       chartData[names["strategies"][strategiesNames[i]]]];
   }
   charts[key].update('none');
 }
 
+function updateASRPopulationChart(key, charts, chartData, subjects, names,
+  asrAvailable) {
+  chartData = getASRData(subjects, names, asrAvailable);
+  charts[key].data.datasets[0].data = [chartData["total"]];
+  let v = asrAvailable();
+  for (let i = 0; i < v.length; i++) {
+    charts[key].data.datasets[1 + i].data.push(chartData[names["asr"][v[i]]]);
+  }
+  charts[key].update('none');
+}
+
 function updatePopulationMovingChart(key, charts, chartData, strategiesNames, 
-  foods, subjects, names, iteration) {
+  foods, subjects, names, iteration, asrAvailable) {
+  chartData = getStrategyASRData(foods, subjects, names, strategiesNames,
+    asrAvailable);
+  charts[key].data.labels.push(iteration);
+  charts[key].data.datasets[0].data.push(chartData["total"]);
+  charts[key].data.datasets[1].data.push(chartData[names["food"]]);
+  for (let i = 0; i < strategiesNames.length; i++) {
+    charts[key].data.datasets[2 + i].data.push(chartData[names["strategies"][
+      strategiesNames[i]]]);
+  }
+  let v = asrAvailable();
+  for (let i = 0; i < v.length; i++) {
+    charts[key].data.datasets[2 + strategiesNames.length + i].data.push(
+      chartData[names["asr"][v[i]]]);
+  }
+  charts[key].update('none');
+}
+
+function updateHADPopulationMovingChart(key, charts, chartData, 
+  strategiesNames, foods, subjects, names, iteration) {
   chartData = getStrategyData(foods, subjects, names, strategiesNames);
   charts[key].data.labels.push(iteration);
   charts[key].data.datasets[0].data.push(chartData["total"]);
   charts[key].data.datasets[1].data.push(chartData[names["food"]]);
   for (let i = 0; i < strategiesNames.length; i++) {
-    charts[key].data.datasets[i + 2].data.push(
-      chartData[names["strategies"][strategiesNames[i]]]);
+    charts[key].data.datasets[2 + i].data.push(chartData[names["strategies"][
+      strategiesNames[i]]]);
+  }
+  charts[key].update('none');
+}
+
+function updateASRPopulationMovingChart(key, charts, chartData, subjects, 
+  names, iteration, asrAvailable) {
+  chartData = getASRData(subjects, names, asrAvailable);
+  charts[key].data.labels.push(iteration);
+  charts[key].data.datasets[0].data.push(chartData["total"]);
+  let v = asrAvailable();
+  for (let i = 0; i < v.length; i++) {
+    charts[key].data.datasets[1 + i].data.push(chartData[names["asr"][v[i]]]);
   }
   charts[key].update('none');
 }
@@ -425,10 +536,41 @@ function getStrategyData(foods, subjects, names, strategiesNames) {
   let data = {};
   data["total"] = subjects.getChildren().length;
   data[names["food"]] = foods.getChildren().length;
-  for (let i = 0; i < strategiesNames.length; i++) {
-    data[names["strategies"][strategiesNames[i]]] = 
+  for (let strategy of strategiesNames) {
+    data[names["strategies"][strategy]] = 
       subjects.getChildren().filter(s => s.getData("strategy") == 
-      names["strategies"][strategiesNames[i]]).length;
+      names["strategies"][strategy]).length;
+  }
+  return data;
+}
+
+function getASRData(subjects, names, asrAvailable) {
+  let data = {};
+  data["total"] = subjects.getChildren().length;
+  let v = asrAvailable();
+  for (let asr of v) {
+    data[names["asr"][asr]] = 
+      subjects.getChildren().filter(s => s.getData("asr") == 
+      names["asr"][asr]).length;
+  }
+  return data;
+}
+
+function getStrategyASRData(foods, subjects, names, strategiesNames,
+  asrAvailable) {
+  let data = {};
+  data["total"] = subjects.getChildren().length;
+  data[names["food"]] = foods.getChildren().length;
+  for (let strategy of strategiesNames) {
+    data[names["strategies"][strategy]] = 
+      subjects.getChildren().filter(s => s.getData("strategy") == 
+      names["strategies"][strategy]).length;
+  }
+  let v = asrAvailable();
+  for (let asr of v) {
+    data[names["asr"][asr]] = 
+      subjects.getChildren().filter(s => s.getData("asr") == 
+      names["asr"][asr]).length;
   }
   return data;
 }
