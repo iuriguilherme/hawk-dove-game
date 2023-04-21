@@ -133,7 +133,7 @@ export function createCharts(kwargs) {
     {
       "type": "bar",
       "data": {
-        "labels": ["# of individuals by HAD / food"],
+        "labels": ["# of food / individuals by last HAD strategy"],
         "datasets": kwargs["datasetsHAD"],
       },
       "options": {
@@ -153,7 +153,7 @@ export function createCharts(kwargs) {
     {
       "type": "bar",
       "data": {
-        "labels": ["# of individuals by ASR"],
+        "labels": ["# of individuals by last ASR strategy"],
         "datasets": kwargs["datasetsASR"],
       },
       "options": {
