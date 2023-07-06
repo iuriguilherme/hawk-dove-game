@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.19.6  
+ * @version 0.19.7  
  * @copyright Iuri Guilherme 2023  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,9 +23,10 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.19.6";
+const version = "0.19.7";
 
 const seed = $fx.rand() * 1e8;
+const fxhashTrunc = $fx.hash.slice(2);
 
 import Chart from "chart.js/auto";
 import { create as mcreate, all as mall } from "mathjs";

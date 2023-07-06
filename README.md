@@ -38,12 +38,28 @@ Powered by
 Generated tokens available on 
 [fx(hash)](https://www.fxhash.xyz/u/Iuri%20Guilherme)  
 
+> npx node-sloc project  
+Reading file(s)...  
+```
+    +---------------------------------------------------+  
+    | SLOC                          | 3855              |  
+    |-------------------------------|--------------------  
+    | Lines of comments             | 1662              |  
+    |-------------------------------|--------------------  
+    | Blank lines                   | 203               |  
+    |-------------------------------|--------------------  
+    | Files counted                 | 44                |  
+    |-------------------------------|--------------------  
+    | Total LOC                     | 5517              |  
+    +---------------------------------------------------+  
+```
+
 Release log
 ---
 
 ### Pre-alpha
 
-Release tag: 
+#### Release tag: 
 [0.16.0](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.16.0)  
 
 * Working simulation of hawk-dove game;  
@@ -62,6 +78,13 @@ simulation via fx(params);
 * Added rulesets from Primer youtube channel;  
 * Implemented strategies, subjects now can choose what to do;  
 * Conditional fx(params) influence the availability of others;  
+
+#### Release tag: 
+[0.19.6](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.19.6)  
+
+* Implemented PTSD responses (the fight-flight response theory)  
+* Reverted conditional fx(params), that just can't work (lol, it's working now: 
+https://www.fxhash.xyz/article/draw-that-seed!)  
 
 ASSETS LICENSE
 ---
