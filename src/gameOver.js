@@ -1,6 +1,6 @@
 /**
  * @file gameOver.js End screen for Hawk Dove Game  
- * @copyright Iuri Guilherme 2023  
+ * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 

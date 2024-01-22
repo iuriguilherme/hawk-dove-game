@@ -1,6 +1,6 @@
 /**
  * @file util.js Utility functions, pseudo library for Hawk Dove Game  
- * @copyright Iuri Guilherme 2023  
+ * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
@@ -30,6 +30,7 @@ export const properAlphabet =
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 export const alphabetArray = Array.from(properAlphabet);
 //~ export const alphabetArray = properAlphabet;
+export const fxhashTrunc = $fx.hash.slice(2);
 export const fxArray = Array.from(fxhashTrunc);
 //~ export const fxArray = fxhashTrunc;
 //~ export const fxhashDecimal = base58toDecimal(fxhashTrunc);

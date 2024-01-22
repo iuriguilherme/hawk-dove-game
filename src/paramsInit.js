@@ -1,6 +1,6 @@
 /**
- * @file params.js fx(params) for Hawk Dove Game  
- * @copyright Iuri Guilherme 2023  
+ * @file paramsInit.js fx(params) for Hawk Dove Game  
+ * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
@@ -141,6 +141,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(hadRulesetMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "had_strategy",
@@ -151,6 +152,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(hadStrategiesMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "asr_ruleset",
@@ -161,6 +163,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(asrRulesetMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "asr_strategy",
@@ -171,6 +174,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(asrStrategiesMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "sprites_theme",
@@ -180,6 +184,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(spritesThemeMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "food_find",
@@ -189,6 +194,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(findFoodAlgorithmMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "subjects_placement",
@@ -198,6 +204,7 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(subjectsPlacementAlgorithmMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "foods_placement",
@@ -207,30 +214,35 @@ export function getParamsStep1(names, ruleset) {
       "options": {
         "options": Object.keys(foodsPlacementAlgorithmMap),
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "game_over_population",
       "name": "Population erradication causes game over?",
       "type": "boolean",
       "default": true,
+      //~ "update": "code-driven",
     },
     {
       "id": "game_over_strategy",
       "name": "Strategy erradication causes game over?",
       "type": "boolean",
       "default": true,
+      //~ "update": "code-driven",
     },
     {
       "id": "game_over_asr",
       "name": "ASR erradication causes game over?",
       "type": "boolean",
       "default": true,
+      //~ "update": "code-driven",
     },
     {
       "id": "game_over_genetic",
       "name": "Single gene in gene pool causes game over?",
       "type": "boolean",
       "default": true,
+      //~ "update": "code-driven",
     },
     {
       "id": "starting_subjects",
@@ -242,6 +254,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 58,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "starting_hawks",
@@ -253,6 +266,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 58,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "starting_doves",
@@ -264,6 +278,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 58,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "growth_rate",
@@ -275,6 +290,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 3,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "max_age",
@@ -286,6 +302,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 1e3,
         "step": 1e1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "starting_food",
@@ -297,6 +314,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 200,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "less_food_chance",
@@ -308,6 +326,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 100,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "more_food_chance",
@@ -319,6 +338,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 1e2,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "more_dove_chance",
@@ -330,6 +350,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 1e2,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "more_hawk_chance",
@@ -341,6 +362,7 @@ export function getParamsStep1(names, ruleset) {
         "max": 1e2,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
       "id": "more_random_chance",
@@ -352,66 +374,79 @@ export function getParamsStep1(names, ruleset) {
         "max": 1e2,
         "step": 1,
       },
+      //~ "update": "code-driven",
     },
     {
-      id: "age_color",
-      name: "Age graph color",
-      type: "color",
+      "id": "age_color",
+      "name": "Age graph color",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "gen_color",
-      name: "Generation graph color",
-      type: "color",
+      "id": "gen_color",
+      "name": "Generation graph color",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "population_color",
-      name: "Genetic population graph color",
-      type: "color",
+      "id": "population_color",
+      "name": "Genetic population graph color",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "food_color",
-      name: "Graph color: Food",
-      type: "color",
+      "id": "food_color",
+      "name": "Graph color: Food",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "had_dove_color",
-      name: "Graph color: Dove",
-      type: "color",
+      "id": "had_dove_color",
+      "name": "Graph color: Dove",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "had_hawk_color",
-      name: "Graph color: Hawk",
-      type: "color",
+      "id": "had_hawk_color",
+      "name": "Graph color: Hawk",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_fight_color",
-      name: "Graph color: ASR Fight",
-      type: "color",
+      "id": "asr_fight_color",
+      "name": "Graph color: ASR Fight",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_flight_color",
-      name: "Graph color: ASR Flight",
-      type: "color",
+      "id": "asr_flight_color",
+      "name": "Graph color: ASR Flight",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_freeze_color",
-      name: "Graph color: ASR Freeze",
-      type: "color",
+      "id": "asr_freeze_color",
+      "name": "Graph color: ASR Freeze",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_fawn_color",
-      name: "Graph color: ASR Fawn",
-      type: "color",
+      "id": "asr_fawn_color",
+      "name": "Graph color: ASR Fawn",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_flood_color",
-      name: "Graph color: ASR Flood",
-      type: "color",
+      "id": "asr_flood_color",
+      "name": "Graph color: ASR Flood",
+      "type": "color",
+      //~ "update": "code-driven",
     },
     {
-      id: "asr_fatigue_flop_color",
-      name: "Graph color: ASR Fatigue-Flop",
-      type: "color",
+      "id": "asr_fatigue_flop_color",
+      "name": "Graph color: ASR Fatigue-Flop",
+      "type": "color",
+      //~ "update": "code-driven",
     },
   ];
 }

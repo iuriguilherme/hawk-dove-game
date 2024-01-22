@@ -1,6 +1,6 @@
 /**
  * @file genes.js Genetics data for Hawk Dove Game  
- * @copyright Iuri Guilherme 2023  
+ * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
  * @description Source code available at 
@@ -20,6 +20,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.  
  * 
  */
+
+import {
+  fxhashTrunc,
+} from "./util.js";
 
 export const getGeneticData = function(kwargs) {
   let geneticParams;

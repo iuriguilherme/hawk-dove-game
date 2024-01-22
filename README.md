@@ -21,9 +21,9 @@ This is a Javascript implementation for use in generative NFTs. This
 version is developed to work with 
 [fx(params)](https://www.fxhash.xyz/doc/collect/fxparams-mint-tickets).  
 
-To test the game with fx(lens) use `npm run start`. To build the project in 
-the dist/ folder for use in a web server or in the blockhain, use 
-`npm run build`.  
+To test the game with fx(lens) use `npx @fxhash/cli dev`. To build 
+the project in the dist/ folder for use in a web server or in the 
+blockhain, use `npx @fxhash/cli build`.  
 
 If you don't know what "npm" is, go to `https://nodejs.org/en`  
 
@@ -38,20 +38,20 @@ Powered by
 Generated tokens available on 
 [fx(hash)](https://www.fxhash.xyz/u/Iuri%20Guilherme)  
 
-> npx node-sloc project  
-Reading file(s)...  
+> npx node-sloc src
+Reading file(s)...
 ```
-    +---------------------------------------------------+  
-    | SLOC                          | 3855              |  
-    |-------------------------------|--------------------  
-    | Lines of comments             | 1662              |  
-    |-------------------------------|--------------------  
-    | Blank lines                   | 203               |  
-    |-------------------------------|--------------------  
-    | Files counted                 | 44                |  
-    |-------------------------------|--------------------  
-    | Total LOC                     | 5517              |  
-    +---------------------------------------------------+  
+    +---------------------------------------------------+
+    | SLOC                          | 3539              |
+    |-------------------------------|--------------------
+    | Lines of comments             | 1685              |
+    |-------------------------------|--------------------
+    | Blank lines                   | 189               |
+    |-------------------------------|--------------------
+    | Files counted                 | 46                |
+    |-------------------------------|--------------------
+    | Total LOC                     | 5224              |
+    +---------------------------------------------------+
 ```
 
 Release log
@@ -83,8 +83,13 @@ simulation via fx(params);
 [0.19.6](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.19.6)  
 
 * Implemented PTSD responses (the fight-flight response theory)  
-* Reverted conditional fx(params), that just can't work (lol, it's working now: 
-https://www.fxhash.xyz/article/draw-that-seed!)  
+* Reverted conditional fx(params), that just can't work (lol, it's 
+working now: https://www.fxhash.xyz/article/draw-that-seed!)  
+
+#### Release tag: 
+[0.20.0](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.20.0)  
+
+* Converted code to new boilerplate  
 
 ASSETS LICENSE
 ---
@@ -142,7 +147,7 @@ Public Domain:
 LICENSE
 ---
 
-Copyright 2023 Iuri Guilherme <https://iuri.neocities.org/>  
+Copyright 2023-2024 Iuri Guilherme <https://iuri.neocities.org/>  
 
 This program is free software: you can redistribute it and/or modify it under 
 the terms of the GNU Affero General Public License as published by the Free 
