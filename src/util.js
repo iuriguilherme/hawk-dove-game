@@ -25,21 +25,27 @@ import { create, all } from "mathjs";
 const math = create(all, {});
 
 export const sleep = ms => new Promise(r => setTimeout(r, ms));
-//~ // https://github.com/fxhash/fxhash-webpack-boilerplate/issues/20
-export const properAlphabet = 
-  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+
+// https://github.com/fxhash/fxhash-webpack-boilerplate/issues/20
+export const properAlphabet = $fx.hash.startsWith("oo") ?
+  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" :
+  "0123456789abcdef";
+export const baseXToDecimal = $fx.hash.startsWith("oo") ?
+  base58toDecimal :
+  base16toDecimal;
+
 export const alphabetArray = Array.from(properAlphabet);
 //~ export const alphabetArray = properAlphabet;
 export const fxhashTrunc = $fx.hash.slice(2);
 export const fxArray = Array.from(fxhashTrunc);
 //~ export const fxArray = fxhashTrunc;
-//~ export const fxhashDecimal = base58toDecimal(fxhashTrunc);
+//~ export const fxhashDecimal = baseXToDecimal(fxhashTrunc);
 
 /**
  * @param {String} hash: unique fxhash string (or xtz transaction hash)
  * @returns {float} decimal representation of the number in base58 
  */
-export function base58toDecimal(hash = fxhashTrunc) {
+function base58toDecimal(hash = fxhashTrunc) {
   let decimal = 0;
   let iterArray = Array.from(hash).reverse();
   while (iterArray.length > 0) {
@@ -51,7 +57,22 @@ export function base58toDecimal(hash = fxhashTrunc) {
 }
 
 /**
- * @param {float} decimalHash: output from base58toDecimal(fxhash)
+ * @param {String} hash: unique fxhash string (or xtz transaction hash)
+ * @returns {float} decimal representation of the number in base16  
+ */
+function base16toDecimal(hash = fxhashTrunc) {
+  let decimal = 0;
+  let iterArray = Array.from(hash).reverse();
+  while (iterArray.length > 0) {
+    decimal += properAlphabet.indexOf(iterArray.slice(-1)) * (math.pow(16,
+      iterArray.length - 1));
+    iterArray = iterArray.slice(0, -1);
+  }
+  return decimal;
+}
+
+/**
+ * @param {float} decimalHash: output from baseXToDecimal(fxhash)
  * @param {int} maxVariants: the inclusive n from the desired range 
  *      of (0, n) for the return value
  * @param {boolean} inverse: transforms range into (n, 0)

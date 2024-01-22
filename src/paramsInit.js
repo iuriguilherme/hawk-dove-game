@@ -51,6 +51,8 @@ let spritesThemeMap;
 let hadStrategiesMap;
 let asrStrategiesMap;
 
+const maxStartingSubjects = $fx.hash.startsWith("oo") ? 58 : 64;
+
 export function getFindFoodAlgorithm(key) {
   return findFoodAlgorithmMap[key];
 }
@@ -248,10 +250,10 @@ export function getParamsStep1(names, ruleset) {
       "id": "starting_subjects",
       "name": "Starting random individuals",
       "type": "number",
-      "default": 58,
+      "default": maxStartingSubjects,
       "options": {
         "min": 0,
-        "max": 58,
+        "max": maxStartingSubjects,
         "step": 1,
       },
       //~ "update": "code-driven",

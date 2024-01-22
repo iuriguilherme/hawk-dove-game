@@ -21,9 +21,9 @@
  * 
  */
 
-import {
-  fxhashTrunc,
-} from "./util.js";
+//~ import {
+  //~ fxhashTrunc,
+//~ } from "./util.js";
 
 export const getGeneticData = function(kwargs) {
   let geneticParams;
@@ -55,9 +55,9 @@ export const getGeneticData = function(kwargs) {
        * This weight is based on repeated numbers from the alphabet
        */
       "hashWeight": {
-        "value": Array.from(fxhashTrunc).filter(
+        "value": Array.from(kwargs["fxhashTrunc"]).filter(
           n => n == kwargs["properAlphabet"][i]).length,
-        "length": fxhashTrunc.length,
+        "length": kwargs["fxhashTrunc"].length,
       },
       /*
        * This weight is based on the position of the current number in the 

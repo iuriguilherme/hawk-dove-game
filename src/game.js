@@ -55,6 +55,7 @@ export const getPhaserGame = function(
   datasetsHAD,
   datasetsASR,
   datasetsASRHistory,
+  fxhashTrunc,
 ) {
   class HawkDoveScene extends Phaser.Scene {
     constructor () {
@@ -127,6 +128,7 @@ export const getPhaserGame = function(
         "geneticCripple": geneticCripple,
         "geneticHandicap": geneticHandicap,
         "math": math,
+        "fxhashTrunc": fxhashTrunc,
       });
       
       this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);

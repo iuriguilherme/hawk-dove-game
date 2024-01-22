@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.20.0  
+ * @version 0.20.1  
  * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.20.0";
+const version = "0.20.1";
 
 const seed = $fx.rand() * 1e8;
 
@@ -129,7 +129,9 @@ $fx.features({
 
 console.log([
   `[${name} v${version}]`,
-  `fx(hash): ${fxhashTrunc}`,
+  `fx(hash): ${$fx.hash}`,
+  `fxhashTrunc: ${fxhashTrunc}`,
+  `alphabet: ${properAlphabet}`,
   `fx(params) Hawk-dove ruleset: ${$fx.getParam("had_ruleset")}`,
   `fx(params) Hawk-dove strategy: ${$fx.getParam("had_strategy")}`,
   `fx(params) ASR variant: ${$fx.getParam("asr_ruleset")}`,
@@ -140,27 +142,27 @@ console.log([
   [
     `fx(params) Subject placing algorithm:`,
     `${$fx.getParam("subjects_placement")}`,
-  ].join(),
+  ].join(' '),
   [
     `fx(params) Game over by population end:`,
     `${$fx.getParam("game_over_population")}`,
-  ].join(),
+  ].join(' '),
   [
     `fx(params) Game over by strategy erradication:`,
     `${$fx.getParam("game_over_strategy")}`,
-  ].join(),
+  ].join(' '),
   [
     `fx(params) Game over by asr erradication:`,
     `${$fx.getParam("game_over_asr")}`,
-  ].join(),
+  ].join(' '),
   [
     `fx(params) Game over by genetic erradication:`,
     `${$fx.getParam("game_over_genetic")}`,
-  ].join(),
+  ].join(' '),
   [
     `fx(params) Starting random individuals:`,
     `${$fx.getParam("starting_subjects")}`,
-  ].join(),
+  ].join(' '),
   `fx(params) Starting hawks: ${$fx.getParam("starting_hawks")}`,
   `fx(params) Starting doves: ${$fx.getParam("starting_doves")}`,
   `fx(params) Reproduction multiplier: ${$fx.getParam("growth_rate")}`,
@@ -171,7 +173,7 @@ console.log([
   [
     `fx(params) Chance of new random individual:`,
     `${$fx.getParam("more_random_chance")}%`,
-  ].join(),
+  ].join(' '),
   `fx(params) Chance of new dove: ${$fx.getParam("more_dove_chance")}%`,
   `fx(params) Chance of new hawk: ${$fx.getParam("more_hawk_chance")}%`,
   `fx(features) Genetic cripple: ${geneticCripple}`,
@@ -251,6 +253,7 @@ const phaserGame = getPhaserGame(
   datasetsHAD,
   datasetsASR,
   datasetsASRHistory,
+  fxhashTrunc,
 );
 
 window.addEventListener("resize", () => {
