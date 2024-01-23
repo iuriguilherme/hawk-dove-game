@@ -22,12 +22,13 @@
  */
 
 const graphs = 7;
-const graphsRows = 1;
+const graphsCols = 2;
 const graphsBig = 7;
 const graphsSmall = 0;
 const containerDiv = document.createElement("div");
 const containerRow = document.createElement("div");
-const graphsCol = document.createElement("div");
+const graphsCol1 = document.createElement("div");
+const graphsCol2 = document.createElement("div");
 const gamesCol = document.createElement("div");
 const gameRow = document.createElement("div");
 const gameCol = document.createElement("div");
@@ -39,7 +40,8 @@ containerDiv.className = "container";
 containerRow.className = "containerRow";
 //~ graphsCol.className = "col graphsCol";
 //~ graphsCol.className = "g-col graphsCol";
-graphsCol.className = "graphsCol";
+graphsCol1.className = "graphsCol1";
+graphsCol2.className = "graphsCol2";
 //~ gamesCol.className = "col gamesCol";
 //~ gamesCol.className = "g-col gamesCol";
 gamesCol.className = "gamesCol";
@@ -55,10 +57,12 @@ gameCanvas.id = "gameCanvas";
 gameCanvas.className = "gameCanvas";
 document.body.appendChild(containerDiv);
 containerDiv.appendChild(containerRow);
-containerRow.appendChild(graphsCol);
+containerRow.appendChild(graphsCol1);
+containerRow.appendChild(graphsCol2);
 export var graphsCanvas = [];
 export var graphsDivs = [];
-for (let i = 0; i < graphsBig; i++) {
+
+for (let i = 0; i < Math.floor(graphsBig / graphsCols); i++) {
   let graphRow = document.createElement("div");
   let graphCol = document.createElement("div");
   let graphDiv = document.createElement("div");
@@ -73,7 +77,30 @@ for (let i = 0; i < graphsBig; i++) {
   graphDiv.className = "graphDiv";
   graphCanvas.id = "graphCanvas" + i;
   graphCanvas.className = "graphCanvas";
-  graphsCol.appendChild(graphRow);
+  graphsCol1.appendChild(graphRow);
+  graphRow.appendChild(graphCol);
+  graphCol.appendChild(graphDiv);
+  graphDiv.appendChild(graphCanvas);
+  graphsCanvas.push(graphCanvas);
+  graphsDivs.push(graphDiv);
+}
+
+for (let j = Math.floor(graphsBig / graphsCols); j < graphsBig; j++) {
+  let graphRow = document.createElement("div");
+  let graphCol = document.createElement("div");
+  let graphDiv = document.createElement("div");
+  let graphCanvas = document.createElement("canvas");
+  //~ graphRow.className = "row graphRow";
+  //~ graphRow.className = "grid graphRow";
+  graphRow.className = "graphRow";
+  //~ graphCol.className = "col graphCol";
+  //~ graphCol.className = "g-col graphCol";
+  graphCol.className = "graphCol";
+  graphDiv.id = "graph" + j;
+  graphDiv.className = "graphDiv";
+  graphCanvas.id = "graphCanvas" + j;
+  graphCanvas.className = "graphCanvas";
+  graphsCol2.appendChild(graphRow);
   graphRow.appendChild(graphCol);
   graphCol.appendChild(graphDiv);
   graphDiv.appendChild(graphCanvas);

@@ -1,6 +1,6 @@
 /**!
  * @file Hawk Dove Game  
- * @version 0.20.1  
+ * @version 0.20.2  
  * @copyright Iuri Guilherme 2023-2024  
  * @license GNU AGPLv3  
  * @author Iuri Guilherme <https://iuri.neocities.org/>  
@@ -23,7 +23,7 @@
  */
 
 const name = "hawk-dove-game";
-const version = "0.20.1";
+const version = "0.20.2";
 
 const seed = $fx.rand() * 1e8;
 

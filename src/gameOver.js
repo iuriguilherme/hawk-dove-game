@@ -21,6 +21,10 @@
  * 
  */
 
+const textSize = 9;
+const textMultiplier = 18;
+const fontSize = "1.8em";
+
 export function endGame(
   scene,
   cause,
@@ -60,11 +64,11 @@ export function endGame(
   updateSimpleBarChart("generation", charts, chartData, subjects, math);
   
   scene.add.text(
-    15,
-    30,
+    textSize,
+    textMultiplier,
     cause,
     {
-      "fontSize": "2em",
+      "fontSize": fontSize,
       "fill": "#121212",
       //~ "fill": "#e8e8e8",
       "align": "center"
@@ -72,12 +76,12 @@ export function endGame(
   );
   for (let i = 0; i < strategiesNames.length; i++) {
     scene.add.text(
-      15,
-      30 * (2 + i),
+      textSize,
+      textMultiplier * (2 + i),
       `${names["strategies"][strategiesNames[i]]} population: ` +
         `${populationData[names["strategies"][strategiesNames[i]]]}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
@@ -86,12 +90,12 @@ export function endGame(
   }
   for (let i = 0; i < v.length; i++) {
     scene.add.text(
-      15,
-      30 * (2 + strategiesNames.length + i),
+      textSize,
+      textMultiplier * (2 + strategiesNames.length + i),
       `${names["asr"][v[i]]} population: ` +
         `${populationData[names["asr"][v[i]]]}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
@@ -99,22 +103,22 @@ export function endGame(
     );
   }
   scene.add.text(
-    15,
-    30 * (2 + strategiesNames.length + v.length),
+    textSize,
+    textMultiplier * (2 + strategiesNames.length + v.length),
     `total population: ${populationData["total"]}`,
     {
-      "fontSize": "2em",
+      "fontSize": fontSize,
       "fill": "#121212",
       //~ "fill": "#e8e8e8",
       "align": "center"
     }
   );
   scene.add.text(
-    15,
-    30 * (3 + strategiesNames.length + v.length),
+    textSize,
+    textMultiplier * (3 + strategiesNames.length + v.length),
     `remaining ${names["food"]}: ${populationData[names["food"]]}`,
     {
-      "fontSize": "2em",
+      "fontSize": fontSize,
       "fill": "#121212",
       //~ "fill": "#e8e8e8",
       "align": "center"
@@ -139,46 +143,46 @@ export function endGame(
   
   if (geneWinner != "None") {
     scene.add.text(
-      15,
-      30 * (4 + strategiesNames.length + v.length),
+      textSize,
+      textMultiplier * (4 + strategiesNames.length + v.length),
       `highest genetic pool: \#${geneWinner} (${geneWinnerN} individuals)`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "center"
       }
     );
     scene.add.text(
-      15,
-      30 * (5 + strategiesNames.length + v.length),
+      textSize,
+      textMultiplier * (5 + strategiesNames.length + v.length),
       `highest age from all \#${geneWinner}: ${math.max(geneWinners["ages"])}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "left"
       }
     );
     scene.add.text(
-      15,
-      30 * (6 + strategiesNames.length + v.length),
+      textSize,
+      textMultiplier * (6 + strategiesNames.length + v.length),
       `oldest generation from all \#${geneWinner}: ` + 
         `${math.min(geneWinners["gens"])}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "left"
       }
     );
     scene.add.text(
-      15,
-      30 * (7 + strategiesNames.length + v.length),
+      textSize,
+      textMultiplier * (7 + strategiesNames.length + v.length),
       `newest generation from all \#${geneWinner}: ` + 
         `${math.max(geneWinners["gens"])}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "left"
@@ -187,11 +191,11 @@ export function endGame(
     let attrs = Object.entries(gData[geneWinner]).map(
       ([k, v]) => `${k}: ${v}`).join("\n\t");
     scene.add.text(
-      15,
-      30 * (8 + strategiesNames.length + v.length),
+      textSize,
+      textMultiplier * (8 + strategiesNames.length + v.length),
       `genetic attributes for \#${geneWinner}:\n\n\t${attrs}`,
       {
-        "fontSize": "2em",
+        "fontSize": fontSize,
         "fill": "#121212",
         //~ "fill": "#e8e8e8",
         "align": "left"

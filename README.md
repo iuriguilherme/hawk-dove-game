@@ -4,8 +4,10 @@ Hawk Dove Game
 What
 ---
 
-Hawk Dove Game is an genetic algorithm using a model of conflict in game 
-theory. Some links for an in depth explanation about how the game works:  
+### Hawk Dove Game
+
+Hawks and Doves Game is a model of conflict in game theory. Some links 
+for an in depth explanation about how the game works:  
 
 * <https://en.wikipedia.org/wiki/Chicken_(game)>
 * <https://en.wikipedia.org/wiki/Evolutionary_game_theory>
@@ -13,6 +15,20 @@ theory. Some links for an in depth explanation about how the game works:
 * <https://en.wikipedia.org/wiki/Genetic_algorithm>
 * <https://college.holycross.edu/faculty/kprestwi/behavior/ESS/HvD_intro.html>
 * <https://youtu.be/YNMkADpvO4w>
+
+It is used in this program to act as a strategy decision system for a 
+genetic algorithm.  
+
+### Acute Stress Response
+
+Originally called the "fight or flight response", it is a behavioral 
+theory describing how animals respond to stressful stimuli. It is used 
+in this program to influence the decision of how each simulated 
+individual will choose a strategy in the Hawk Dove Game. There are 
+several novel theories other than the original one and they are 
+implemented as selectable fx(params).  
+
+* <https://en.wikipedia.org/wiki/Fight-or-flight_response>  
 
 Why
 ---
@@ -42,15 +58,15 @@ Generated tokens available on
 Reading file(s)...
 ```
     +---------------------------------------------------+
-    | SLOC                          | 3539              |
+    | SLOC                          | 3579              |
     |-------------------------------|--------------------
-    | Lines of comments             | 1685              |
+    | Lines of comments             | 1710              |
     |-------------------------------|--------------------
-    | Blank lines                   | 189               |
+    | Blank lines                   | 200               |
     |-------------------------------|--------------------
-    | Files counted                 | 46                |
+    | Files counted                 | 45                |
     |-------------------------------|--------------------
-    | Total LOC                     | 5224              |
+    | Total LOC                     | 5289              |
     +---------------------------------------------------+
 ```
 
@@ -87,7 +103,7 @@ simulation via fx(params);
 working now: https://www.fxhash.xyz/article/draw-that-seed!)  
 
 #### Release tag: 
-[0.20.1](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.20.1)  
+[0.20.2](https://github.com/iuriguilherme/hawk-dove-game/releases/tag/0.20.2)  
 
 * Converted code to new boilerplate  
 * Added support to Ethereum hashes  
